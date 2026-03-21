@@ -1,0 +1,3 @@
+Colors:
+	-Logo Blue: #3b82f6
+	-Logo Green: #1bb225
