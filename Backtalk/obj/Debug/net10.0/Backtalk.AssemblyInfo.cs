@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Backtalk")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fb76ca39f6bd2b259968e8b694a0408f325ada4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bbfa338958edfc8d32a43efaac4c3009864508e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Backtalk")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Backtalk")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

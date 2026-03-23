@@ -1,33 +1,23 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Backtalk</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿<nav class="navmenu theme-@(theme)">
+    <div class="navmenu-brand-container">
+        <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" />
     </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+    <div class="navmenu-navlinks-container">
+        <a class="navmenu-navlink navmenu-navlink-active" href="projects">Home</a>
+        <a class="navmenu-navlink" href="projects">Projects</a>
+        <a class="navmenu-navlink" href="projects">About</a>
+    </div>
+    
+    <div class="navmenu-account-options">
+        <a class="navmenu-navlink-account" href="signup" style="color: dodgerblue;">Sign Up</a>
+        <a class="navmenu-navlink-account" href="login" style="color: mediumseagreen;">Log In</a>
+    </div>
+</nav>
 
 @code {
+    [CascadingParameter]
+    public string theme { get; set; } = "light";
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;

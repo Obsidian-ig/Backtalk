@@ -207,9 +207,6 @@ C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_fra
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.nzo8cqf0zb.wasm
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.2u18dd2b1s.pdb
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\dotnet.q75b2mgw5q.js
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\blazor.webassembly.66stpp682q.js.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.roqc1km2rj.wasm.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Components.uddsvpv1sv.wasm.gz
@@ -418,9 +415,6 @@ C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_fra
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\icudt_CJK.tjcz0u77k5.dat.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.nzo8cqf0zb.wasm.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.2u18dd2b1s.pdb.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\dotnet.q75b2mgw5q.js.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\Backtalk.staticwebassets.runtime.json
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\Backtalk.staticwebassets.endpoints.json
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\Backtalk.dll
@@ -855,7 +849,6 @@ C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\blazor.build
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\dotnet.js
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\staticwebassets\htmlassetplaceholders\build\fi8hcbkfd2.html
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\f9o902iofb-{0}-99zm1jdh75-99zm1jdh75.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\ihc6af80jq-{0}-nk9bgqz024-nk9bgqz024.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\zw87zk80qh-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\7d6b0qwmk4-{0}-c2jlpeoesf-c2jlpeoesf.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\rxdd2o35uu-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -902,8 +895,6 @@ C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\g
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\o874273qo1-{0}-alrfw7kqdf-alrfw7kqdf.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\g5f3ucl4jh-{0}-iag0ou56lh-iag0ou56lh.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\2kayrd8c2h-{0}-66stpp682q-66stpp682q.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\5bsqotbxsl-{0}-b8eh47emah-b8eh47emah.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\ojpnbtsadq-{0}-b8eh47emah-b8eh47emah.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\aa6zki6sta-{0}-roqc1km2rj-roqc1km2rj.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\0lx4lt1b0m-{0}-uddsvpv1sv-uddsvpv1sv.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\mhjo2fya05-{0}-zrueb40r85-zrueb40r85.gz
@@ -1111,10 +1102,6 @@ C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\6
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\6ce5mvewhq-{0}-tjcz0u77k5-tjcz0u77k5.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\0c29vb9k42-{0}-tptq2av103-tptq2av103.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\6dogrulzhy-{0}-lfu7j35m59-lfu7j35m59.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\qnt5mzyv50-{0}-nzo8cqf0zb-nzo8cqf0zb.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\x7u5nd7myx-{0}-2u18dd2b1s-2u18dd2b1s.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\4p6v8htfjc-{0}-q75b2mgw5q-q75b2mgw5q.gz
-C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\486ohf57la-{0}-sfgn82mjeq-sfgn82mjeq.gz
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\staticwebassets.development.json
@@ -1126,3 +1113,18 @@ C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\Backtalk.dll
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\refint\Backtalk.dll
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\Backtalk.pdb
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\ref\Backtalk.dll
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\cq1jbxafdz-{0}-jlmgrv2bn3-jlmgrv2bn3.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\scopedcss\Components\Background.razor.rz.scp.css
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\ihc6af80jq-{0}-7ko4x4tewz-7ko4x4tewz.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.kw6f38skbt.wasm
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.vntmwi2rac.pdb
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\dotnet.et1iav3c6k.js
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.kw6f38skbt.wasm.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\Backtalk.vntmwi2rac.pdb.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\bin\Debug\net10.0\wwwroot\_framework\dotnet.et1iav3c6k.js.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\5bsqotbxsl-{0}-ncp4kuwcnx-ncp4kuwcnx.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\ojpnbtsadq-{0}-ncp4kuwcnx-ncp4kuwcnx.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\qnt5mzyv50-{0}-kw6f38skbt-kw6f38skbt.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\x7u5nd7myx-{0}-vntmwi2rac-vntmwi2rac.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\4p6v8htfjc-{0}-et1iav3c6k-et1iav3c6k.gz
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\obj\Debug\net10.0\compressed\486ohf57la-{0}-9iws4e16ei-9iws4e16ei.gz

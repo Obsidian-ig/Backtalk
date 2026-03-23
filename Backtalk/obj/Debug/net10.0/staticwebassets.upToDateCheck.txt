@@ -1,6 +1,6 @@
+wwwroot\backtalk icon.svg
+wwwroot\backtalk icon.webp
 wwwroot\css\app.css
-wwwroot\favicon.png
-wwwroot\icon-192.png
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -45,7 +45,9 @@ wwwroot\lib\bootstrap\dist\js\bootstrap.js
 wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
 wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
 wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+wwwroot\logo.png
 wwwroot\sample-data\weather.json
+C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\wwwroot\backtalk icon.svg
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\wwwroot\css\app.css
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\villo\Documents\GitHub\Backtalk\Backtalk\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map

@@ -1,0 +1,21 @@
+﻿<div class="background-container" style="@background">
+</div>
+
+@code {
+    [CascadingParameter]
+    public string theme { get; set; } = "light";
+
+    private string background = "background: linear-gradient(35deg, rgb(83 149 230 / 0.7), transparent 70.71%), linear-gradient(240deg, rgb(96 230 134 / 0.7), transparent 70.71%);";
+
+    protected override Task OnParametersSetAsync()
+    {
+        if (theme == "light")
+        {
+            background = "background-color: white;";
+        } else
+        {
+            background = "background-color: rgb(31, 31, 31)";
+        }
+        return Task.CompletedTask;
+    }
+}
