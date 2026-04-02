@@ -1,0 +1,86 @@
+{
+  "project_name": "Example Project",
+  "project_short_description": "This is an example short description",
+  "project_long_description": "This is an example long description, and it is different from the short description example because it is longer than the short description example!",
+  "authors": "ObsidianDev",
+  "contacts": [
+    {
+      "contact": "@obsidian.ig",
+      "method": "discord"
+    },
+    {
+      "contact": "segamega311@gmail.com",
+      "method": "email"
+    }
+  ],
+  "last_updated_utc": "",
+  "api_version": "1.0.0",
+  "config": {
+    "folders_expanded": [
+      "Example Folder"
+    ],
+    "endpoints_expanded": [
+      0
+    ]
+  },
+  "endpoints_count": 1,
+  "get_count": 1,
+  "post_count": 0,
+  "put_count": 0,
+  "patch_count": 0,
+  "delete_count": 0,
+  "folders": [
+    {
+      "name": "Example Folder",
+      "endpoints": [
+        0
+      ]
+    }
+  ],
+  "endpoints": [
+    {
+      "key": 0,
+      "endpoint": "https://obsidianig.com/api/example_endpoint",
+      "method": "GET",
+      "tag": "PROD",
+      "query_parameters": [
+        {
+          "name": "count",
+          "type": "int",
+          "example": 1,
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "example": "This is a message.",
+          "required": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "Bearer",
+          "value": "realtokenrighthere"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "content": "{}"
+      },
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "",
+          "message": "Success!",
+          "response": "{}"
+        },
+        {
+          "status_code": 500,
+          "condition": "",
+          "message": "An internal server error occurred :(",
+          "response": "{}"
+        }
+      ]
+    }
+  ]
+}

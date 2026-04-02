@@ -1,17 +1,19 @@
-﻿<nav class="navmenu theme-@(theme)">
+﻿<nav class="navmenu container-fluid theme-@(theme)">
+    <div class="row">
+        <div class="col-5 navmenu-navlinks-container">
+            <a class="navmenu-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
+            <a class="navmenu-navlink @projectsNavlinkClass" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
+            <a class="navmenu-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
+        </div>
+        <div class="col-2 navmenu-brand-container">
+            <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" />
+        </div>
+        <div class="col-5 navmenu-account-options">
+            <a class="navmenu-navlink-account" href="signup">Sign Up</a>
+            <a class="navmenu-navlink-account" href="login">Log In</a>
+        </div>
+    </div>
     
-    <div class="navmenu-navlinks-container">
-        <a class="navmenu-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
-        <a class="navmenu-navlink @projectsNavlinkClass" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
-        <a class="navmenu-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
-    </div>
-    <div class="navmenu-brand-container">
-        <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" />
-    </div>
-    <div class="navmenu-account-options">
-        <a class="navmenu-navlink-account" href="signup" style="color: dodgerblue;">Sign Up</a>
-        <a class="navmenu-navlink-account" href="login" style="color: mediumseagreen;">Log In</a>
-    </div>
 </nav>
 
 @code {
