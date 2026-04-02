@@ -1,0 +1,19 @@
+﻿@using Backtalk.Components
+@page "/projects"
+<PageTitle>Projects | BackTalk</PageTitle>
+
+<div class="main-content-container">
+    <div class="main-content-header">
+        <div class="main-content-header-info-container">
+            <p class="main-content-header-info-text">Your Projects</p>
+            <button type="button" class="create-project-button" title="Create a new project!">+</button>
+        </div>
+        <div class="horizontal-divider-mw mt-2"></div>
+    </div>
+    <div class="main-content-body">
+        <ProjectItem placeholder="@(true)"></ProjectItem>
+        <ProjectItem placeholder="@(true)"></ProjectItem>
+        <ProjectItem placeholder="@(true)"></ProjectItem>
+        <ProjectItem placeholder="@(true)"></ProjectItem>
+    </div>
+</div>

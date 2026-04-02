@@ -3,40 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\layout\\navmenu.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:layout\\navmenu.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\components\\projectitem.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:components\\projectitem.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\pages\\projects.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:pages\\projects.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\components\\background.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:components\\background.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\components\\projectitem.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:components\\projectitem.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\pages\\projects.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:pages\\projects.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\layout\\navmenu.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:layout\\navmenu.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\components\\background.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:components\\background.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|solutionrelative:layout\\mainlayout.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{86B6FE2C-5F69-1DB6-20AB-EDFB206BC2F6}|Backtalk.csproj|c:\\users\\villo\\documents\\github\\backtalk\\backtalk\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,52 +57,49 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 151,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 142,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "app.css",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\wwwroot\\css\\app.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\app.css",
               "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\wwwroot\\css\\app.css",
               "RelativeToolTip": "wwwroot\\css\\app.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACsAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2026-03-21T19:54:53.642Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
               "Title": "NavMenu.razor.css",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\NavMenu.razor.css",
               "RelativeDocumentMoniker": "Layout\\NavMenu.razor.css",
               "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\NavMenu.razor.css",
               "RelativeToolTip": "Layout\\NavMenu.razor.css",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB0AAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-03-21T19:56:58.735Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T19:56:58.735Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "MainLayout.razor.css",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\MainLayout.razor.css",
               "RelativeDocumentMoniker": "Layout\\MainLayout.razor.css",
               "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\MainLayout.razor.css",
               "RelativeToolTip": "Layout\\MainLayout.razor.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-03-21T19:54:17.425Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T19:54:17.425Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Background.razor.css",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\Background.razor.css",
               "RelativeDocumentMoniker": "Components\\Background.razor.css",
@@ -102,18 +107,42 @@
               "RelativeToolTip": "Components\\Background.razor.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-03-21T20:27:45.042Z",
+              "WhenOpened": "2026-03-21T20:27:45.042Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProjectItem.razor.css",
+              "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\ProjectItem.razor.css",
+              "RelativeDocumentMoniker": "Components\\ProjectItem.razor.css",
+              "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\ProjectItem.razor.css",
+              "RelativeToolTip": "Components\\ProjectItem.razor.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-01T02:29:22.458Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Projects.razor.css",
+              "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Pages\\Projects.razor.css",
+              "RelativeDocumentMoniker": "Pages\\Projects.razor.css",
+              "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Pages\\Projects.razor.css",
+              "RelativeToolTip": "Pages\\Projects.razor.css",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-01T02:48:07.516Z"
             }
           ]
         },
         {
-          "DockedWidth": 249,
-          "SelectedChildIndex": 4,
+          "DockedWidth": 258,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -122,74 +151,68 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-21T19:32:54.764Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "index.html",
-              "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\wwwroot\\index.html",
-              "RelativeDocumentMoniker": "wwwroot\\index.html",
-              "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\wwwroot\\index.html",
-              "RelativeToolTip": "wwwroot\\index.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-03-21T20:08:43.671Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Background.razor",
-              "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\Background.razor",
-              "RelativeDocumentMoniker": "Components\\Background.razor",
-              "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\Background.razor",
-              "RelativeToolTip": "Components\\Background.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-21T20:26:28.167Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\MainLayout.razor",
               "RelativeDocumentMoniker": "Layout\\MainLayout.razor",
               "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\MainLayout.razor",
               "RelativeToolTip": "Layout\\MainLayout.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-21T19:43:42.403Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T19:43:42.403Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "NavMenu.razor",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\NavMenu.razor",
               "RelativeDocumentMoniker": "Layout\\NavMenu.razor",
               "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Layout\\NavMenu.razor",
               "RelativeToolTip": "Layout\\NavMenu.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAYwCQAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-03-21T19:43:40.592Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 5,
+              "Title": "ProjectItem.razor",
+              "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\ProjectItem.razor",
+              "RelativeDocumentMoniker": "Components\\ProjectItem.razor",
+              "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Components\\ProjectItem.razor",
+              "RelativeToolTip": "Components\\ProjectItem.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T02:17:36.461Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Projects.razor",
+              "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Pages\\Projects.razor",
+              "RelativeDocumentMoniker": "Pages\\Projects.razor",
+              "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Pages\\Projects.razor",
+              "RelativeToolTip": "Pages\\Projects.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T02:16:27.495Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Home.razor",
               "DocumentMoniker": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Pages\\Home.razor",
               "RelativeDocumentMoniker": "Pages\\Home.razor",
               "ToolTip": "C:\\Users\\villo\\Documents\\GitHub\\Backtalk\\Backtalk\\Pages\\Home.razor",
               "RelativeToolTip": "Pages\\Home.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-21T20:21:59.486Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-21T20:21:59.486Z"
             }
           ]
         }

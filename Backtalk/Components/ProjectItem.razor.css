@@ -1,0 +1,7 @@
+﻿.project-item {
+    width: 100%;
+    background-color: lightgrey;
+    height: 150px;
+    position: relative;
+    border-radius: 12px;
+}

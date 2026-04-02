@@ -2,7 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Backtalk/.vs/Backtalk.slnx/FileContentIndex/075de4e3-62b8-4001-a745-680ba07f6c61.vsidx
-/Backtalk/.vs/Backtalk.slnx/FileContentIndex/3395fe69-cc98-46fd-b593-10b2baf471a3.vsidx
-/Backtalk/.vs/Backtalk.slnx/FileContentIndex/3395fe69-cc98-46fd-b593-10b2baf471a3.vsidx
-/Backtalk/.vs/Backtalk.slnx/FileContentIndex/3395fe69-cc98-46fd-b593-10b2baf471a3.vsidx
+/Backtalk/.vs/Backtalk.slnx/FileContentIndex/
+/Backtalk/.vs/Backtalk.slnx/DesignTimeBuild
+

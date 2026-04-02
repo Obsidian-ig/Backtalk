@@ -11,24 +11,43 @@
     --bt-navlink-active-color: black;
     --bt-navlink-color: grey;
     --bt-txt-ff: "Oswald", sans-serif;
+    --bt-primary-color: #3b82f6;
+    --bt-accent-color: #1bb225;
+    --bt-divider-color: black;
 }
 
 .theme-dark {
     --bt-bg-color: black;
     --bt-txt-color: white;
     --bt-txt-ff: "Oswald", sans-serif;
+    --bt-primary-color: #3b82f6;
+    --bt-accent-color: #1bb225;
+    --bt-divider-color: white;
 }
 
 .theme-light {
     --bt-bg-color: white;
     --bt-txt-color: black;
     --bt-txt-ff: "Oswald", sans-serif;
+    --bt-primary-color: #3b82f6;
+    --bt-accent-color: #1bb225;
+    --bt-divider-color: black;
 }
 
 
+/*CUSTOM CSS CLASSES*/
+
+.horizontal-divider-mw {
+    width: 100%;
+    min-width: 100%;
+    height: 1px;
+    background-color: var(--bt-divider-color);
+    position: relative;
+}
+
+/*//////////////////*/
 
 html, body {
-    
 }
 
 h1:focus {

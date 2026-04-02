@@ -56,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xCYWNrZ3JvdW5kLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-nnk1j1vqke
 
+[C:/Users/villo/Documents/GitHub/Backtalk/Backtalk/Components/ProjectItem.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQcm9qZWN0SXRlbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-a93tl2hrd0
+
 [C:/Users/villo/Documents/GitHub/Backtalk/Backtalk/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-5n1wztl37j
@@ -63,3 +67,7 @@ build_metadata.AdditionalFiles.CssScope = b-5n1wztl37j
 [C:/Users/villo/Documents/GitHub/Backtalk/Backtalk/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-dc911zk4wr
+
+[C:/Users/villo/Documents/GitHub/Backtalk/Backtalk/Pages/Projects.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-y0hu9ojq7l
