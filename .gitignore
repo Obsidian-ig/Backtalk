@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Backtalk/.vs/Backtalk.slnx/v18/.suo
+/Backtalk/.vs/Backtalk.slnx/v18/DocumentLayout.backup.json
+/Backtalk/.vs/Backtalk.slnx/v18/DocumentLayout.json
