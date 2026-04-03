@@ -1,4 +1,8 @@
 ﻿@using Backtalk.Components
+@using Blazored.LocalStorage
+@using System.Text.Json
+@using Backtalk.Classes
+@inject ILocalStorageService ls
 @page "/projects"
 <PageTitle>Projects | BackTalk</PageTitle>
 
@@ -11,18 +15,45 @@
         <div class="horizontal-divider-mw mt-2"></div>
     </div>
     <div class="main-content-body">
-        <ProjectItem placeholder="@(true)"></ProjectItem>
-        <ProjectItem placeholder="@(true)"></ProjectItem>
-        <ProjectItem placeholder="@(true)"></ProjectItem>
-        <ProjectItem placeholder="@(true)"></ProjectItem>
+        @if (loadingProjects)
+        {
+            <ProjectItem placeholder="@(true)"></ProjectItem>
+            <ProjectItem placeholder="@(true)"></ProjectItem>
+            <ProjectItem placeholder="@(true)"></ProjectItem>
+            <ProjectItem placeholder="@(true)"></ProjectItem>
+        }
+        @if (!hasProjects)
+        {
+            
+        }
+        @if (hasProjects && !loadingProjects)
+        {
+            foreach (var project in projects)
+            {
+                
+            }
+        }
     </div>
 </div>
 
 @code {
-    
+
+    private bool loadingProjects = true;
+    private bool hasProjects = true;
+
+    private List<ProjectData> projects = new List<ProjectData>();
+
     protected override async Task OnInitializedAsync()
     {
         //When the page is first initialized, check the localstorage for any existing projects.
-
+        projects = await ls.GetItemAsync<List<ProjectData>>("user_projects");
+        if (projects == null || projects.Count <= 0) 
+        {
+            await ls.SetItemAsync<List<ProjectData>>("user_projects", new List<ProjectData>());
+            hasProjects = false;
+        }
+        loadingProjects = false;
+        StateHasChanged();
+        await Task.Yield();
     }
 }
