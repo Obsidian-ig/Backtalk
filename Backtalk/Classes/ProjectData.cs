@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Backtalk.Classes
+﻿namespace Backtalk.Classes
 {
     public class ProjectData
     {
         public required string name { get; set; }
         public string? short_description { get; set; }
         public string? description { get; set; }
-        public required string authors { get; set; }
+        public required List<Author> authors { get; set; }
         public List<ContactOption>? contacts { get; set; }
         public DateTime last_updated_utc { get; set; } = DateTime.UtcNow;
         public required string api_version { get; set; } = "1.0.0";

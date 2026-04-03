@@ -10,7 +10,7 @@
     <div class="main-content-header">
         <div class="main-content-header-info-container">
             <p class="main-content-header-info-text">Your Projects</p>
-            <button type="button" class="create-project-button" title="Create a new project!">+</button>
+            <button type="button" class="create-project-button" title="Create a new project!" @onclick="NewProjectButtonClicked">+</button>
         </div>
         <div class="horizontal-divider-mw mt-2"></div>
     </div>
@@ -24,16 +24,34 @@
         }
         @if (!hasProjects)
         {
-            
+            <p class="projects-no-projects-text">It looks like you haven't created or imported any projects! <br /> Sign in or Create/Import a project to get started!</p>
         }
         @if (hasProjects && !loadingProjects)
         {
             foreach (var project in projects)
             {
-                
+                <ProjectItem ></ProjectItem>
             }
         }
     </div>
+    <form class="project-creation-modal" @onsubmit="PcModalCreateProjectButtonClicked">
+        <button type="button" class="pc-modal-close-button">X</button>
+        <p class="pc-modal-header">Create New Project</p>
+        
+        <label for="pc-modal-project-name" class="pc-modal-label">Project Name:</label>
+        <input type="text" required class="pc-modal-project-name pc-modal-input" placeholder="Enter Name.." />
+    
+        <label for="pc-modal-project-short-description" class="pc-modal-label">Project Short Description:</label>
+        <input type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
+
+        <label for="pc-modal-project-long-description" class="pc-modal-label">Project Long Description:</label>
+        <input type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
+
+        <label for="pc-modal-project-authors-container" class="pc-modal-label">Project Authors:</label>
+        <div class="pc-modal-authors-container">
+
+        </div>
+    </form>
 </div>
 
 @code {
@@ -55,5 +73,15 @@
         loadingProjects = false;
         StateHasChanged();
         await Task.Yield();
+    }
+
+    private async Task NewProjectButtonClicked()
+    {
+        
+    }
+
+    private async Task PcModalCreateProjectButtonClicked()
+    {
+        
     }
 }

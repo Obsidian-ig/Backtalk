@@ -1,4 +1,6 @@
-﻿<nav class="navmenu container-fluid theme-@(theme)">
+﻿@inject NavigationManager nav
+
+<nav class="navmenu container-fluid theme-@(theme)">
     <div class="row">
         <div class="col-5 navmenu-navlinks-container">
             <a class="navmenu-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
@@ -24,6 +26,37 @@
     private string homeNavlinkClass = "navmenu-navlink-active";
     private string projectsNavlinkClass = "";
     private string aboutNavlinkClass = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (nav.Uri == nav.BaseUri + string.Empty)
+        {
+            //home
+            homeNavlinkClass = navlinkActiveClass;
+            projectsNavlinkClass = "";
+            aboutNavlinkClass = "";
+        }
+        else if (nav.Uri.Contains("project"))
+        {
+            //projects
+            homeNavlinkClass = "";
+            projectsNavlinkClass = navlinkActiveClass;
+            aboutNavlinkClass = "";
+        }
+        else if (nav.Uri.Contains("about"))
+        {
+            //about
+            homeNavlinkClass = "";
+            projectsNavlinkClass = "";
+            aboutNavlinkClass = navlinkActiveClass;
+        } else
+        {
+            //none
+            homeNavlinkClass = "";
+            projectsNavlinkClass = "";
+            aboutNavlinkClass = "";
+        }
+    }
 
     private async Task HandleNavLinkClicked(char linkPrefix)
     {

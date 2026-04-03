@@ -1,4 +1,5 @@
-﻿<div class="project-item">
+﻿@using Backtalk.Classes
+<div class="project-item">
     @if (!placeholder)
     {
         
@@ -8,26 +9,7 @@
 
 @code {
     [Parameter]
-    public string projectName { get; set; } = "Loading...";
-    [Parameter]
-    public string projectShortDescription { get; set; } = "Short Description";
-    [Parameter]
-    public string projectLongDescription { get; set; } = "Long Description";
-
-        /*
-         * Colored Status Bar that shows how much an endpoint types makes up of the
-         * given project.
-         */
-    [Parameter]
-    public int getEndpointsCount { get; set; } = 0;
-    [Parameter]
-    public int postEndpointsCount { get; set; } = 0;
-    [Parameter]
-    public int putEndpointsCount { get; set; } = 0;
-    [Parameter]
-    public int patchEndpointsCount { get; set; } = 0;
-    [Parameter]
-    public int deleteEndpointsCount { get; set; } = 0;
+    public ProjectData? projectData { get; set; }
 
     [Parameter] //Will be like a blank placeholder for when the app is loading the users projects (like yt).
     public bool placeholder { get; set; } = true;
