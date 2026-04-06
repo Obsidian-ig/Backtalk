@@ -39,18 +39,23 @@
         <p class="pc-modal-header">Create New Project</p>
         
         <label for="pc-modal-project-name" class="pc-modal-label">Project Name:</label>
-        <input type="text" required class="pc-modal-project-name pc-modal-input" placeholder="Enter Name.." />
+        <input @bind="newProjectName" @bind:after="PcModalInputFieldChanged" type="text" required class="pc-modal-project-name pc-modal-input" placeholder="Enter Name.." />
     
         <label for="pc-modal-project-short-description" class="pc-modal-label">Project Short Description:</label>
-        <input type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
+        <input @bind="newProjectShortDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
 
         <label for="pc-modal-project-long-description" class="pc-modal-label">Project Long Description:</label>
-        <input type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
+        <input @bind="newProjectDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
 
         <label for="pc-modal-project-authors-container" class="pc-modal-label">Project Authors:</label>
         <div class="pc-modal-authors-container">
-
+            @for (int i = 0; i < newProjectData.authors.Count; i++)
+            {
+                //Key stops blazor from just removing the last entry in the list on the ui side. 
+                <AuthorBusinessCard @key="@(newProjectData.authors[i])" index="@(i)" authorDetails="@(newProjectData.authors[i])" showRemoveIcon="@true" authorDetailsChanged="PcModalHandleAuthorDetailsChanged" authorRemoveButtonClicked="PcModalRemoveAuthor"></AuthorBusinessCard>
+            }
         </div>
+        <button type="button" class="pc-modal-author-add-button" @onclick="PcModalAddNewAuthor">Add Another Author</button>
     </form>
 </div>
 
@@ -60,6 +65,20 @@
     private bool hasProjects = true;
 
     private List<ProjectData> projects = new List<ProjectData>();
+
+    private string newProjectName = "";
+    private string newProjectShortDescription = "";
+    private string newProjectDescription = "";
+    private ProjectData newProjectData = new () {
+        name = "",
+        short_description = "",
+        description = "",
+        authors = new List<Author>(),
+        contacts = new List<ContactOption>(),
+        last_updated_utc = DateTime.UtcNow,
+        api_version = "1.0.0",
+        config = new()
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,7 +96,59 @@
 
     private async Task NewProjectButtonClicked()
     {
-        
+
+    }
+
+    private async Task PcModalInputFieldChanged()
+    {
+
+    }
+
+    private async Task PcModalAddNewAuthor()
+    {
+        var index = newProjectData.authors.Count;
+        newProjectData.authors.Add(new Author()
+        {
+            index = index
+        });
+        Console.WriteLine("Added new author with index: " + index);
+        Console.WriteLine("Updated Authors List:");
+        foreach (var author in newProjectData.authors)
+        {
+            Console.WriteLine(JsonSerializer.Serialize<Author>(author));
+        }
+        //Console.WriteLine("Added new author!");
+        //Console.WriteLine(JsonSerializer.Serialize<Author>(new Author()));
+        StateHasChanged();
+        await Task.Yield();
+    }
+    private async Task PcModalRemoveAuthor(Author author)
+    {
+        //remove author from the list and then update the indexs of all the other authors.
+        newProjectData.authors.RemoveAt(author.index);
+        Console.WriteLine("Removed author at index: " + author.index);
+        for (int i = 0; i < newProjectData.authors.Count; i++)
+        {
+            Console.WriteLine($"Updated author at index {i}: old index: {newProjectData.authors[i].index}");
+            newProjectData.authors[i].index = i;
+        }
+        Console.WriteLine("Updated Authors List:");
+        foreach (var author2 in newProjectData.authors)
+        {
+            Console.WriteLine(JsonSerializer.Serialize<Author>(author2));
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task PcModalHandleAuthorDetailsChanged(Author updatedAuthor)
+    {
+        //Console.WriteLine("Updated author details at index: " + updatedAuthor.index);
+        //Console.WriteLine("Old author details: " + JsonSerializer.Serialize<Author>(newProjectData.authors[updatedAuthor.index]));
+        //Console.WriteLine("New author details: " + JsonSerializer.Serialize<Author>(updatedAuthor));
+        newProjectData.authors[updatedAuthor.index] = updatedAuthor;
+        //StateHasChanged();
+        //await Task.Yield();
     }
 
     private async Task PcModalCreateProjectButtonClicked()

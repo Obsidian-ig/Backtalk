@@ -1,12 +1,23 @@
 ﻿.author-business-card {
     width: 300px;
     height: 350px;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(210, 210, 210);
     position: relative;
     padding: 5px;
     padding-bottom: 25px;
     display: flex;
     flex-direction: column;
+}
+
+.abc-remove-icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: transparent;
+}
+.abc-remove-icon:hover {
+    cursor: pointer;
 }
 
 .abc-pfp-container {
@@ -21,6 +32,10 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
+}
+.abc-pfp:hover {
+    cursor: pointer;
+    filter: brightness(80%);
 }
 .abc-pfp-upload-button {
     width: 100%;
