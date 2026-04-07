@@ -1,0 +1,69 @@
+﻿@using Backtalk.Classes
+
+<div class="contact-business-card">
+    @if (showRemoveIcon)
+    {
+        <img class="cbc-remove-icon" src="@Assets["icons/trashcan-black.png"]" alt="remove" @onclick="HandleRemoveIconClicked" />
+    }
+    <input @bind="contactName" @bind:after="HandleContactDetailsChanged" type="text" class="cbc-name-input cbc-input" placeholder="Enter Contact Name.." />
+    <input @bind="contactMethod" @bind:after="HandleContactDetailsChanged" type="text" class="cbc-method-input cbc-input" placeholder="Enter Contact Method.." />
+    <input @bind="contactInfo" @bind:after="HandleContactDetailsChanged" type="text" class="cbc-contact-input cbc-input" placeholder="Enter Contact Info.." />
+</div>
+
+@code {
+    [Parameter]
+    public int index { get; set; }
+    [Parameter]
+    public EventCallback<ContactOption> contactDetailsChanged { get; set; }
+    [Parameter]
+    public EventCallback<ContactOption> contactRemoveButtonClicked { get; set; }
+    [Parameter]
+    public ContactOption? contactDetails { get; set; }
+    [Parameter]
+    public bool showRemoveIcon { get; set; } = false;
+
+    private string contactName = "";
+    public string contactMethod = "";
+    public string contactInfo = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (contactDetails != null)
+        {
+            index = contactDetails.index;
+            contactName = contactDetails.contact_name;
+            contactMethod = contactDetails.method;
+            contactInfo = contactDetails.contact;
+        }
+    }
+
+    private async Task HandleContactDetailsChanged()
+    {
+        if (contactDetails != null)
+        {
+            await contactDetailsChanged.InvokeAsync(new ContactOption()
+            {
+                index = index,
+                key = contactDetails.key,
+                contact_name = contactName,
+                method = contactMethod,
+                contact = contactInfo
+            });
+        }
+    }
+
+    private async Task HandleRemoveIconClicked()
+    {
+        if (contactDetails != null && showRemoveIcon)
+        {
+            await contactRemoveButtonClicked.InvokeAsync(new ContactOption()
+            {
+                index = index,
+                key = contactDetails.key,
+                contact_name = contactName,
+                method = contactMethod,
+                contact = contactInfo
+            });
+        }
+    }
+}

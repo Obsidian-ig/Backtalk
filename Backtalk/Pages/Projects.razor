@@ -26,7 +26,7 @@
         {
             <p class="projects-no-projects-text">It looks like you haven't created or imported any projects! <br /> Sign in or Create/Import a project to get started!</p>
         }
-        @if (hasProjects && !loadingProjects)
+        @if (hasProjects && !loadingProjects && projects != null)
         {
             foreach (var project in projects)
             {
@@ -42,10 +42,10 @@
         <input @bind="newProjectName" @bind:after="PcModalInputFieldChanged" type="text" required class="pc-modal-project-name pc-modal-input" placeholder="Enter Name.." />
     
         <label for="pc-modal-project-short-description" class="pc-modal-label">Project Short Description:</label>
-        <input @bind="newProjectShortDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
+        <textarea @bind="newProjectShortDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
 
         <label for="pc-modal-project-long-description" class="pc-modal-label">Project Long Description:</label>
-        <input @bind="newProjectDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
+        <textarea @bind="newProjectDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
 
         <label for="pc-modal-project-authors-container" class="pc-modal-label">Project Authors:</label>
         <div class="pc-modal-authors-container">
@@ -55,7 +55,19 @@
                 <AuthorBusinessCard @key="@(newProjectData.authors[i].key)" index="@(i)" authorDetails="@(newProjectData.authors[i])" showRemoveIcon="@true" authorDetailsChanged="PcModalHandleAuthorDetailsChanged" authorRemoveButtonClicked="PcModalRemoveAuthor"></AuthorBusinessCard>
             }
         </div>
-        <button type="button" class="pc-modal-author-add-button" @onclick="PcModalAddNewAuthor">Add Another Author</button>
+        <button type="button" class="pc-modal-author-add-button" @onclick="PcModalAddNewAuthor">Add Author</button>
+
+        <label for="pc-modal-project-contacts-container" class="pc-modal-label">Project Contacts:</label>
+        <div class="pc-modal-contacts-container">
+            @if (newProjectData.contacts != null)
+            {
+                for (int i = 0; i < newProjectData.contacts.Count; i++)
+                {
+                    <ContactBusinessCard @key="@(newProjectData.contacts[i].key)" index="@(i)" contactDetails="@(newProjectData.contacts[i])" showRemoveIcon="@true" contactDetailsChanged="PcModalHandleContactDetailsChanged" contactRemoveButtonClicked="PcModalRemoveContact" />
+                }
+            }
+        </div>
+        <button type="button" class="pc-modal-contact-add-button" @onclick="PcModalAddNewContact">Add Contact</button>
     </form>
 </div>
 
@@ -64,7 +76,7 @@
     private bool loadingProjects = true;
     private bool hasProjects = true;
 
-    private List<ProjectData> projects = new List<ProjectData>();
+    private List<ProjectData>? projects = new List<ProjectData>();
 
     private string newProjectName = "";
     private string newProjectShortDescription = "";
@@ -111,14 +123,6 @@
         {
             index = index
         });
-        Console.WriteLine("Added new author with index: " + index);
-        Console.WriteLine("Updated Authors List:");
-        foreach (var author in newProjectData.authors)
-        {
-            Console.WriteLine(JsonSerializer.Serialize<Author>(author));
-        }
-        //Console.WriteLine("Added new author!");
-        //Console.WriteLine(JsonSerializer.Serialize<Author>(new Author()));
         StateHasChanged();
         await Task.Yield();
     }
@@ -126,16 +130,9 @@
     {
         //remove author from the list and then update the indexs of all the other authors.
         newProjectData.authors.RemoveAt(author.index);
-        Console.WriteLine("Removed author at index: " + author.index);
         for (int i = 0; i < newProjectData.authors.Count; i++)
         {
-            Console.WriteLine($"Updated author at index {i}: old index: {newProjectData.authors[i].index}");
             newProjectData.authors[i].index = i;
-        }
-        Console.WriteLine("Updated Authors List:");
-        foreach (var author2 in newProjectData.authors)
-        {
-            Console.WriteLine(JsonSerializer.Serialize<Author>(author2));
         }
         StateHasChanged();
         await Task.Yield();
@@ -143,10 +140,38 @@
 
     private async Task PcModalHandleAuthorDetailsChanged(Author updatedAuthor)
     {
-        Console.WriteLine("Updated author details at index: " + updatedAuthor.index);
-        Console.WriteLine("Old author details: " + JsonSerializer.Serialize<Author>(newProjectData.authors[updatedAuthor.index]));
-        Console.WriteLine("New author details: " + JsonSerializer.Serialize<Author>(updatedAuthor));
         newProjectData.authors[updatedAuthor.index] = updatedAuthor;
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task PcModalAddNewContact()
+    {
+        if (newProjectData.contacts == null) return;
+        var index = newProjectData.contacts.Count;
+        newProjectData.contacts.Add(new ContactOption()
+        {
+            index = index
+        });
+        StateHasChanged();
+        await Task.Yield();
+    }
+    private async Task PcModalRemoveContact(ContactOption contact)
+    {
+        if (newProjectData.contacts == null) return;
+        newProjectData.contacts.RemoveAt(contact.index);
+        for (int i = 0; i < newProjectData.contacts.Count; i++)
+        {
+            newProjectData.contacts[i].index = i;
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task PcModalHandleContactDetailsChanged(ContactOption updatedContact)
+    {
+        if (newProjectData.contacts == null) return;
+        newProjectData.contacts[updatedContact.index] = updatedContact;
         StateHasChanged();
         await Task.Yield();
     }

@@ -2,7 +2,6 @@
 @using KristofferStrube.Blazor.FileSystem
 @using System.Text
 @inject IFileSystemAccessService fileService
-@page "/abc"
 
 <div class="author-business-card">
     <div class="abc-pfp-container">
@@ -18,10 +17,10 @@
             <input @bind="role" type="text" class="abc-role-input abc-input" placeholder="Enter Role.." />
         </div>
         
-        <input @bind="description" @bind:after="HandleAuthorDetailsChanged" type="text" class="abc-description-input abc-input" placeholder="Enter Description.." />
-        <input @bind="youtube" @bind:after="HandleAuthorDetailsChanged" type="text" class="abc-youtube-input abc-input" placeholder="Enter Youtube url.." />
-        <input @bind="github" @bind:after="HandleAuthorDetailsChanged" type="text" class="abc-github-input abc-input" placeholder="Enter Github url.." />
-        <input @bind="discord" @bind:after="HandleAuthorDetailsChanged" type="text" class="abc-discord-input abc-input" placeholder="Enter Discord url.." />
+        <textarea @bind="description" @bind:after="HandleAuthorDetailsChanged"  type="text" class="abc-description-input abc-input" placeholder="Enter Description.." />
+        <input @bind="youtube" @bind:after="HandleAuthorDetailsChanged" type="url" class="abc-youtube-input abc-input" placeholder="Enter Youtube url.." />
+        <input @bind="github" @bind:after="HandleAuthorDetailsChanged" type="url" class="abc-github-input abc-input" placeholder="Enter Github url.." />
+        <input @bind="discord" @bind:after="HandleAuthorDetailsChanged" type="url" class="abc-discord-input abc-input" placeholder="Enter Discord url.." />
     </div>
     @if (showRemoveIcon)
     {
@@ -43,16 +42,16 @@
 
     private string b64_start = "data:image/jpeg;base64,";
     private string pfp_display = "display: none;";
-    private string pfp_b64 = "";
+    private string? pfp_b64 = "";
 
     private string pfp_upload_button_display = "display: block;";
 
     private string name = "";
-    private string role = "";
-    private string description = "";
-    private string youtube = "";
-    private string github = "";
-    private string discord = "";
+    private string? role = "";
+    private string? description = "";
+    private string? youtube = "";
+    private string? github = "";
+    private string? discord = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,34 +69,40 @@
 
     private async Task HandleAuthorDetailsChanged()
     {
-        await authorDetailsChanged.InvokeAsync(new Author()
+        if (authorDetails != null)
         {
-            index = index,
-            key = authorDetails.key,
-            name = name,
-            pfp_b64 = pfp_b64,
-            role = role,
-            description = description,
-            youtube_url = youtube,
-            github_url = github,
-            discord_url = discord
-        });
+            await authorDetailsChanged.InvokeAsync(new Author()
+            {
+                index = index,
+                key = authorDetails.key,
+                name = name,
+                pfp_b64 = pfp_b64,
+                role = role,
+                description = description,
+                youtube_url = youtube,
+                github_url = github,
+                discord_url = discord
+            });
+        }
     }
 
     private async Task HandleAuthorRemoveButtonClicked()
     {
-        await authorRemoveButtonClicked.InvokeAsync(new Author()
+        if (authorDetails != null && showRemoveIcon)
         {
-            index = index,
-            key = authorDetails.key,
-            name = name,
-            pfp_b64 = pfp_b64,
-            role = role,
-            description = description,
-            youtube_url = youtube,
-            github_url = github,
-            discord_url = discord
-        });
+            await authorRemoveButtonClicked.InvokeAsync(new Author()
+            {
+                index = index,
+                key = authorDetails.key,
+                name = name,
+                pfp_b64 = pfp_b64,
+                role = role,
+                description = description,
+                youtube_url = youtube,
+                github_url = github,
+                discord_url = discord
+            });
+        }
     }
 
     private async Task HandlePfpUploadClicked()

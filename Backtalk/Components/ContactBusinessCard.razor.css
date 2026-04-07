@@ -1,0 +1,19 @@
+﻿.contact-business-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    position: relative;
+    padding: 8px;
+    background-color: rgb(210, 210, 210);
+    height: min-content;
+    width: 100%;
+}
+
+.cbc-remove-icon {
+    width: 25px;
+    height: 25px;
+}
+.cbc-remove-icon:hover {
+    cursor: pointer;
+}

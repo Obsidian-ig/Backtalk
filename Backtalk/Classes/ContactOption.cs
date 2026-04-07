@@ -2,7 +2,10 @@
 {
     public class ContactOption
     {
-        public required string contact { get; set; }
-        public required string method { get; set; }
+        public int index { get; set; }
+        public Guid key { get; set; } = Guid.NewGuid();
+        public string contact_name { get; set; } = "";
+        public string contact { get; set; } = "";
+        public string method { get; set; } = "";
     }
 }

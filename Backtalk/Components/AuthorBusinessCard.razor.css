@@ -1,5 +1,6 @@
 ﻿.author-business-card {
     width: 300px;
+    min-height: fit-content;
     height: 350px;
     background-color: rgb(210, 210, 210);
     position: relative;
@@ -7,6 +8,10 @@
     padding-bottom: 25px;
     display: flex;
     flex-direction: column;
+}
+.author-business-card::-webkit-scrollbar {
+    appearance: none;
+    width: 0.1px;
 }
 
 .abc-remove-icon {
@@ -21,7 +26,9 @@
 }
 
 .abc-pfp-container {
+    min-width: 145px;
     width: 145px;
+    min-height: 145px;
     height: 145px;
     margin-left: 5px;
     margin-top: 5px;
@@ -52,6 +59,7 @@
 
 .abc-input {
     margin-top: 15px;
+    field-sizing: content;
 }
 
 .span-div {
@@ -71,7 +79,9 @@
 
 .abc-description-input {
     width: 100%;
+    resize: vertical;
 }
+
 
 .abc-youtube-input,
 .abc-github-input,
