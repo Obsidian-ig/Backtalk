@@ -47,6 +47,9 @@
         <label for="pc-modal-project-long-description" class="pc-modal-label">Project Long Description:</label>
         <textarea @bind="newProjectDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
 
+        <label for="pc-modal-project-api-version" class="pc-modal-label">Project Api Version:</label>
+        <input @bind="newProjectApiVersion" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-api-version-input pc-modal-input" placeholder="Enter project api version.." />
+
         <label for="pc-modal-project-authors-container" class="pc-modal-label">Project Authors:</label>
         <div class="pc-modal-authors-container">
             @for (int i = 0; i < newProjectData.authors.Count; i++)
@@ -68,6 +71,8 @@
             }
         </div>
         <button type="button" class="pc-modal-contact-add-button" @onclick="PcModalAddNewContact">Add Contact</button>
+    
+        <button type="submit" class="pc-modal-create-project-button" @onsubmit="PcModalCreateProjectButtonClicked">Create Project</button>
     </form>
 </div>
 
@@ -81,6 +86,7 @@
     private string newProjectName = "";
     private string newProjectShortDescription = "";
     private string newProjectDescription = "";
+    private string newProjectApiVersion = "1.0.0";
     private ProjectData newProjectData = new () {
         name = "",
         short_description = "",
@@ -113,7 +119,11 @@
 
     private async Task PcModalInputFieldChanged()
     {
-
+        newProjectData.name = newProjectName;
+        newProjectData.short_description = newProjectShortDescription;
+        newProjectData.description = newProjectDescription;
+        newProjectData.api_version = newProjectApiVersion;
+        newProjectData.last_updated_utc = DateTime.UtcNow;
     }
 
     private async Task PcModalAddNewAuthor()
@@ -137,7 +147,6 @@
         StateHasChanged();
         await Task.Yield();
     }
-
     private async Task PcModalHandleAuthorDetailsChanged(Author updatedAuthor)
     {
         newProjectData.authors[updatedAuthor.index] = updatedAuthor;
@@ -167,7 +176,6 @@
         StateHasChanged();
         await Task.Yield();
     }
-
     private async Task PcModalHandleContactDetailsChanged(ContactOption updatedContact)
     {
         if (newProjectData.contacts == null) return;
@@ -178,6 +186,15 @@
 
     private async Task PcModalCreateProjectButtonClicked()
     {
-        
+        //makes sure all the fields are up to date and the updated time is now
+        await PcModalInputFieldChanged();
+
+        //append the new project to the list of user projects and then rewrite the ls user_projects item
+        if (projects == null) return;
+        projects.Add(newProjectData);
+        await ls.SetItemAsync<List<ProjectData>>("user_projects", projects);
+        var fileHandle = File.CreateText("C:\\users\\ksherman\\Downloads\\projects.txt");
+        await fileHandle.WriteLineAsync(JsonSerializer.Serialize(projects));
+        await fileHandle.DisposeAsync();
     }
 }

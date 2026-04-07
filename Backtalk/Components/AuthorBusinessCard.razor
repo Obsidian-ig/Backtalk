@@ -14,7 +14,7 @@
     <div class="abc-info">
         <div class="span-div">
             <input @bind="name" @bind:after="HandleAuthorDetailsChanged" type="text" class="abc-name-input abc-input" placeholder="Enter Name.." />
-            <input @bind="role" type="text" class="abc-role-input abc-input" placeholder="Enter Role.." />
+            <input @bind="role" @bind:after="HandleAuthorDetailsChanged" type="text" class="abc-role-input abc-input" placeholder="Enter Role.." />
         </div>
         
         <textarea @bind="description" @bind:after="HandleAuthorDetailsChanged"  type="text" class="abc-description-input abc-input" placeholder="Enter Description.." />
