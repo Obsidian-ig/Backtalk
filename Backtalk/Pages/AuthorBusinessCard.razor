@@ -6,7 +6,7 @@
 
 <div class="author-business-card">
     <div class="abc-pfp-container">
-        <img src="@pfp_image_src"
+        <img src="@pfp_b64"
              class="abc-pfp"
              style="@pfp_display"
              alt="" @onclick="HandlePfpUploadClicked" />
@@ -42,7 +42,6 @@
     public bool showRemoveIcon { get; set; } = false;
 
     private string b64_start = "data:image/jpeg;base64,";
-    private string pfp_image_src = "data:image/jpeg;base64,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";
     private string pfp_display = "display: none;";
     private string pfp_b64 = "";
 
@@ -74,6 +73,7 @@
         await authorDetailsChanged.InvokeAsync(new Author()
         {
             index = index,
+            key = authorDetails.key,
             name = name,
             pfp_b64 = pfp_b64,
             role = role,
@@ -89,6 +89,7 @@
         await authorRemoveButtonClicked.InvokeAsync(new Author()
         {
             index = index,
+            key = authorDetails.key,
             name = name,
             pfp_b64 = pfp_b64,
             role = role,
@@ -122,7 +123,6 @@
                 byte[] textBytes = await file.ArrayBufferAsync();
                 pfp_b64 = b64_start + Convert.ToBase64String(textBytes);
                 pfp_upload_button_display = "display: none;";
-                pfp_image_src = pfp_b64;
                 pfp_display = "display: block;";
                 StateHasChanged();
                 await Task.Yield();

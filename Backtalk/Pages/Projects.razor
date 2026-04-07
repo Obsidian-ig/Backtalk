@@ -52,7 +52,7 @@
             @for (int i = 0; i < newProjectData.authors.Count; i++)
             {
                 //Key stops blazor from just removing the last entry in the list on the ui side. 
-                <AuthorBusinessCard @key="@(newProjectData.authors[i])" index="@(i)" authorDetails="@(newProjectData.authors[i])" showRemoveIcon="@true" authorDetailsChanged="PcModalHandleAuthorDetailsChanged" authorRemoveButtonClicked="PcModalRemoveAuthor"></AuthorBusinessCard>
+                <AuthorBusinessCard @key="@(newProjectData.authors[i].key)" index="@(i)" authorDetails="@(newProjectData.authors[i])" showRemoveIcon="@true" authorDetailsChanged="PcModalHandleAuthorDetailsChanged" authorRemoveButtonClicked="PcModalRemoveAuthor"></AuthorBusinessCard>
             }
         </div>
         <button type="button" class="pc-modal-author-add-button" @onclick="PcModalAddNewAuthor">Add Another Author</button>
@@ -143,12 +143,12 @@
 
     private async Task PcModalHandleAuthorDetailsChanged(Author updatedAuthor)
     {
-        //Console.WriteLine("Updated author details at index: " + updatedAuthor.index);
-        //Console.WriteLine("Old author details: " + JsonSerializer.Serialize<Author>(newProjectData.authors[updatedAuthor.index]));
-        //Console.WriteLine("New author details: " + JsonSerializer.Serialize<Author>(updatedAuthor));
+        Console.WriteLine("Updated author details at index: " + updatedAuthor.index);
+        Console.WriteLine("Old author details: " + JsonSerializer.Serialize<Author>(newProjectData.authors[updatedAuthor.index]));
+        Console.WriteLine("New author details: " + JsonSerializer.Serialize<Author>(updatedAuthor));
         newProjectData.authors[updatedAuthor.index] = updatedAuthor;
-        //StateHasChanged();
-        //await Task.Yield();
+        StateHasChanged();
+        await Task.Yield();
     }
 
     private async Task PcModalCreateProjectButtonClicked()
