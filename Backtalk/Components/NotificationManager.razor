@@ -1,0 +1,24 @@
+﻿@using Backtalk.Classes
+@using Backtalk.Services
+@inject INotificationService notificationService
+
+<div class="popup-notifications-container">
+
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        notificationService.PopupNotificationsUpdated += HandlePopupNotificationsUpdated;
+    }
+
+    private async Task HandlePopupNotificationsUpdated(IReadOnlyList<Notification> notifications)
+    {
+
+    }
+
+    private async Task handleInboxNotificationsUpdated()
+    {
+        
+    }
+}
