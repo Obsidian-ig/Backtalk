@@ -1,0 +1,50 @@
+﻿.popup-notification {
+    min-width: 160px;
+    width: fit-content;
+    height: 40px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.popup-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.popup-message {
+    padding: 0;
+    margin: 0;
+}
+
+.popup-close-button {
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+    color: black;
+    margin-left: auto;
+}
+
+.POPUP_WARNING {
+    background-color: rgb(227, 144, 50);
+    border-color: rgb(176, 111, 37);
+}
+.POPUP_INFO {
+    background-color: rgb(194, 185, 174);
+    border-color: rgb(143, 137, 130);
+}
+.POPUP_ERROR {
+    background-color: rgb(171, 30, 12);
+    border-color: rgb(156, 26, 9);
+}
+.POPUP_SUCCESS {
+    background-color: rgb(9, 145, 43);
+    border-color: rgb(6, 99, 29);
+}

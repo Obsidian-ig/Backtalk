@@ -1,0 +1,31 @@
+﻿@using Backtalk.Classes
+<div class="popup-notification @typeClass">
+    <img class="popup-icon" src="@Assets[iconSrc]" alt="@iconAlt" />
+    <p class="popup-message">@message</p>
+    <button type="button" class="popup-close-button" @onclick="HandleCloseButtonClicked">X</button>
+</div>
+
+@code {
+    [Parameter]
+    public required Notification details { get; set; }
+    [Parameter]
+    public EventCallback<Notification> CloseButtonClicked { get; set; }
+
+    private string typeClass = "POPUP_INFO";
+    private string iconSrc = "icons/INFO.png";
+    private string iconAlt = "INFO";
+    private string message = "Message Goes Here";
+
+    protected override async Task OnInitializedAsync()
+    {
+        typeClass = details.type.ToString();
+        iconAlt = details.symbol.ToString();
+        iconSrc = "icons/" + iconAlt + ".png";
+        message = details.message;
+    }
+
+    private async Task HandleCloseButtonClicked()
+    {
+        await CloseButtonClicked.InvokeAsync(details);
+    }
+}

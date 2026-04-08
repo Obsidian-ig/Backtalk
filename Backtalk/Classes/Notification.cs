@@ -18,13 +18,15 @@ namespace Backtalk.Classes
     //Symbols are enclosed inside of a black bordered circle
     public enum NotificationSymbol
     {
-        EXCLAMATION,
-        QUESTION_MARK,
-        FROWN,
-        SMILE,
-        CHECKMARK,
-        INFO,
-        SUS
+        EXCLAMATION, //
+        QUESTIONMARK, //
+        FROWN, //
+        SMILE, //
+        CHECKMARK, //
+        WARNING, //
+        ERROR, //
+        INFO, //
+        SUS //
     }
 
     public class Notification

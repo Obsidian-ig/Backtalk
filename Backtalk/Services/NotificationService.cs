@@ -12,6 +12,9 @@ namespace Backtalk.Services
 
         private List<Notification> _popupNotifications = new List<Notification>();
 
+        public event EventHandler<IReadOnlyList<Notification>> PopupNotificationsUpdated;
+        public event EventHandler<IReadOnlyList<Notification>> InboxNotificationsUpdated;
+
         public NotificationService()
         {
             Task.Run(PopupNotificationsExpirationCheckInterval);
@@ -32,14 +35,16 @@ namespace Backtalk.Services
             }
         }
 
-        public void CreatePopupNotification(Notification notification)
+        public async Task CreatePopupNotification(Notification notification)
         {
             _popupNotifications.Add(notification);
+            PopupNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
         }
 
-        public void DeletePopupNotification(Notification notification)
+        public async Task DeletePopupNotification(Notification notification)
         {
             _popupNotifications.Remove(notification);
+            PopupNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
         }
 
         public async Task<IReadOnlyList<Notification>> GetPopupNotifications()
@@ -53,6 +58,7 @@ namespace Backtalk.Services
             {
                 if (_db == null) throw new Exception("AppDb db returned NULL - NotificationService.cs");
                 await _db.Inbox.PutAsync<Notification>(notification);
+                InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
                 return true;
             }
             catch (Exception ex)
@@ -68,6 +74,7 @@ namespace Backtalk.Services
             {
                 if (_db == null) throw new Exception("AppDb db returned NULL - NotificationService.cs");
                 await _db.Inbox.DeleteAsync<Notification>(notification);
+                InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
                 return true;
             }
             catch (Exception ex)
@@ -90,6 +97,7 @@ namespace Backtalk.Services
                 }
                 result.read = true;
                 await _db.Inbox.PutAsync<Notification>(result);
+                InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
                 return true;
             }
             catch (Exception ex)

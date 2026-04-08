@@ -4,8 +4,10 @@ namespace Backtalk.Services
 {
     public interface INotificationService
     {
-        public void CreatePopupNotification(Notification notification);
-        public void DeletePopupNotification(Notification notification);
+        public event EventHandler<IReadOnlyList<Notification>> PopupNotificationsUpdated;
+        public event EventHandler<IReadOnlyList<Notification>> InboxNotificationsUpdated;
+        public Task CreatePopupNotification(Notification notification);
+        public Task DeletePopupNotification(Notification notification);
         public Task<IReadOnlyList<Notification>> GetPopupNotifications();
         public Task<bool> CreateInboxNotificationAsync(Notification notification);
         public Task<bool> DeleteInboxNotificationAsync(Notification notification);
