@@ -1,8 +1,9 @@
-﻿@using Backtalk.Components
+﻿@using Backtalk.Classes.Data
+@using Backtalk.Components
 @using Blazored.LocalStorage
 @using System.Text.Json
 @using Backtalk.Classes
-@inject ILocalStorageService ls
+@inject AppDb db
 @page "/projects"
 <PageTitle>Projects | BackTalk</PageTitle>
 
@@ -34,8 +35,8 @@
             }
         }
     </div>
-    <form class="project-creation-modal" @onsubmit="PcModalCreateProjectButtonClicked">
-        <button type="button" class="pc-modal-close-button">X</button>
+    <form class="project-creation-modal" @onsubmit="PcModalCreateProjectButtonClicked" style="@projectCreationModalStyle">
+        <button type="button" class="pc-modal-close-button" @onclick="HandleClosePcModal">X</button>
         <p class="pc-modal-header">Create New Project</p>
         
         <label for="pc-modal-project-name" class="pc-modal-label">Project Name:</label>
@@ -72,7 +73,7 @@
         </div>
         <button type="button" class="pc-modal-contact-add-button" @onclick="PcModalAddNewContact">Add Contact</button>
     
-        <button type="submit" class="pc-modal-create-project-button" @onsubmit="PcModalCreateProjectButtonClicked">Create Project</button>
+        <button type="submit" class="pc-modal-create-project-button">Create Project</button>
     </form>
 </div>
 
@@ -80,6 +81,9 @@
 
     private bool loadingProjects = true;
     private bool hasProjects = true;
+
+    private bool showPcModal = false;
+    private string projectCreationModalStyle = "display: none;";
 
     private List<ProjectData>? projects = new List<ProjectData>();
 
@@ -101,10 +105,9 @@
     protected override async Task OnInitializedAsync()
     {
         //When the page is first initialized, check the localstorage for any existing projects.
-        projects = await ls.GetItemAsync<List<ProjectData>>("user_projects");
+        projects = await db.Projects.GetAllAsync<ProjectData>();
         if (projects == null || projects.Count <= 0) 
         {
-            await ls.SetItemAsync<List<ProjectData>>("user_projects", new List<ProjectData>());
             hasProjects = false;
         }
         loadingProjects = false;
@@ -114,7 +117,20 @@
 
     private async Task NewProjectButtonClicked()
     {
+        showPcModal = !showPcModal;
+        if (showPcModal)
+        {
+            projectCreationModalStyle = "display: flex;";
+        } else
+        {
+            projectCreationModalStyle = "display: none;";
+        }
+    }
 
+    private async Task HandleClosePcModal()
+    {
+        showPcModal = false;
+        projectCreationModalStyle = "display: none;";
     }
 
     private async Task PcModalInputFieldChanged()
@@ -191,10 +207,9 @@
 
         //append the new project to the list of user projects and then rewrite the ls user_projects item
         if (projects == null) return;
+        Console.WriteLine("Did not return");
         projects.Add(newProjectData);
-        await ls.SetItemAsync<List<ProjectData>>("user_projects", projects);
-        var fileHandle = File.CreateText("C:\\users\\ksherman\\Downloads\\projects.txt");
-        await fileHandle.WriteLineAsync(JsonSerializer.Serialize(projects));
-        await fileHandle.DisposeAsync();
+        await db.Projects.PutAsync<ProjectData>(newProjectData);
+        Console.WriteLine("Created project!");
     }
 }

@@ -1,7 +1,11 @@
-﻿namespace Backtalk.Classes
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Backtalk.Classes
 {
     public class ProjectData
     {
+        [Key]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public required string name { get; set; }
         public string? short_description { get; set; }
         public string? description { get; set; }
