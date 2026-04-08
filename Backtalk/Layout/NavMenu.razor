@@ -8,7 +8,7 @@
             <a class="navmenu-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
         </div>
         <div class="col-2 navmenu-brand-container">
-            <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" />
+            <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" @onclick="HandleLogoClicked" />
         </div>
         <div class="col-5 navmenu-account-options">
             <a class="navmenu-navlink-account" href="signup">Sign Up</a>
@@ -56,6 +56,16 @@
             projectsNavlinkClass = "";
             aboutNavlinkClass = "";
         }
+    }
+
+    private async Task HandleLogoClicked()
+    {
+        nav.NavigateTo("");
+        homeNavlinkClass = navlinkActiveClass;
+        projectsNavlinkClass = "";
+        aboutNavlinkClass = "";
+        StateHasChanged();
+        await Task.Yield();
     }
 
     private async Task HandleNavLinkClicked(char linkPrefix)

@@ -16,6 +16,9 @@
 .navmenu-logo-image {
     width: 250px;
 }
+.navmenu-logo-image:hover {
+    cursor: pointer;
+}
 
 .navmenu-navlinks-container {
     display: flex;
