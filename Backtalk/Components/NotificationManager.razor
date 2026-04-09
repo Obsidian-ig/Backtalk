@@ -3,21 +3,41 @@
 @inject INotificationService notificationService
 
 <div class="popup-notifications-container">
-
+    @if (popupNotifications != null && popupNotifications.Count != 0)
+    {
+        for (int i = popupNotifications.Count-1; i >= 0; i--)
+        {
+            <PopupNotification @key="@popupNotifications[i].Id" details="@popupNotifications[i]" CloseButtonClicked="HandlePopupNotificationCloseButtonClicked"></PopupNotification>
+        }
+    }
 </div>
 
 @code {
+    private IReadOnlyList<Notification>? popupNotifications = null;
+
     protected override async Task OnInitializedAsync()
     {
         notificationService.PopupNotificationsUpdated += HandlePopupNotificationsUpdated;
+        notificationService.InboxNotificationsUpdated += handleInboxNotificationsUpdated;
+
+        popupNotifications = await notificationService.GetPopupNotificationsAsync();
     }
 
-    private async Task HandlePopupNotificationsUpdated(IReadOnlyList<Notification> notifications)
+    private async void HandlePopupNotificationsUpdated(object? sender, IReadOnlyList<Notification> notifications)
     {
-
+        popupNotifications = notifications;
+        StateHasChanged();
+        await Task.Yield();
     }
 
-    private async Task handleInboxNotificationsUpdated()
+    private async Task HandlePopupNotificationCloseButtonClicked(Notification notification)
+    {
+        await notificationService.DeletePopupNotificationAsync(notification);
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async void handleInboxNotificationsUpdated(object? sender, IReadOnlyList<Notification> notifications)
     {
         
     }

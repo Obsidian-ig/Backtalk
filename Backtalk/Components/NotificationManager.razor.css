@@ -6,4 +6,9 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    position: fixed;
+    justify-self: center;
+    top: 0;
+    z-index: 999;
+    margin-top: 2vh;
 }

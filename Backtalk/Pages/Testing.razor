@@ -1,0 +1,124 @@
+﻿@page "/testing"
+@using Backtalk.Classes
+@using Backtalk.Services
+@inject INotificationService notificationService
+
+<div class="main-content-container">
+    <form class="create-popup-notification-form" @onsubmit="CreatePopupNotification">
+        <label for="popup-notification-type">Select POPUP Notification Type:</label>
+        <select @bind="popupNotificationType" id="popup-notification-type" name="popup-notification-type">
+            <option value="POPUP_WARNING">POPUP_WARNING</option>
+            <option value="POPUP_INFO">POPUP_INFO</option>
+            <option value="POPUP_ERROR">POPUP_ERROR</option>
+            <option value="POPUP_SUCCESS">POPUP_SUCCESS</option>
+        </select>
+        <label for="popup-notification-symbol">Select POPUP Notification Symbol:</label>
+        <select @bind="popupNotificationSymbol" id="popup-notification-symbol" name="popup-notification-symbol">
+            <option value="EXCLAMATION">EXCLAMATION</option>
+            <option value="QUESTIONMARK">QUESTIONMARK</option>
+            <option value="FROWN">FROWN</option>
+            <option value="SMILE">SMILE</option>
+            <option value="CHECKMARK">CHECKMARK</option>
+            <option value="WARNING">WARNING</option>
+            <option value="ERROR">ERROR</option>
+            <option value="INFO">INFO</option>
+            <option value="SUS">SUS</option>
+        </select>
+        <label for="popup-notification-message">Enter POPUP Notification Message:</label>
+        <input @bind="popupNotificationMessage" type="text" id="popup-notification-message" placeholder="Enter Message.." />
+        <label for="popup-notification-expiration">Enter POPUP Notification LifeTime (Seconds):</label>
+        <input @bind="popupNotificationLifetime" type="text" id="popup-notification-expiration" placeholder="Enter Seconds.." />
+        <button type="submit">Create POPUP Notification</button>
+    </form>
+    <button type="button" @onclick="GenerateRandomPopupNotification" style="width: 300px;">Generate Random POPUP Notification</button>
+</div>
+
+@code {
+    private NotificationType popupNotificationType = NotificationType.POPUP_INFO;
+    private NotificationSymbol popupNotificationSymbol = NotificationSymbol.INFO;
+    private string popupNotificationMessage = "Example Message";
+    private int popupNotificationLifetime = 3;
+    private async Task CreatePopupNotification()
+    {
+        var notification = new Notification()
+        {
+            type = popupNotificationType,
+            symbol = popupNotificationSymbol,
+            message = popupNotificationMessage,
+            expire_at_utc = DateTime.UtcNow.AddSeconds(popupNotificationLifetime)
+        };
+        await notificationService.CreatePopupNotificationAsync(notification);
+    }
+    private async Task GenerateRandomPopupNotification()
+    {
+        var types = new List<NotificationType>()
+        {
+            NotificationType.POPUP_WARNING,
+            NotificationType.POPUP_INFO,
+            NotificationType.POPUP_ERROR,
+            NotificationType.POPUP_SUCCESS
+        };
+        var symbols = new List<NotificationSymbol>()
+        {
+            NotificationSymbol.EXCLAMATION,
+            NotificationSymbol.QUESTIONMARK,
+            NotificationSymbol.FROWN,
+            NotificationSymbol.SMILE,
+            NotificationSymbol.CHECKMARK,
+            NotificationSymbol.WARNING,
+            NotificationSymbol.ERROR,
+            NotificationSymbol.INFO,
+            NotificationSymbol.SUS
+        };
+        var messages = new List<string>()
+        {
+            "Who goes there?",
+            "This is a message",
+            "Example Message",
+            "I've been chosen!",
+            "Sigma",
+            "Testing Test",
+            "Test 1 2 3",
+            "What?",
+            "I am a message.",
+            "Huh? huh?",
+            "You are breedable.",
+            "I'd crack.",
+            "Smash or pass?",
+            "Kiss or slap?",
+            "Ligma",
+            "Spring Break!",
+            "Notification",
+            "Am I an Error?",
+            "Success!",
+            "Failed!",
+            "Something went wrong!",
+            "Warning",
+            "Haha got you.",
+            "Info",
+            "Im smart",
+            "These are taking forever to come up with.",
+            "I'm sick of this.",
+            "I don't know what else to write.",
+            "Uhhh",
+            "hmm",
+            "HUHH",
+            "Mango Mango",
+            "Re:Zero",
+            "INVINCIBLE"
+        };
+        var chosenType = types[new Random().Next(0, types.Count)];
+        var chosenSymbol = symbols[new Random().Next(0, symbols.Count)];
+        var chosenMessage = messages[new Random().Next(0, messages.Count)];
+        var lifetime = new Random().Next(1, 15);
+        var notification = new Notification()
+        {
+            type = chosenType,
+            symbol = chosenSymbol,
+            message = chosenMessage,
+            expire_at_utc = DateTime.UtcNow.AddSeconds(lifetime)
+        };
+
+        await notificationService.CreatePopupNotificationAsync(notification);
+    }
+}

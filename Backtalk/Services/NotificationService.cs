@@ -12,8 +12,8 @@ namespace Backtalk.Services
 
         private List<Notification> _popupNotifications = new List<Notification>();
 
-        public event EventHandler<IReadOnlyList<Notification>> PopupNotificationsUpdated;
-        public event EventHandler<IReadOnlyList<Notification>> InboxNotificationsUpdated;
+        public event EventHandler<IReadOnlyList<Notification>>? PopupNotificationsUpdated;
+        public event EventHandler<IReadOnlyList<Notification>>? InboxNotificationsUpdated;
 
         public NotificationService()
         {
@@ -24,30 +24,37 @@ namespace Backtalk.Services
         {
             while (true)
             {
-                foreach (var n in _popupNotifications)
+                for (int i = _popupNotifications.Count - 1; i >= 0; i--)
                 {
+                    var n = _popupNotifications[i];
                     if (DateTime.Compare(n.expire_at_utc, DateTime.UtcNow) <= 0)
                     {
                         _popupNotifications.Remove(n);
+                        if (PopupNotificationsUpdated != null)
+                        {
+                            PopupNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                        }
                     }
                 }
                 await Task.Delay(1000);
             }
         }
 
-        public async Task CreatePopupNotification(Notification notification)
+        public async Task CreatePopupNotificationAsync(Notification notification)
         {
             _popupNotifications.Add(notification);
+            if (PopupNotificationsUpdated == null) return;
             PopupNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
         }
 
-        public async Task DeletePopupNotification(Notification notification)
+        public async Task DeletePopupNotificationAsync(Notification notification)
         {
             _popupNotifications.Remove(notification);
+            if (PopupNotificationsUpdated == null) return;
             PopupNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
         }
 
-        public async Task<IReadOnlyList<Notification>> GetPopupNotifications()
+        public async Task<IReadOnlyList<Notification>> GetPopupNotificationsAsync()
         {
             return _popupNotifications.AsReadOnly();
         }
@@ -58,7 +65,10 @@ namespace Backtalk.Services
             {
                 if (_db == null) throw new Exception("AppDb db returned NULL - NotificationService.cs");
                 await _db.Inbox.PutAsync<Notification>(notification);
-                InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                if (InboxNotificationsUpdated != null)
+                {
+                    InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                }
                 return true;
             }
             catch (Exception ex)
@@ -74,7 +84,10 @@ namespace Backtalk.Services
             {
                 if (_db == null) throw new Exception("AppDb db returned NULL - NotificationService.cs");
                 await _db.Inbox.DeleteAsync<Notification>(notification);
-                InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                if (InboxNotificationsUpdated != null)
+                {
+                    InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                }
                 return true;
             }
             catch (Exception ex)
@@ -97,7 +110,10 @@ namespace Backtalk.Services
                 }
                 result.read = true;
                 await _db.Inbox.PutAsync<Notification>(result);
-                InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                if (InboxNotificationsUpdated != null)
+                {
+                    InboxNotificationsUpdated(EventArgs.Empty, _popupNotifications.AsReadOnly());
+                }
                 return true;
             }
             catch (Exception ex)

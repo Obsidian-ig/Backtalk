@@ -12,6 +12,19 @@
     align-items: center;
     gap: 20px;
     padding: 10px;
+    position: relative;
+    animation-name: appearAnimation;
+    animation-duration: 0.8s;
+    transition: ease-in-out 0.2s;
+}
+
+@keyframes appearAnimation {
+    0% {
+        top:-100px;
+    }
+    100% {
+        top:0; 
+    }
 }
 
 .popup-icon {
