@@ -59,6 +59,29 @@ namespace Backtalk.Services
             return _popupNotifications.AsReadOnly();
         }
 
+        public Notification PopupNotificationSuccess()
+        {
+            var n = new Notification()
+            {
+                type = NotificationType.POPUP_SUCCESS,
+                symbol = NotificationSymbol.CHECKMARK,
+                message = "Success!",
+                expire_at_utc = DateTime.UtcNow.AddSeconds(3)
+            };
+            return n;
+        }
+        public Notification PopupNotificationError()
+        {
+            var n = new Notification()
+            {
+                type = NotificationType.POPUP_ERROR,
+                symbol = NotificationSymbol.ERROR,
+                message = "Something Went Wrong",
+                expire_at_utc = DateTime.UtcNow.AddSeconds(4)
+            };
+            return n;
+        }
+
         public async Task<bool> CreateInboxNotificationAsync(Notification notification)
         {
             try

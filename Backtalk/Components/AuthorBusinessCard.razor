@@ -113,7 +113,20 @@
             OpenFilePickerOptionsStartInWellKnownDirectory options = new()
             {
                 Multiple = false,
-                StartIn = WellKnownDirectory.Downloads
+                StartIn = WellKnownDirectory.Downloads,
+                Types = new FilePickerAcceptType[]
+                {
+                    new()
+                    {
+                        Description = "Image Files",
+                        Accept = new Dictionary<string, string[]>
+                        {
+                            {"image/png", new[] { ".png", ".webp" } },
+                            {"image/jpeg", new[] { ".jpg", ".jpeg", ".jfif" } },
+                            {"image/gif", new[] { ".gif" } }
+                        }
+                    }
+                }
             };
             var fileHandles = await fileService.ShowOpenFilePickerAsync(options);
             fileHandle = fileHandles.Single();

@@ -9,6 +9,8 @@ namespace Backtalk.Services
         public Task CreatePopupNotificationAsync(Notification notification);
         public Task DeletePopupNotificationAsync(Notification notification);
         public Task<IReadOnlyList<Notification>> GetPopupNotificationsAsync();
+        public Notification PopupNotificationSuccess();
+        public Notification PopupNotificationError();
         public Task<bool> CreateInboxNotificationAsync(Notification notification);
         public Task<bool> DeleteInboxNotificationAsync(Notification notification);
         public Task<bool> MarkInboxNotificationReadAsync(Notification notification);

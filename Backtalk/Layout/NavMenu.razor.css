@@ -5,6 +5,9 @@
     color: var(--bt-txt-color);
     font-family: var(--bt-txt-ff);
     gap: 50px;
+    position: fixed;
+    z-index: 999;
+    /*background-color: white;*/
 }
 
 .navmenu-brand-container {

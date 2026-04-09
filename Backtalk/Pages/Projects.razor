@@ -1,9 +1,13 @@
 ﻿@using Backtalk.Classes.Data
 @using Backtalk.Components
+@using Backtalk.Services
 @using Blazored.LocalStorage
 @using System.Text.Json
 @using Backtalk.Classes
+@using KristofferStrube.Blazor.FileSystem
 @inject AppDb db
+@inject INotificationService notificationService
+@inject IFileSystemAccessService fileService
 @page "/projects"
 <PageTitle>Projects | BackTalk</PageTitle>
 
@@ -11,7 +15,17 @@
     <div class="main-content-header">
         <div class="main-content-header-info-container">
             <p class="main-content-header-info-text">Your Projects</p>
-            <button type="button" class="create-project-button" title="Create a new project!" @onclick="NewProjectButtonClicked">+</button>
+            <div class="create-project-container">
+                <button type="button" class="create-project-button" title="Create a new project!" @onclick="NewProjectButtonClicked">+</button>
+                @if (showCreateImportProjectMenu)
+                {
+                    <div class="create-import-project-menu">
+                        <button class="create-import-project-create-button" @onclick="CreateNewProjectButtonClicked">Create Project</button>
+                        <button class="create-import-project-import-button" @onclick="ImportNewProjectButtonClicked">Import Project</button>
+                    </div>
+                }
+            </div>
+            
         </div>
         <div class="horizontal-divider-mw mt-2"></div>
     </div>
@@ -35,46 +49,50 @@
             }
         }
     </div>
-    <form class="project-creation-modal" @onsubmit="PcModalCreateProjectButtonClicked" style="@projectCreationModalStyle">
-        <button type="button" class="pc-modal-close-button" @onclick="HandleClosePcModal">X</button>
-        <p class="pc-modal-header">Create New Project</p>
+    @if (showPcModal)
+    {
+        <form class="project-creation-modal" @onsubmit="PcModalCreateProjectButtonClicked">
+            <button type="button" class="pc-modal-close-button" @onclick="HandleClosePcModal">X</button>
+            <p class="pc-modal-header">Create New Project</p>
         
-        <label for="pc-modal-project-name" class="pc-modal-label">Project Name:</label>
-        <input @bind="newProjectName" @bind:after="PcModalInputFieldChanged" type="text" required class="pc-modal-project-name pc-modal-input" placeholder="Enter Name.." />
+            <label for="pc-modal-project-name" class="pc-modal-label">Project Name:</label>
+            <input @bind="newProjectName" @bind:after="PcModalInputFieldChanged" type="text" required class="pc-modal-project-name pc-modal-input" placeholder="Enter Name.." />
     
-        <label for="pc-modal-project-short-description" class="pc-modal-label">Project Short Description:</label>
-        <textarea @bind="newProjectShortDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
+            <label for="pc-modal-project-short-description" class="pc-modal-label">Project Short Description:</label>
+            <textarea @bind="newProjectShortDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-short-description pc-modal-input" placeholder="Enter a short description, i.e. 1-2 sentences.." />
 
-        <label for="pc-modal-project-long-description" class="pc-modal-label">Project Long Description:</label>
-        <textarea @bind="newProjectDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
+            <label for="pc-modal-project-long-description" class="pc-modal-label">Project Long Description:</label>
+            <textarea @bind="newProjectDescription" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-long-description pc-modal-input" placeholder="Enter a long description, i.e. 3-6+ sentences.." />
 
-        <label for="pc-modal-project-api-version" class="pc-modal-label">Project Api Version:</label>
-        <input @bind="newProjectApiVersion" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-api-version-input pc-modal-input" placeholder="Enter project api version.." />
+            <label for="pc-modal-project-api-version" class="pc-modal-label">Project Api Version:</label>
+            <input @bind="newProjectApiVersion" @bind:after="PcModalInputFieldChanged" type="text" class="pc-modal-project-api-version-input pc-modal-input" placeholder="Enter project api version.." />
 
-        <label for="pc-modal-project-authors-container" class="pc-modal-label">Project Authors:</label>
-        <div class="pc-modal-authors-container">
-            @for (int i = 0; i < newProjectData.authors.Count; i++)
-            {
-                //Key stops blazor from just removing the last entry in the list on the ui side. 
-                <AuthorBusinessCard @key="@(newProjectData.authors[i].key)" index="@(i)" authorDetails="@(newProjectData.authors[i])" showRemoveIcon="@true" authorDetailsChanged="PcModalHandleAuthorDetailsChanged" authorRemoveButtonClicked="PcModalRemoveAuthor"></AuthorBusinessCard>
-            }
-        </div>
-        <button type="button" class="pc-modal-author-add-button" @onclick="PcModalAddNewAuthor">Add Author</button>
-
-        <label for="pc-modal-project-contacts-container" class="pc-modal-label">Project Contacts:</label>
-        <div class="pc-modal-contacts-container">
-            @if (newProjectData.contacts != null)
-            {
-                for (int i = 0; i < newProjectData.contacts.Count; i++)
+            <label for="pc-modal-project-authors-container" class="pc-modal-label">Project Authors:</label>
+            <div class="pc-modal-authors-container">
+                @for (int i = 0; i < newProjectData.authors.Count; i++)
                 {
-                    <ContactBusinessCard @key="@(newProjectData.contacts[i].key)" index="@(i)" contactDetails="@(newProjectData.contacts[i])" showRemoveIcon="@true" contactDetailsChanged="PcModalHandleContactDetailsChanged" contactRemoveButtonClicked="PcModalRemoveContact" />
+                    //Key stops blazor from just removing the last entry in the list on the ui side.
+                    <AuthorBusinessCard @key="@(newProjectData.authors[i].key)" index="@(i)" authorDetails="@(newProjectData.authors[i])" showRemoveIcon="@true" authorDetailsChanged="PcModalHandleAuthorDetailsChanged" authorRemoveButtonClicked="PcModalRemoveAuthor"></AuthorBusinessCard>
                 }
-            }
-        </div>
-        <button type="button" class="pc-modal-contact-add-button" @onclick="PcModalAddNewContact">Add Contact</button>
+            </div>
+            <button type="button" class="pc-modal-author-add-button" @onclick="PcModalAddNewAuthor">Add Author</button>
+
+            <label for="pc-modal-project-contacts-container" class="pc-modal-label">Project Contacts:</label>
+            <div class="pc-modal-contacts-container">
+                @if (newProjectData.contacts != null)
+                {
+                    for (int i = 0; i < newProjectData.contacts.Count; i++)
+                    {
+                        <ContactBusinessCard @key="@(newProjectData.contacts[i].key)" index="@(i)" contactDetails="@(newProjectData.contacts[i])" showRemoveIcon="@true" contactDetailsChanged="PcModalHandleContactDetailsChanged" contactRemoveButtonClicked="PcModalRemoveContact" />
+                    }
+                }
+            </div>
+            <button type="button" class="pc-modal-contact-add-button" @onclick="PcModalAddNewContact">Add Contact</button>
     
-        <button type="submit" class="pc-modal-create-project-button">Create Project</button>
-    </form>
+            <button type="submit" class="pc-modal-create-project-button">Create Project</button>
+        </form>
+    }
+    
 </div>
 
 @code {
@@ -82,8 +100,8 @@
     private bool loadingProjects = true;
     private bool hasProjects = true;
 
+    private bool showCreateImportProjectMenu = false;
     private bool showPcModal = false;
-    private string projectCreationModalStyle = "display: none;";
 
     private List<ProjectData>? projects = new List<ProjectData>();
 
@@ -117,22 +135,115 @@
 
     private async Task NewProjectButtonClicked()
     {
-        showPcModal = !showPcModal;
-        if (showPcModal)
+        showCreateImportProjectMenu = !showCreateImportProjectMenu;
+        StateHasChanged();
+        await Task.Yield();
+    }
+    private async Task CreateNewProjectButtonClicked()
+    {
+        showCreateImportProjectMenu = false;
+        showPcModal = true;
+        StateHasChanged();
+        await Task.Yield();
+    }
+    private async Task ImportNewProjectButtonClicked()
+    {
+        showCreateImportProjectMenu = false;
+        showPcModal = false;
+        FileSystemFileHandle? fileHandle = null;
+        try
         {
-            projectCreationModalStyle = "display: flex;";
-        } else
+            OpenFilePickerOptionsStartInWellKnownDirectory options = new()
+            {
+                Multiple = false,
+                StartIn = WellKnownDirectory.Downloads,
+                Types = new FilePickerAcceptType[]
+                {
+                    new()
+                    {
+                        Description = "Project Data Files",
+                        Accept = new Dictionary<string, string[]>
+                        {
+                            {"application/json", new[] { ".btp" } }
+                        }
+                    }
+                }
+            };
+            var fileHandles = await fileService.ShowOpenFilePickerAsync(options);
+            fileHandle = fileHandles.Single();
+            if (fileHandle == null)
+            {
+                await notificationService.CreatePopupNotificationAsync(new Notification()
+                {
+                    type = NotificationType.POPUP_WARNING,
+                    symbol = NotificationSymbol.WARNING,
+                    message = "fileHandle was null",
+                    expire_at_utc = DateTime.UtcNow.AddSeconds(3)
+                });
+                return;
+            }
+        } catch (Exception ex)
         {
-            projectCreationModalStyle = "display: none;";
+            if (ex is ThreadAbortException || ex is JSException) return;
+            Console.Error.WriteLine(ex);
+            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
+        } finally
+        {
+            if (fileHandle != null)
+            {
+                try
+                {
+                    var file = await fileHandle.GetFileAsync();
+                    var json = await file.TextAsync();
+                    var projectData = JsonSerializer.Deserialize<ProjectData>(json);
+                    if (projectData != null && projects != null)
+                    {
+                        var projectAlreadyExists = false;
+                        foreach (var p in projects)
+                        {
+                            if (projectData.name.Trim().ToLower() == p.name.Trim().ToLower())
+                            {
+                                Console.WriteLine("Project already exists!");
+                                projectAlreadyExists = true;
+                                break;
+                                //ask user if they want to overwrite the existing project
+                            }
+                        }
+                        if (!projectAlreadyExists)
+                        {
+                            projectData.name = projectData.name.Trim();
+                            projects.Add(projectData);
+                            await db.Projects.AddAsync<ProjectData>(projectData);
+                            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationSuccess());
+                        } else
+                        {
+                            await notificationService.CreatePopupNotificationAsync(new Notification()
+                            {
+                                type = NotificationType.POPUP_ERROR,
+                                symbol = NotificationSymbol.ERROR,
+                                message = "A project with that name already exists!",
+                                expire_at_utc = DateTime.UtcNow.AddSeconds(4)
+                            });
+                        }
+                    }
+                } catch (Exception ex)
+                {
+                    Console.Error.WriteLine(ex);
+                    await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
+                }
+            }
         }
+        StateHasChanged();
+        await Task.Yield();
     }
 
+    /// PROJECT CREATION MODAL RELATED FUNCTIONS ///
     private async Task HandleClosePcModal()
     {
         showPcModal = false;
-        projectCreationModalStyle = "display: none;";
+        StateHasChanged();
+        await Task.Yield();
     }
-
     private async Task PcModalInputFieldChanged()
     {
         newProjectData.name = newProjectName;
@@ -141,7 +252,6 @@
         newProjectData.api_version = newProjectApiVersion;
         newProjectData.last_updated_utc = DateTime.UtcNow;
     }
-
     private async Task PcModalAddNewAuthor()
     {
         var index = newProjectData.authors.Count;
@@ -169,7 +279,6 @@
         StateHasChanged();
         await Task.Yield();
     }
-
     private async Task PcModalAddNewContact()
     {
         if (newProjectData.contacts == null) return;
@@ -199,17 +308,56 @@
         StateHasChanged();
         await Task.Yield();
     }
-
     private async Task PcModalCreateProjectButtonClicked()
     {
-        //makes sure all the fields are up to date and the updated time is now
-        await PcModalInputFieldChanged();
+        try
+        {
+            await PcModalInputFieldChanged();
+            if (projects == null) return;
+            Console.WriteLine("Did not return");
 
-        //append the new project to the list of user projects and then rewrite the ls user_projects item
-        if (projects == null) return;
-        Console.WriteLine("Did not return");
-        projects.Add(newProjectData);
-        await db.Projects.PutAsync<ProjectData>(newProjectData);
-        Console.WriteLine("Created project!");
+            var existingProjects = await db.Projects.GetAllAsync<ProjectData>();
+            var projectAlreadyExists = false;
+            foreach (var n in existingProjects)
+            {
+                if (n.name.Trim().ToLower() == newProjectData.name.Trim().ToLower()) projectAlreadyExists = true;
+            }
+            if (!projectAlreadyExists)
+            {
+                newProjectData.name = newProjectData.name.Trim();
+                projects.Add(newProjectData);
+                await db.Projects.AddAsync<ProjectData>(newProjectData);
+                Console.WriteLine("Created project!");
+                await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationSuccess());
+                showPcModal = false;
+                newProjectData = new ProjectData()
+                {
+                    name = "",
+                    authors = new List<Author>(),
+                    api_version = "1.0.0",
+                    config = new ProjectConfig()
+                };
+                StateHasChanged();
+                await Task.Yield();
+            } else
+            {
+                Console.WriteLine("A project with the same name already exists!");
+                await notificationService.CreatePopupNotificationAsync(new Notification()
+                {
+                    type = NotificationType.POPUP_ERROR,
+                    symbol = NotificationSymbol.ERROR,
+                    message = "A project with that name already exists!",
+                    expire_at_utc = DateTime.UtcNow.AddSeconds(4)
+                });
+
+            }
+
+        } catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex);
+            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
+        }
+        StateHasChanged();
     }
+    /// END OF PROJECT CREATION MODAL FUNCTIONS ///
 }
