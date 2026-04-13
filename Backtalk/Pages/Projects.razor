@@ -43,9 +43,9 @@
         }
         @if (hasProjects && !loadingProjects && projects != null)
         {
-            foreach (var project in projects)
+            for (int i = projects.Count - 1; i >= 0; i--)
             {
-                <ProjectItem ></ProjectItem>
+                <ProjectItem projectData="@projects[i]" ></ProjectItem>
             }
         }
     </div>
