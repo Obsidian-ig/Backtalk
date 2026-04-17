@@ -2,15 +2,61 @@
 <div class="project-item">
     @if (!placeholder)
     {
-        
+        <div class="project-item-header-container">
+            <div class="project-item-status-indicator"></div>
+            <button type="button" class="project-item-manage-button">
+                <img class="manage-button-icon" src="@Assets["/icons/horizontal-kebab-black.png"]" alt="manage" />
+            </button> 
+        </div>
+        <div class="project-item-body">
+            <div class="project-item-lu-container">
+                <p class="project-item-last-updated">@last_updated_time_formatted</p>
+            </div>
+            <p class="project-item-name">@projectData.name</p>
+            <p class="project-item-short-description">@projectData.short_description</p>
+            <div class="project-item-info-container">
+                <p class="project-item-total-endpoints">Total Endpoints: @projectData.endpoints_count</p>
+                <p class="project-item-api-version">API Version: @projectData.api_version</p>
+                <p class="project-item-total-authors">Total Authors: @projectData.authors.Count</p>
+                <p class="project-item-total-authors">Total Contacts: @projectData.contacts.Count</p>
+                <p class="project-item-total-folders">Total Folders: @projectData.folders.Count</p>
+            </div>
+            <div class="project-item-epm-container">
+                <div class="epm-item project-item-epm-get" style="@epmGETStyle"></div>
+                <div class="epm-item project-item-epm-post" style="@epmPOSTStyle"></div>
+                <div class="epm-item project-item-epm-put" style="@epmPUTStyle"></div>
+                <div class="epm-item project-item-epm-patch" style="@epmPATCHStyle"></div>
+                <div class="epm-item project-item-epm-delete" style="@epmDELETEStyle"></div>
+            </div>
+        </div>
     }
 </div>
 
 
 @code {
     [Parameter]
-    public ProjectData? projectData { get; set; }
+    public ProjectData projectData { get; set; } = new ProjectData() { name = "", authors = new List<Author>(), api_version = "", config = new ProjectConfig() };
 
     [Parameter] //Will be like a blank placeholder for when the app is loading the users projects (like yt).
     public bool placeholder { get; set; } = true;
+
+    private string last_updated_time_formatted = "f";
+
+    private string epmGETStyle = "width: 20%;";
+    private string epmPOSTStyle = "width: 20%;";
+    private string epmPUTStyle = "width: 20%;";
+    private string epmPATCHStyle = "width: 20%;";
+    private string epmDELETEStyle = "width: 20%;";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!placeholder && projectData == null)
+        {
+            placeholder = true;
+            StateHasChanged();
+            await Task.Yield();
+            return;
+        }
+        last_updated_time_formatted = projectData.last_updated_utc.ToLocalTime().ToString("hh:mm:ss tt MM/dd/yyyy");
+    }
 }

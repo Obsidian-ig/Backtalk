@@ -4,4 +4,102 @@
     height: 150px;
     position: relative;
     border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-item-header-container {
+    background-color: transparent;
+    width: 100%;
+    height: 30px;
+    padding-left: 8px;
+    padding-top: 8px;
+    display: flex;
+    flex-direction: row;
+}
+.project-item-status-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: lime;
+}
+.project-item-manage-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    margin-top: -14px;
+    margin-left: auto;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    text-align:center;
+}
+.manage-button-icon {
+    width: 110%;
+    height: 110%;
+}
+
+
+.project-item-body {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    padding-top: 0;
+    padding-right: 10px;
+}
+
+.project-item-lu-container {
+    position: absolute;
+    left: 805px;
+}
+
+.project-item-name {
+    margin: 0;
+    padding: 0;
+    font-size: 25px;
+    
+}
+
+.project-item-info-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+}
+.project-item-info-container .p {
+    margin: 0;
+    padding: 0;
+}
+
+.project-item-epm-container {
+    min-width: 100%;
+    width: 800px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.epm-item {
+    height: 10px;
+}
+
+.project-item-epm-get {
+    background-color: #61affe;
+}
+.project-item-epm-post {
+    background-color: #49cc90;
+}
+.project-item-epm-put {
+    background-color: #fca130;
+}
+.project-item-epm-get {
+    background-color: #50e3c2;
+}
+.project-item-epm-get {
+    background-color: #f93e3e;
 }
