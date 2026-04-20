@@ -21,6 +21,7 @@ namespace Backtalk.Classes
         public int patch_count { get; set; } = 0;
         public int delete_count { get; set; } = 0;
         public List<ProjectFolder> folders { get; set; } = new List<ProjectFolder>();
+        public string status_endpoint { get; set; } = "";
         public List<ApiEndpoint> api_endpoints { get; set; } = new List<ApiEndpoint>()
         {
             new ApiEndpoint()

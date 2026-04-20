@@ -1,9 +1,11 @@
 ﻿@using Backtalk.Classes
+@inject HttpClient http
+
 <div class="project-item">
     @if (!placeholder)
     {
         <div class="project-item-header-container">
-            <div class="project-item-status-indicator"></div>
+            <div class="project-item-status-indicator" style="@statusStyle"></div>
             <button type="button" class="project-item-manage-button">
                 <img class="manage-button-icon" src="@Assets["/icons/horizontal-kebab-black.png"]" alt="manage" />
             </button> 
@@ -41,6 +43,8 @@
     public bool placeholder { get; set; } = true;
 
     private string last_updated_time_formatted = "";
+
+    private string statusStyle = "background-color: blue;";
 
     private string epmGETPercentage = "0%";
     private string epmGETStyle = "width: 0%;";
@@ -101,6 +105,22 @@
             Console.WriteLine($"Set epmDELETEPercentage to: {epmDELETEPercentage}, set epmDELETEStyle to: {epmDELETEStyle}");
             StateHasChanged();
             await Task.Yield();
+        }
+
+        if (!string.IsNullOrWhiteSpace(projectData.status_endpoint))
+        {
+            try
+            {
+                var response = await http.SendAsync(new HttpRequestMessage(HttpMethod.Head, projectData.status_endpoint));
+
+                if (!response.IsSuccessStatusCode) statusStyle = "background-color: red;";
+                statusStyle = "background-color: lime;";
+            } catch (Exception ex)
+            {
+                Console.WriteLine("Error when trying to check status!");
+                Console.WriteLine(ex);
+            }
+
         }
     }
 

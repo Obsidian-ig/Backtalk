@@ -1,4 +1,6 @@
-﻿@inject NavigationManager nav
+﻿@using Backtalk.Services
+@inject NavigationManager nav
+@inject INotificationService notificationService
 
 <nav class="navmenu container-fluid theme-@(theme)">
     <div class="row">
@@ -11,8 +13,8 @@
             <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" @onclick="HandleLogoClicked" />
         </div>
         <div class="col-5 navmenu-account-options">
-            <a class="navmenu-navlink-account" href="signup">Sign Up</a>
-            <a class="navmenu-navlink-account" href="login">Log In</a>
+            <a class="navmenu-navlink-account" href="signup" @onclick="HandleAccountOptionsClicked" @onclick:preventDefault="true">Sign Up</a>
+            <a class="navmenu-navlink-account" href="login" @onclick="HandleAccountOptionsClicked" @onclick:preventDefault="true">Log In</a>
         </div>
     </div>
     
@@ -95,5 +97,16 @@
         }
         StateHasChanged();
         await Task.Yield();
+    }
+
+    private async Task HandleAccountOptionsClicked()
+    {
+        await notificationService.CreatePopupNotificationAsync(new Classes.Notification()
+        {
+            type = Classes.NotificationType.POPUP_ERROR,
+            symbol = Classes.NotificationSymbol.WARNING,
+            message = "Account options have not been implemented yet.",
+            expire_at_utc = DateTime.UtcNow.AddSeconds(3)
+        });
     }
 }
