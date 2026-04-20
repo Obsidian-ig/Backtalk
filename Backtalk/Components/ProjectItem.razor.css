@@ -1,7 +1,8 @@
 ﻿.project-item {
     width: 100%;
     background-color: lightgrey;
-    height: 150px;
+    min-height: 150px;
+    height: fit-content;
     position: relative;
     border-radius: 12px;
     display: flex;
@@ -55,7 +56,7 @@
 
 .project-item-lu-container {
     position: absolute;
-    left: 805px;
+    left: 82%;
 }
 
 .project-item-name {
@@ -80,14 +81,21 @@
 .project-item-epm-container {
     min-width: 100%;
     width: 800px;
+    max-width: 100%;
     position: relative;
     display: flex;
     flex-direction: row;
+    padding-right: 5px;
 }
 .epm-item {
-    height: 10px;
+    height: 5px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0cqw;
+    transition: ease-in-out 0.2s, font-size ease-in-out 0.2s;
 }
-
 .project-item-epm-get {
     background-color: #61affe;
 }
@@ -97,9 +105,9 @@
 .project-item-epm-put {
     background-color: #fca130;
 }
-.project-item-epm-get {
-    background-color: #50e3c2;
+.project-item-epm-patch {
+    background-color: #9e34fa;
 }
-.project-item-epm-get {
-    background-color: #f93e3e;
+.project-item-epm-delete {
+    background-color: #ff0000;
 }

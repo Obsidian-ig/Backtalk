@@ -22,11 +22,11 @@
                 <p class="project-item-total-folders">Total Folders: @projectData.folders.Count</p>
             </div>
             <div class="project-item-epm-container">
-                <div class="epm-item project-item-epm-get" style="@epmGETStyle"></div>
-                <div class="epm-item project-item-epm-post" style="@epmPOSTStyle"></div>
-                <div class="epm-item project-item-epm-put" style="@epmPUTStyle"></div>
-                <div class="epm-item project-item-epm-patch" style="@epmPATCHStyle"></div>
-                <div class="epm-item project-item-epm-delete" style="@epmDELETEStyle"></div>
+                <div class="epm-item project-item-epm-get" @onmouseenter='() => HandleMouseEnter("get")' @onmouseleave='() => HandleMouseLeave("get")' style="@epmGETStyle">@epmGETText</div>
+                <div class="epm-item project-item-epm-post" @onmouseenter='() => HandleMouseEnter("post")' @onmouseleave='() => HandleMouseLeave("post")' style="@epmPOSTStyle">@epmPOSTText</div>
+                <div class="epm-item project-item-epm-put" @onmouseenter='() => HandleMouseEnter("put")' @onmouseleave='() => HandleMouseLeave("put")' style="@epmPUTStyle">@epmPUTText</div>
+                <div class="epm-item project-item-epm-patch" @onmouseenter='() => HandleMouseEnter("patch")' @onmouseleave='() => HandleMouseLeave("patch")' style="@epmPATCHStyle">@epmPATCHText</div>
+                <div class="epm-item project-item-epm-delete" @onmouseenter='() => HandleMouseEnter("delete")' @onmouseleave='() => HandleMouseLeave("delete")' style="@epmDELETEStyle">@epmDELETEText</div>
             </div>
         </div>
     }
@@ -40,13 +40,29 @@
     [Parameter] //Will be like a blank placeholder for when the app is loading the users projects (like yt).
     public bool placeholder { get; set; } = true;
 
-    private string last_updated_time_formatted = "f";
+    private string last_updated_time_formatted = "";
 
-    private string epmGETStyle = "width: 20%;";
-    private string epmPOSTStyle = "width: 20%;";
-    private string epmPUTStyle = "width: 20%;";
-    private string epmPATCHStyle = "width: 20%;";
-    private string epmDELETEStyle = "width: 20%;";
+    private string epmGETPercentage = "0%";
+    private string epmGETStyle = "width: 0%;";
+    private string epmGETText = "";
+
+    private string epmPOSTPercentage = "0%";
+    private string epmPOSTStyle = "width: 0%;";
+    private string epmPOSTText = "";
+
+    private string epmPUTPercentage = "0%";
+    private string epmPUTStyle = "width: 0%;";
+    private string epmPUTText = "";
+
+    private string epmPATCHPercentage = "0%";
+    private string epmPATCHStyle = "width: 0%;";
+    private string epmPATCHText = "";
+
+    private string epmDELETEPercentage = "0%";
+    private string epmDELETEStyle = "width: 0%;";
+    private string epmDELETEText = "";
+
+    private string tempPercentage = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -57,6 +73,142 @@
             await Task.Yield();
             return;
         }
+
+
         last_updated_time_formatted = projectData.last_updated_utc.ToLocalTime().ToString("hh:mm:ss tt MM/dd/yyyy");
+        if (projectData.endpoints_count > 0)
+        {
+            Console.WriteLine("GET COUNT: " + projectData.get_count);
+            Console.WriteLine("GET COUNT / ENDPOINTS COUNT = " + ((float)projectData.get_count / (float)projectData.endpoints_count));
+            epmGETPercentage = (((float)projectData.get_count / (float)projectData.endpoints_count) * 100).ToString() + "%";
+            epmGETStyle = $"width: {epmGETPercentage};";
+            Console.WriteLine($"Set epmGETPercentage to: {epmGETPercentage}, set epmGETStyle to: {epmGETStyle}");
+
+            epmPOSTPercentage = (((float)projectData.post_count / (float)projectData.endpoints_count) * 100).ToString() + "%";
+            epmPOSTStyle = $"width: {epmPOSTPercentage};";
+            Console.WriteLine($"Set epmPOSTPercentage to: {epmPOSTPercentage}, set epmPOSTStyle to: {epmPOSTStyle}");
+
+            epmPUTPercentage = (((float)projectData.put_count / (float)projectData.endpoints_count) * 100).ToString() + "%";
+            epmPUTStyle = $"width: {epmPUTPercentage};";
+            Console.WriteLine($"Set epmPUTPercentage to: {epmPUTPercentage}, set epmPUTStyle to: {epmPUTStyle}");
+
+            epmPATCHPercentage = (((float)projectData.patch_count / (float)projectData.endpoints_count) * 100).ToString() + "%";
+            epmPATCHStyle = $"width: {epmPATCHPercentage};";
+            Console.WriteLine($"Set epmPATCHPercentage to: {epmPATCHPercentage}, set epmPATCHStyle to: {epmPATCHStyle}");
+
+            epmDELETEPercentage = (((float)projectData.delete_count / (float)projectData.endpoints_count) * 100).ToString() + "%";
+            epmDELETEStyle = $"width: {epmDELETEPercentage};";
+            Console.WriteLine($"Set epmDELETEPercentage to: {epmDELETEPercentage}, set epmDELETEStyle to: {epmDELETEStyle}");
+            StateHasChanged();
+            await Task.Yield();
+        }
+    }
+
+    private async Task HandleMouseEnter(string method)
+    {
+        switch (method)
+        {
+            case "get":
+                tempPercentage = epmGETPercentage;
+                if (int.Parse(epmGETPercentage.Replace("%", " ")) < 8)
+                {
+                    epmGETPercentage = "8%";
+                }
+                epmGETStyle = $"width: {epmGETPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
+                epmGETText = $"{tempPercentage} GET";
+                break;
+            case "post":
+                tempPercentage = epmPOSTPercentage;
+                if (int.Parse(epmPOSTPercentage.Replace("%", " ")) < 8)
+                {
+                    epmPOSTPercentage = "8%";
+                }
+                epmPOSTStyle = $"width: {epmPOSTPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
+                epmPOSTText = $"{tempPercentage} POST";
+                break;
+            case "put":
+                tempPercentage = epmPUTPercentage;
+                if (int.Parse(epmPUTPercentage.Replace("%", " ")) < 8)
+                {
+                    epmPUTPercentage = "8%";
+                }
+                epmPUTStyle = $"width: {epmPUTPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
+                epmPUTText = $"{tempPercentage} PUT";
+                break;
+            case "patch":
+                tempPercentage = epmPATCHPercentage;
+                if (int.Parse(epmPATCHPercentage.Replace("%", " ")) < 8)
+                {
+                    epmPATCHPercentage = "8%";
+                }
+                epmPATCHStyle = $"width: {epmPATCHPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
+                epmPATCHText = $"{tempPercentage} PATCH";
+                break;
+            case "delete":
+                tempPercentage = epmDELETEPercentage;
+                if (int.Parse(epmDELETEPercentage.Replace("%", " ")) < 8)
+                {
+                    epmDELETEPercentage = "8%";
+                }
+                epmDELETEStyle = $"width: {epmDELETEPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
+                epmDELETEText = $"{tempPercentage} DELETE";
+                break;
+            default:
+                break;
+        }
+    }
+
+    private async Task HandleMouseLeave(string method)
+    {
+        switch (method)
+        {
+            case "get":
+                if (tempPercentage != "")
+                {
+                    epmGETPercentage = tempPercentage;
+                    tempPercentage = "";
+                }
+                epmGETStyle = $"width: {epmGETPercentage}; height: 5px; font-size: 0; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;";
+                epmGETText = $"";
+                break;
+            case "post":
+                if (tempPercentage != "")
+                {
+                    epmPOSTPercentage = tempPercentage;
+                    tempPercentage = "";
+                }
+                epmPOSTStyle = $"width: {epmPOSTPercentage}; height: 5px; font-size: 0; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;";
+                epmPOSTText = $"";
+                break;
+            case "put":
+                if (tempPercentage != "")
+                {
+                    epmPUTPercentage = tempPercentage;
+                    tempPercentage = "";
+                }
+                epmPUTStyle = $"width: {epmPUTPercentage}; height: 5px; font-size: 0; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;";
+                epmPUTText = $"";
+                break;
+            case "patch":
+                if (tempPercentage != "")
+                {
+                    epmPATCHPercentage = tempPercentage;
+                    tempPercentage = "";
+                }
+                epmPATCHStyle = $"width: {epmPATCHPercentage}; height: 5px; font-size: 0; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;";
+                epmPATCHText = $"";
+                break;
+            case "delete":
+                if (tempPercentage != "")
+                {
+                    epmDELETEPercentage = tempPercentage;
+                    tempPercentage = "";
+                }
+                epmDELETEStyle = $"width: {epmDELETEPercentage}; height: 5px; font-size: 0; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;";
+                epmDELETEText = $"";
+                break;
+            default:
+                break;
+        }
     }
 }

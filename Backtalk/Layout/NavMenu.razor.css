@@ -7,7 +7,7 @@
     gap: 50px;
     position: fixed;
     z-index: 999;
-    /*background-color: white;*/
+    background-color: white;
 }
 
 .navmenu-brand-container {
