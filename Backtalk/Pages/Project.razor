@@ -1,0 +1,36 @@
+﻿@page "/project"
+
+<div class="main-content-container">
+    <div class="main-content-header">
+
+    </div>
+    <div class="main-content-body">
+        @if (!keyGiven)
+        {
+            <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "key")]
+    public string key { get; set; } = "no key provided";
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "page")]
+    public string page { get; set; } = "default";
+
+    private bool keyGiven = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            keyGiven = false;
+            StateHasChanged();
+            await Task.Yield();
+            return;
+        }
+    }
+}
