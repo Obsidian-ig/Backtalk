@@ -1,14 +1,22 @@
 ﻿@using Backtalk.Classes
+@using System.Net
 @inject HttpClient http
+@inject NavigationManager nav
 
 <div class="project-item">
     @if (!placeholder)
     {
+        <button type="button" class="project-item-full-button" @onclick="HandleEditButtonClicked"></button>
         <div class="project-item-header-container">
-            <div class="project-item-status-indicator" style="@statusStyle"></div>
-            <button type="button" class="project-item-manage-button">
+            <div class="project-item-status-indicator" style="@statusStyle" @onmouseenter="HandleStatusIndicatorMouseEntered" @onmouseleave="HandleStatusIndicatorMouseLeave"></div>
+            <div class="project-item-status-container" style="@statusContainerStyle">@statusText</div>
+            <button type="button" class="project-item-manage-button" @onclick="HandleKebabButtonClicked">
                 <img class="manage-button-icon" src="@Assets["/icons/horizontal-kebab-black.png"]" alt="manage" />
             </button> 
+            <div class="project-item-kebab-menu-container" style="@kebabMenuStyle">
+                <button type="button" class="project-item-kebab-menu-edit-button" @onclick="HandleEditButtonClicked">Edit</button>
+                <button type="button" class="project-item-kebab-menu-manage-button" @onclick="HandleManageButtonClicked">Manage</button>
+            </div>
         </div>
         <div class="project-item-body">
             <div class="project-item-lu-container">
@@ -45,6 +53,8 @@
     private string last_updated_time_formatted = "";
 
     private string statusStyle = "background-color: blue;";
+    private string statusContainerStyle = "display: none;";
+    private string statusText = "Loading...";
 
     private string epmGETPercentage = "0%";
     private string epmGETStyle = "width: 0%;";
@@ -67,6 +77,8 @@
     private string epmDELETEText = "";
 
     private string tempPercentage = "";
+
+    private string kebabMenuStyle = "display: none;";
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,8 +125,33 @@
             {
                 var response = await http.SendAsync(new HttpRequestMessage(HttpMethod.Head, projectData.status_endpoint));
 
-                if (!response.IsSuccessStatusCode) statusStyle = "background-color: red;";
-                statusStyle = "background-color: lime;";
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        statusStyle = "background-color: lime;";
+                        statusText = "OK";
+                        break;
+                    case HttpStatusCode.BadRequest:
+                        statusStyle = "background-color: red;";
+                        statusText = "Bad Request";
+                        break;
+                    case HttpStatusCode.BadGateway:
+                        statusStyle = "background-color: red;";
+                        statusText = "Bad Gateway";
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        statusStyle = "background-color: red;";
+                        statusText = "Internal Server Error";
+                        break;
+                    case HttpStatusCode.GatewayTimeout:
+                        statusStyle = "background-color: orange;";
+                        statusText = "Timed Out";
+                        break;
+                    default:
+                        statusStyle = "background-color: brown;";
+                        statusText = "Something Weird Happened";
+                        break;
+                }
             } catch (Exception ex)
             {
                 Console.WriteLine("Error when trying to check status!");
@@ -122,6 +159,38 @@
             }
 
         }
+    }
+
+    private async Task HandleKebabButtonClicked()
+    {
+        if (kebabMenuStyle == "display: none;")
+        {
+            kebabMenuStyle = "display: flex;";
+        } else
+        {
+            kebabMenuStyle = "display: none;";
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task HandleStatusIndicatorMouseEntered()
+    {
+        statusContainerStyle = "display: flex;";
+    }
+    private async Task HandleStatusIndicatorMouseLeave()
+    {
+        statusContainerStyle = "display: none;";
+    }
+
+
+    private async Task HandleManageButtonClicked()
+    {
+        nav.NavigateTo($"/project?key={projectData.Id}&page=manage");
+    }
+    private async Task HandleEditButtonClicked()
+    {
+        nav.NavigateTo($"/project?key={projectData.Id}");
     }
 
     private async Task HandleMouseEnter(string method)

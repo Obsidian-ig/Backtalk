@@ -9,6 +9,15 @@
     flex-direction: column;
 }
 
+.project-item-full-button {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
 .project-item-header-container {
     background-color: transparent;
     width: 100%;
@@ -23,6 +32,21 @@
     height: 15px;
     border-radius: 50%;
     background-color: lime;
+    z-index: 2;
+}
+.project-item-status-container {
+    width: fit-content;
+    height: fit-content;
+    background-color: whitesmoke;
+    border-radius: 3px;
+    color: black;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    margin-left: 8px;
+    padding: 2px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 .project-item-manage-button {
     background-color: transparent;
@@ -38,12 +62,45 @@
     justify-content: center;
     align-items: center;
     align-self: center;
-    text-align:center;
+    text-align: center;
+    z-index: 2;
 }
 .manage-button-icon {
     width: 110%;
     height: 110%;
 }
+.project-item-kebab-menu-container {
+    width: 100px;
+    height: fit-content;
+    color: black;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 5px;
+    margin-left: 96%;
+    margin-top: 10px;
+    z-index: 2;
+}
+.project-item-kebab-menu-container button {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.project-item-kebab-menu-container button:hover {
+    background-color: lightgrey;
+}
+
 
 
 .project-item-body {
@@ -85,7 +142,9 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    padding-right: 5px;
+    padding: 5px;
+    padding-left: 0;
+    z-index: 2;
 }
 .epm-item {
     height: 5px;
