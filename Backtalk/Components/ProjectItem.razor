@@ -130,48 +130,48 @@
         {
             case "get":
                 tempPercentage = epmGETPercentage;
-                if (int.Parse(epmGETPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmGETPercentage.Replace("%", " ")) < 8)
                 {
                     epmGETPercentage = "8%";
                 }
                 epmGETStyle = $"width: {epmGETPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmGETText = $"{tempPercentage} GET";
+                epmGETText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% GET";
                 break;
             case "post":
                 tempPercentage = epmPOSTPercentage;
-                if (int.Parse(epmPOSTPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmPOSTPercentage.Replace("%", " ")) < 8)
                 {
                     epmPOSTPercentage = "8%";
                 }
                 epmPOSTStyle = $"width: {epmPOSTPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmPOSTText = $"{tempPercentage} POST";
+                epmPOSTText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% POST";
                 break;
             case "put":
                 tempPercentage = epmPUTPercentage;
-                if (int.Parse(epmPUTPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmPUTPercentage.Replace("%", " ")) < 8)
                 {
                     epmPUTPercentage = "8%";
                 }
                 epmPUTStyle = $"width: {epmPUTPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmPUTText = $"{tempPercentage} PUT";
+                epmPUTText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% PUT";
                 break;
             case "patch":
                 tempPercentage = epmPATCHPercentage;
-                if (int.Parse(epmPATCHPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmPATCHPercentage.Replace("%", " ")) < 8)
                 {
                     epmPATCHPercentage = "8%";
                 }
                 epmPATCHStyle = $"width: {epmPATCHPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmPATCHText = $"{tempPercentage} PATCH";
+                epmPATCHText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% PATCH";
                 break;
             case "delete":
                 tempPercentage = epmDELETEPercentage;
-                if (int.Parse(epmDELETEPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmDELETEPercentage.Replace("%", " ")) < 8)
                 {
                     epmDELETEPercentage = "8%";
                 }
                 epmDELETEStyle = $"width: {epmDELETEPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmDELETEText = $"{tempPercentage} DELETE";
+                epmDELETEText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% DELETE";
                 break;
             default:
                 break;
