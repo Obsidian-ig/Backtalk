@@ -1,13 +1,35 @@
 ﻿@page "/project"
+@using Backtalk.Classes
+@using Backtalk.Classes.Data;
+@using Backtalk.Services
+@inject AppDb db
+@inject INotificationService notificationService
 
 <div class="main-content-container">
     <div class="main-content-header">
-
+        <p class="main-content-header-project-name">@project.name</p>
+        <p class="main-content-header-project-info">Status Endpoint: @project.status_endpoint</p>
+        <p class="main-content-header-project-info">Total Endpoints: @project.endpoints_count</p>
+        <p class="main-content-header-project-info">Total Folders: @project.folders.Count</p>
+        <p class="main-content-header-project-info">Total Authors: @project.authors.Count</p>
+        <p class="main-content-header-project-info">Total Contacts: @project.contacts.Count</p>
+        <p class="main-content-header-project-info">API Version: @project.api_version</p>
     </div>
     <div class="main-content-body">
         @if (!keyGiven)
         {
             <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
+        } else
+        {
+            <div class="project-config-explorer">
+
+            </div>
+            <div class="endpoint-editor">
+
+            </div>
+            <div class="project-endpoints-explorer">
+
+            </div>
         }
     </div>
 </div>
@@ -23,6 +45,8 @@
 
     private bool keyGiven = true;
 
+    private ProjectData project = new ProjectData();
+
     protected override async Task OnInitializedAsync()
     {
         if (string.IsNullOrWhiteSpace(key))
@@ -32,5 +56,16 @@
             await Task.Yield();
             return;
         }
+
+        var project2 = await db.Projects.GetAsync<Guid, ProjectData>(Guid.Parse(key));
+        if (project2 == null)
+        {
+            Notification notif = notificationService.PopupNotificationError();
+            notif.message = "Unable to find project with the provided key.";
+            await notificationService.CreatePopupNotificationAsync(notif);
+            Console.Error.WriteLine("Unable to find project with provided key in database!\n" + key);
+            return;
+        }
+        project = project2;
     }
 }

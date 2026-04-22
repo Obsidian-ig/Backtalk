@@ -6,14 +6,14 @@ namespace Backtalk.Classes
     {
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public required string name { get; set; }
+        public string name { get; set; } = "";
         public string? short_description { get; set; }
         public string? description { get; set; }
-        public required List<Author> authors { get; set; }
-        public List<ContactOption>? contacts { get; set; }
+        public List<Author> authors { get; set; } = new List<Author>();
+        public List<ContactOption> contacts { get; set; } = new List<ContactOption>();
         public DateTime last_updated_utc { get; set; } = DateTime.UtcNow;
-        public required string api_version { get; set; } = "1.0.0";
-        public required ProjectConfig config { get; set; }
+        public string api_version { get; set; } = "1.0.0";
+        public ProjectConfig config { get; set; } = new ProjectConfig();
         public int endpoints_count { get; set; } = 0;
         public int get_count { get; set; } = 0;
         public int post_count { get; set; } = 0;
