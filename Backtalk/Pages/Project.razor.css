@@ -7,8 +7,7 @@
     flex-direction: column;
     min-width: 100vw;
     width: 100%;
-    min-height: 100vh;
-    height: 100%;
+    height: fit-content;
 }
 
 .main-content-header {
@@ -42,8 +41,8 @@
 }
 
 .project-config-explorer {
-    width: 250px;
-    min-height: 600px;
+    width: 15%;
+    height: 550px;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
@@ -54,8 +53,8 @@
 
 
 .endpoint-editor {
-    width: 1000px;
-    min-height: 600px;
+    width: 55%;
+    min-height: 550px;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
@@ -66,8 +65,8 @@
 
 
 .project-endpoints-explorer {
-    width: 250px;
-    min-height: 600px;
+    width: 15%;
+    height: 550px;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
