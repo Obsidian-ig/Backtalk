@@ -6,13 +6,13 @@
 @inject INotificationService notificationService
 
 <div class="main-content-container">
-    <div class="main-content-header">
-        <p class="main-content-header-project-name">@project.name</p>
-        <p class="main-content-header-project-info">Status Endpoint: @project.status_endpoint</p>
-        <p class="main-content-header-project-info">Total Endpoints: @project.endpoints_count</p>
-        <p class="main-content-header-project-info">Total Folders: @project.folders.Count</p>
-        <p class="main-content-header-project-info">Total Authors: @project.authors.Count</p>
-        <p class="main-content-header-project-info">Total Contacts: @project.contacts.Count</p>
+    <div class="main-content-header" style="@headerStyle" @onclick='() => ChangeFocus("header")'>
+        <button type="button" class="project-option-button">File</button>
+        <button type="button" class="project-option-button">Edit</button>
+        <button type="button" class="project-option-button">View</button>
+        <button type="button" class="project-option-button">Git</button>
+        <button type="button" class="project-option-button">Project</button>
+        <p class="main-content-header-name">@project.name</p>
         <p class="main-content-header-project-info">API Version: @project.api_version</p>
     </div>
     <div class="main-content-body">
@@ -21,14 +21,12 @@
             <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
         } else
         {
-            <div class="project-config-explorer">
+            <div class="project-config-explorer" style="@configStyle" @onclick='() => ChangeFocus("config")'>
 
             </div>
-            <div class="endpoint-editor">
-
+            <div class="endpoint-editor" style="@editorStyle" @onclick='() => ChangeFocus("editor")'>
             </div>
-            <div class="project-endpoints-explorer">
-
+            <div class="project-endpoints-explorer" style="@endpointsStyle" @onclick='() => ChangeFocus("endpoints")'>
             </div>
         }
     </div>
@@ -46,6 +44,12 @@
     private bool keyGiven = true;
 
     private ProjectData project = new ProjectData();
+
+    private string headerStyle = "";
+    private string configStyle = "";
+    private string editorStyle = "";
+    private string endpointsStyle = "";
+    private string activeStyle = "border-color: var(--bt-primary-color); box-shadow: 0px 10px 15px 5px rgba(27, 178, 37, 0.2);";
 
     protected override async Task OnInitializedAsync()
     {
@@ -68,4 +72,43 @@
         }
         project = project2;
     }
+
+
+    private async Task ChangeFocus(string containerName)
+    {
+        switch (containerName)
+        {
+            case "header":
+                headerStyle = activeStyle;
+                configStyle = "";
+                editorStyle = "";
+                endpointsStyle = "";
+                break;
+            case "config":
+                headerStyle = "";
+                configStyle = activeStyle;
+                editorStyle = "";
+                endpointsStyle = "";
+                break;
+            case "editor":
+                headerStyle = "";
+                configStyle = "";
+                editorStyle = activeStyle;
+                endpointsStyle = "";
+                break;
+            case "endpoints":
+                headerStyle = "";
+                configStyle = "";
+                editorStyle = "";
+                endpointsStyle = activeStyle;
+                break;
+            case "background":
+                headerStyle = "";
+                configStyle = "";
+                editorStyle = "";
+                endpointsStyle = "";
+                break;
+        }
+    }
+
 }
