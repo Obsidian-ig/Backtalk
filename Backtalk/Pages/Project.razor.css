@@ -1,6 +1,7 @@
 ﻿.main-content-container {
     position: absolute;
     left: 0;
+    top: 10px;
     margin: 0;
     padding: 0;
     display: flex;
@@ -8,8 +9,6 @@
     min-width: 100vw;
     width: 100%;
     height: fit-content;
-    z-index: -1;
-    background-color: blue;
 }
 
 .main-content-header {
@@ -27,7 +26,8 @@
     padding: 5px;
     padding-left: 0;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
-    z-index: 2;
+    position: fixed;
+    z-index: 999;
 }
 .main-content-header-project-info {
     font-size: 0.8cqw;
@@ -67,42 +67,103 @@
     align-items: center;
     width: 100%;
     height: fit-content;
-    padding-top: 50px;
-    padding-bottom: 75px;
-    gap: 80px;
+    padding-top: 20px;
+    gap: 25px;
+    margin-top: 5vh;
 }
 
 .project-config-explorer {
-    width: 15%;
-    height: 550px;
+    min-width: 250px;
+    height: 650px;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
     border-width: 1px;
     border-radius: 25px;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
 
 .endpoint-editor {
-    width: 55%;
-    min-height: 550px;
+    min-width: 1020px;
+    min-height: 650px;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
     border-width: 1px;
     border-radius: 25px;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.endpoint-editor-header-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    background-color: teal;
+    width: 100%;
+    padding-right: 50px;
+    height: 40px;
+    border-radius: 35px;
+    padding-left: 10px;
+}
+.endpoint-editor-header-tabs-container {
+    background-color: green;
+    width: 100%;
+    height: 100%;
 }
 
 
 .project-endpoints-explorer {
-    width: 15%;
-    height: 550px;
+    min-width: 250px;
+    height: 650px;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
     border-width: 1px;
     border-radius: 25px;
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.header-text {
+    margin: 0;
+    padding: 0;
+    width: 115px;
+    text-align: center;
+}
+
+.close-window-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 25px;
+    height: fit-content;
+    border: none;
+    font-size: 16px;
+    color: lightgrey;
+    background-color: transparent;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin-left: auto;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.active {
+    border-color: var(--bt-accent-color);
+    box-shadow: 0px 10px 15px 5px rgba(27, 178, 37, 0.2);
 }

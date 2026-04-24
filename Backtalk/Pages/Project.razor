@@ -6,7 +6,7 @@
 @inject INotificationService notificationService
 
 <div class="main-content-container">
-    <div class="main-content-header" style="@headerStyle" @onclick='() => ChangeFocus("header")'>
+    <div class="main-content-header @headerClass" @onclick='() => ChangeFocus("header")'>
         <button type="button" class="project-option-button">File</button>
         <button type="button" class="project-option-button">Edit</button>
         <button type="button" class="project-option-button">View</button>
@@ -15,18 +15,28 @@
         <p class="main-content-header-name">@project.name</p>
         <p class="main-content-header-project-info">API Version: @project.api_version</p>
     </div>
-    <div class="main-content-body">
+    <div class="main-content-body" draggable="true">
         @if (!keyGiven)
         {
             <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
         } else
         {
-            <div class="project-config-explorer" style="@configStyle" @onclick='() => ChangeFocus("config")'>
+            <div class="project-config-explorer @configClass" @onclick='() => ChangeFocus("config")'>
+                <p class="header-text">Config Explorer</p>
+                <button type="button" class="close-window-button">X</button>
+            </div>
+            <div class="endpoint-editor @editorClass" @onclick='() => ChangeFocus("editor")'>
+                <div class="endpoint-editor-header-container">
+                    <p class="header-text">Endpoint Editor</p>
+                    <div class="endpoint-editor-header-tabs-container">
 
+                    </div>
+                </div>
+                <button type="button" class="close-window-button">X</button>
             </div>
-            <div class="endpoint-editor" style="@editorStyle" @onclick='() => ChangeFocus("editor")'>
-            </div>
-            <div class="project-endpoints-explorer" style="@endpointsStyle" @onclick='() => ChangeFocus("endpoints")'>
+            <div class="project-endpoints-explorer @endpointsClass" @onclick='() => ChangeFocus("endpoints")'>
+                <p class="header-text">Endpoints Explorer</p>
+                <button type="button" class="close-window-button">X</button>
             </div>
         }
     </div>
@@ -45,11 +55,11 @@
 
     private ProjectData project = new ProjectData();
 
-    private string headerStyle = "";
-    private string configStyle = "";
-    private string editorStyle = "";
-    private string endpointsStyle = "";
-    private string activeStyle = "border-color: var(--bt-primary-color); box-shadow: 0px 10px 15px 5px rgba(27, 178, 37, 0.2);";
+    private string headerClass = "";
+    private string configClass = "";
+    private string editorClass = "";
+    private string endpointsClass = "";
+    private string activeClass = "active";
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,34 +89,34 @@
         switch (containerName)
         {
             case "header":
-                headerStyle = activeStyle;
-                configStyle = "";
-                editorStyle = "";
-                endpointsStyle = "";
+                headerClass = activeClass;
+                configClass = "";
+                editorClass = "";
+                endpointsClass = "";
                 break;
             case "config":
-                headerStyle = "";
-                configStyle = activeStyle;
-                editorStyle = "";
-                endpointsStyle = "";
+                headerClass = "";
+                configClass = activeClass;
+                editorClass = "";
+                endpointsClass = "";
                 break;
             case "editor":
-                headerStyle = "";
-                configStyle = "";
-                editorStyle = activeStyle;
-                endpointsStyle = "";
+                headerClass = "";
+                configClass = "";
+                editorClass = activeClass;
+                endpointsClass = "";
                 break;
             case "endpoints":
-                headerStyle = "";
-                configStyle = "";
-                editorStyle = "";
-                endpointsStyle = activeStyle;
+                headerClass = "";
+                configClass = "";
+                editorClass = "";
+                endpointsClass = activeClass;
                 break;
             case "background":
-                headerStyle = "";
-                configStyle = "";
-                editorStyle = "";
-                endpointsStyle = "";
+                headerClass = "";
+                configClass = "";
+                editorClass = "";
+                endpointsClass = "";
                 break;
         }
     }

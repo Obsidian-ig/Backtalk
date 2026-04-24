@@ -2,7 +2,7 @@
 @inject NavigationManager nav
 @inject INotificationService notificationService
 
-<nav class="navmenu container-fluid theme-@(theme)">
+<nav class="navmenu container-fluid @navmenuClass theme-@(theme)" @onmouseenter="HandleNavmenuMouseHover" @onmouseleave="HandleNavmenuMouseLeave">
     <div class="row">
         <div class="col-5 navmenu-navlinks-container">
             <a class="navmenu-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
@@ -28,8 +28,15 @@
     private string homeNavlinkClass = "navmenu-navlink-active";
     private string projectsNavlinkClass = "";
     private string aboutNavlinkClass = "";
+    private string navmenuClass = "";
 
     protected override async Task OnInitializedAsync()
+    {
+        UpdateNavMenu(null, null);
+        nav.LocationChanged += UpdateNavMenu;
+    }
+
+    private async void UpdateNavMenu(object? sender, LocationChangedEventArgs? args)
     {
         if (nav.Uri == nav.BaseUri + string.Empty)
         {
@@ -44,6 +51,11 @@
             homeNavlinkClass = "";
             projectsNavlinkClass = navlinkActiveClass;
             aboutNavlinkClass = "";
+            if (nav.Uri.Contains("project?key="))
+            {
+                //shrink navbar
+                navmenuClass = "navmenu-collapsed";
+            }
         }
         else if (nav.Uri.Contains("about"))
         {
@@ -51,12 +63,31 @@
             homeNavlinkClass = "";
             projectsNavlinkClass = "";
             aboutNavlinkClass = navlinkActiveClass;
-        } else
+        }
+        else
         {
             //none
             homeNavlinkClass = "";
             projectsNavlinkClass = "";
             aboutNavlinkClass = "";
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task HandleNavmenuMouseHover()
+    {
+        if (nav.Uri.Contains("project?key="))
+        {
+            navmenuClass = "";
+        }
+    }
+
+    private async Task HandleNavmenuMouseLeave()
+    {
+        if (nav.Uri.Contains("project?key="))
+        {
+            navmenuClass = "navmenu-collapsed";
         }
     }
 

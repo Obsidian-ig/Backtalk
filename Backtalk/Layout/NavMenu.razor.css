@@ -8,6 +8,7 @@
     position: fixed;
     z-index: 999;
     background-color: white;
+    transition: ease-in 0.6s;
 }
 
 .navmenu-brand-container {
@@ -72,4 +73,36 @@
     padding-top: 2px;
     padding-bottom: 2px;
     color: var(--bt-txt-color);
+}
+
+.navmenu-collapsed {
+    height: 1px;
+    font-size: 0px;
+    display: flex;
+    padding: 0;
+}
+.navmenu-collapsed a {
+    display: none;
+}
+.navmenu-collapsed .navmenu-navlinks-container {
+    width: 0px;
+    padding: 0px;
+    background-color: blue;
+    display: flex;
+}
+.navmenu-collapsed .navmenu-account-options {
+    width: 0;
+    padding: 0;
+}
+.navmenu-collapsed .navmenu-brand-container {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-left: 25px;
+    margin-top: 19px;
+}
+.navmenu-collapsed .navmenu-logo-image {
+    width: 100px;
 }
