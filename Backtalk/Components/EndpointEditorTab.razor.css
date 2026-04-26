@@ -1,0 +1,57 @@
+﻿.endpoint-editor-tab {
+    width: 125px;
+    height: 70%;
+    border: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 0px;
+    background-color: rgb(235, 235, 235);
+    border-right-style: solid;
+    border-color: lightgrey;
+    border-width: 1px;
+    padding-right: 5px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.tab-active {
+    background-color: whitesmoke;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-right-style: none;
+    min-width: 125px;
+    width: fit-content;
+}
+.tab-active .tab-name {
+    color: var(--bt-primary-color);
+    max-width: 100%;
+}
+.tab-editor-focused {
+
+}
+.tab-name {
+    margin: 0;
+    padding: 0;
+    max-width: 60%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.tab-close-button {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: grey;
+    text-align: center;
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    height: fit-content;
+    margin-left: auto;
+    margin-top: auto;
+}

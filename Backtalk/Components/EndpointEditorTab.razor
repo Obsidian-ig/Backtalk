@@ -1,0 +1,19 @@
+﻿<div class="endpoint-editor-tab @(active ? "tab-active" : "") @(editorFocused ? "tab-editor-focused" : "")">
+    <p class="tab-name">@tabName</p>
+    <button type="button" class="tab-close-button">X</button>
+</div>
+
+@code {
+    [Parameter]
+    public string tabName { get; set; } = "";
+
+    [Parameter]
+    public bool active { get; set; } = true;
+    [Parameter]
+    public bool editorFocused { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<string> tabClickedOn { get; set; }
+    [Parameter]
+    public EventCallback<string> tabClosed { get; set; }
+}

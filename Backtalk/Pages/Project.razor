@@ -1,9 +1,11 @@
 ﻿@page "/project"
 @using Backtalk.Classes
 @using Backtalk.Classes.Data;
+@using Backtalk.Components
 @using Backtalk.Services
 @inject AppDb db
 @inject INotificationService notificationService
+@inject IJSRuntime js
 
 <div class="main-content-container">
     <div class="main-content-header @headerClass" @onclick='() => ChangeFocus("header")'>
@@ -15,26 +17,41 @@
         <p class="main-content-header-name">@project.name</p>
         <p class="main-content-header-project-info">API Version: @project.api_version</p>
     </div>
-    <div class="main-content-body" draggable="true">
+    <div class="main-content-body">
         @if (!keyGiven)
         {
             <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
         } else
         {
-            <div class="project-config-explorer @configClass" @onclick='() => ChangeFocus("config")'>
+            <div class="project-config-explorer @configClass" id="project-config-explorer" @onclick='() => ChangeFocus("config")'>
                 <p class="header-text">Config Explorer</p>
                 <button type="button" class="close-window-button">X</button>
             </div>
-            <div class="endpoint-editor @editorClass" @onclick='() => ChangeFocus("editor")'>
+            <div class="endpoint-editor @editorClass" id="project-endpoint-editor" @onclick='() => ChangeFocus("editor")'>
                 <div class="endpoint-editor-header-container">
-                    <p class="header-text">Endpoint Editor</p>
+                    <p class="header-text" id="endpoint-editor-header-text">Endpoint Editor</p>
                     <div class="endpoint-editor-header-tabs-container">
-
+                        <EndpointEditorTab tabName="Tab One" active="true" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        <EndpointEditorTab tabName="Tab Two" active="false" />
+                        <EndpointEditorTab tabName="Tab Three" active="false" />
                     </div>
                 </div>
-                <button type="button" class="close-window-button">X</button>
+                <button type="button" class="close-window-button" id="endpoint-editor-close-button">X</button>
+                
             </div>
-            <div class="project-endpoints-explorer @endpointsClass" @onclick='() => ChangeFocus("endpoints")'>
+            <div class="project-endpoints-explorer @endpointsClass" id="project-endpoints-explorer" @onclick='() => ChangeFocus("endpoints")'>
                 <p class="header-text">Endpoints Explorer</p>
                 <button type="button" class="close-window-button">X</button>
             </div>
@@ -81,6 +98,16 @@
             return;
         }
         project = project2;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-config-explorer");
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoint-editor");
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoints-explorer");
+        }
     }
 
 
