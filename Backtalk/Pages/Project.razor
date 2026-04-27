@@ -31,21 +31,14 @@
                 <div class="endpoint-editor-header-container">
                     <p class="header-text" id="endpoint-editor-header-text">Endpoint Editor</p>
                     <div class="endpoint-editor-header-tabs-container">
-                        <EndpointEditorTab tabName="Tab One" active="true" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
-                        <EndpointEditorTab tabName="Tab Two" active="false" />
-                        <EndpointEditorTab tabName="Tab Three" active="false" />
+                        @if (project.tabs_opened.Count > 0)
+                        {
+                            for (int i = 0; i < project.tabs_opened.Count; i++)
+                            {
+                                var editorFocused = editorClass == "active" ? true : false;
+                                <EndpointEditorTab @key="project.tabs_opened[i]" tabName="@project.tabs_opened[i].tabName" active="project.tabs_opened[i].active" editorFocused="editorFocused" tabClickedOn="HandleTabClicked" tabClosed="HandleTabClosed"  />
+                            }
+                        }
                     </div>
                 </div>
                 <button type="button" class="close-window-button" id="endpoint-editor-close-button">X</button>
@@ -78,6 +71,8 @@
     private string endpointsClass = "";
     private string activeClass = "active";
 
+    private Backtalk.Classes.EndpointEditorTab? focusedTab = null;
+
     protected override async Task OnInitializedAsync()
     {
         if (string.IsNullOrWhiteSpace(key))
@@ -98,6 +93,21 @@
             return;
         }
         project = project2;
+        foreach (var endpoint in project.api_endpoints)
+        {
+            project.tabs_opened.Add(new Classes.EndpointEditorTab()
+            {
+                tabName = endpoint.name,
+                endpoint = endpoint,
+                active = false
+            });
+        }
+        if (project.tabs_opened.Count > 0)
+        {
+            focusedTab = project.tabs_opened[0];
+            focusedTab.active = true;
+        }
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -146,6 +156,50 @@
                 endpointsClass = "";
                 break;
         }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task HandleTabClicked(string tabName)
+    {
+        foreach (var tab in project.tabs_opened)
+        {
+            if (tab.tabName == tabName)
+            {
+                tab.active = true;
+                focusedTab = tab;
+            }
+            if (tab.active == true && tab.tabName != tabName)
+            {
+                tab.active = false;
+            }
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task HandleTabClosed(string tabName)
+    {
+
+        for (int i = 0; i < project.tabs_opened.Count; i++)
+        {
+            if (project.tabs_opened[i].tabName == tabName)
+            {
+                if (project.tabs_opened[i].active)
+                {
+                    //set the new focused tab to the adjacent one to the one that was just removed.
+                    focusedTab = null;
+                    if (i == 0 && project.tabs_opened.Count >= 2) focusedTab = project.tabs_opened[i + 1];
+                    if (i == project.tabs_opened.Count - 1 && project.tabs_opened.Count >= 2) focusedTab = project.tabs_opened[i - 1];
+                    if (i != 0 && i != project.tabs_opened.Count - 1 && project.tabs_opened.Count >= 3) focusedTab = project.tabs_opened[i + 1];
+                    if (focusedTab != null) focusedTab.active = true;
+                }
+                project.tabs_opened.RemoveAt(i);
+                break;
+            }
+        }
+        StateHasChanged();
+        await Task.Yield();
     }
 
 }

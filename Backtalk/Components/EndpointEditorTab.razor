@@ -1,6 +1,6 @@
-﻿<div class="endpoint-editor-tab @(active ? "tab-active" : "") @(editorFocused ? "tab-editor-focused" : "")">
+﻿<div class="endpoint-editor-tab @(active ? "tab-active" : "") @(editorFocused && active ? "tab-editor-focused" : "")" @onclick="HandleTabClickedAsync">
     <p class="tab-name">@tabName</p>
-    <button type="button" class="tab-close-button">X</button>
+    <button type="button" class="tab-close-button" @onclick="HandleTabClosedAsync">X</button>
 </div>
 
 @code {
@@ -16,4 +16,20 @@
     public EventCallback<string> tabClickedOn { get; set; }
     [Parameter]
     public EventCallback<string> tabClosed { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task HandleTabClickedAsync()
+    {
+        await tabClickedOn.InvokeAsync(tabName);
+    }
+
+    private async Task HandleTabClosedAsync()
+    {
+        await tabClosed.InvokeAsync(tabName);
+    }
 }

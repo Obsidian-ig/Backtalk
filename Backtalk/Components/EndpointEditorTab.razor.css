@@ -1,5 +1,5 @@
 ﻿.endpoint-editor-tab {
-    width: 25%;
+    width: fit-content;
     height: 70%;
     border: none;
     border-top-left-radius: 4px;
@@ -15,6 +15,9 @@
     align-items: center;
     position: relative;
 }
+.endpoint-editor-tab:hover {
+    cursor: pointer;
+}
 .tab-active {
     background-color: whitesmoke;
     border-top-left-radius: 4px;
@@ -22,14 +25,22 @@
     border-right-style: none;
     min-width: 125px;
     width: fit-content;
+    padding-right: 25px;
 }
 .tab-active .tab-name {
     color: var(--bt-primary-color);
     max-width: 100%;
+    width: fit-content;
+    padding-left: 10px;
 }
+/*
 .tab-editor-focused {
-
+    border-style: solid;
+    border-bottom-style: none;
+    border-color: var(--bt-accent-color);
+    border-width: 1px;
 }
+*/
 .tab-name {
     margin: 0;
     padding: 0;

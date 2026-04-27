@@ -3,6 +3,7 @@
     public class ApiEndpoint
     {
         public required int key { get; set; }
+        public string name { get; set; } = "";
         public string endpoint { get; set; } = "https://example.com/api/example";
         public string method { get; set; } = "GET";
         public string tag { get; set; } = "DEV";
