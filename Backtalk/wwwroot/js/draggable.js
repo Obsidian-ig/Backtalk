@@ -9,16 +9,31 @@ window.gsapInterop = {
             return;
         }
 
-        gsap.registerPlugin(Draggable);
+        const draggableElement = document.querySelector(selector);
 
-        return Draggable.create(selector, {
+        const draggable = Draggable.create(selector, {
             type: "x,y",
             edgeResistance: 0.65,
             inertia: false,
             cursor: "inherit",
             dragClickables: false,
-            onDrag: function () {
-                console.log("onDrag!");
+            onPress: function (e) {
+                const rect = this.target.getBoundingClientRect();
+                const handleSize = 35;
+
+                const nearRight = e.clientX >= rect.right - handleSize;
+                const nearBottom = e.clientY >= rect.bottom - handleSize;
+
+                if (nearRight && nearBottom) {
+                    this.disable();
+                }
+            }
+        })[0];
+
+        draggableElement.addEventListener("mouseup", () => {
+            if (!draggable.enabled()) {
+                draggable.enable();
+                draggable.update();
             }
         });
     }

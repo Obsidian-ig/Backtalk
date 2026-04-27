@@ -74,7 +74,7 @@
 
 .project-config-explorer {
     resize: both;
-    min-width: 250px;
+    width: 250px;
     height: 650px;
     overflow: hidden;
     background-color: whitesmoke;
@@ -86,13 +86,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    position: absolute;
 }
 
 
 .endpoint-editor {
-    min-width: 1020px;
-    min-height: 650px;
+    width: 1020px;
+    height: 650px;
+    overflow: hidden;
+    resize: both;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
@@ -102,7 +104,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    position: absolute;
 }
 
 .endpoint-editor-header-container {
@@ -134,8 +136,10 @@
 
 
 .project-endpoints-explorer {
-    min-width: 250px;
+    width: 250px;
     height: 650px;
+    overflow: hidden;
+    resize: both;
     background-color: whitesmoke;
     border-color: lightgrey;
     border-style: solid;
@@ -145,7 +149,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    position: absolute;
 }
 
 .header-text {

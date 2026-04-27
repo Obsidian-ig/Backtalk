@@ -1,5 +1,5 @@
 ﻿.endpoint-editor-tab {
-    width: 125px;
+    width: 25%;
     height: 70%;
     border: none;
     border-top-left-radius: 4px;
@@ -11,6 +11,7 @@
     padding-right: 5px;
     color: black;
     display: flex;
+    flex: 1;
     justify-content: center;
     align-items: center;
     position: relative;
