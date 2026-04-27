@@ -7,7 +7,16 @@
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
   </PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.js"
+					   PublishedContent="wwwroot\service-worker.published.js" />
+	</ItemGroup>
+
+	<ItemGroup>
     <PackageReference Include="Blazor.Storage" Version="5.0.0" />
     <PackageReference Include="BlazorEssentials.IndexedDb" Version="4.0.2" />
     <PackageReference Include="KristofferStrube.Blazor.FileSystemAccess" Version="3.3.0" />

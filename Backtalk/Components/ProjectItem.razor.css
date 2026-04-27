@@ -87,7 +87,7 @@
     margin-top: 10px;
     z-index: 2;
 }
-.project-item-kebab-menu-container button {
+.project-item-kebab-menu-container .kebab-menu-button {
     border: none;
     background-color: transparent;
     display: flex;
@@ -96,6 +96,7 @@
     text-align: center;
     width: 100%;
     height: 100%;
+    color: black;
 }
 .project-item-kebab-menu-container button:hover {
     background-color: lightgrey;
