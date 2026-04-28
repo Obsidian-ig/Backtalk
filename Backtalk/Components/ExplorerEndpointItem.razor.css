@@ -1,0 +1,7 @@
+﻿.explorer-endpoint-item {
+    width: 97%;
+    height: fit-content;
+    background-color: rgb(230, 230, 230);
+    display: flex;
+    flex-direction: row;
+}

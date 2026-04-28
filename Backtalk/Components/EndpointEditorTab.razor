@@ -1,21 +1,20 @@
-﻿<div class="endpoint-editor-tab @(active ? "tab-active" : "") @(editorFocused && active ? "tab-editor-focused" : "")" @onclick="HandleTabClickedAsync">
-    <p class="tab-name">@tabName</p>
+﻿@using Backtalk.Classes
+<div class="endpoint-editor-tab @(tabData.active ? "tab-active" : "") @(editorFocused && tabData.active ? "tab-editor-focused" : "")" @onclick="HandleTabClickedAsync">
+    <p class="tab-name">@tabData.tabName</p>
     <button type="button" class="tab-close-button" @onclick="HandleTabClosedAsync">X</button>
 </div>
 
 @code {
     [Parameter]
-    public string tabName { get; set; } = "";
+    public required EditorTab tabData { get; set; }
 
-    [Parameter]
-    public bool active { get; set; } = true;
     [Parameter]
     public bool editorFocused { get; set; } = false;
 
     [Parameter]
-    public EventCallback<string> tabClickedOn { get; set; }
+    public EventCallback<EditorTab> tabClickedOn { get; set; }
     [Parameter]
-    public EventCallback<string> tabClosed { get; set; }
+    public EventCallback<EditorTab> tabClosed { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -25,11 +24,11 @@
 
     private async Task HandleTabClickedAsync()
     {
-        await tabClickedOn.InvokeAsync(tabName);
+        await tabClickedOn.InvokeAsync(tabData);
     }
 
     private async Task HandleTabClosedAsync()
     {
-        await tabClosed.InvokeAsync(tabName);
+        await tabClosed.InvokeAsync(tabData);
     }
 }

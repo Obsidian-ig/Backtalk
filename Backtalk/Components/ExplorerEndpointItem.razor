@@ -1,0 +1,10 @@
+﻿@using Backtalk.Classes
+
+<div class="explorer-endpoint-item">
+    <img class="endpoint-item-icon" src="@Assets["icon/endpoint-black.png"]" alt="endpoint icon" />
+</div>
+
+@code {
+    [Parameter]
+    public required ApiEndpoint endpoint { get; set; }
+}

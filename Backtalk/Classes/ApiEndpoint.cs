@@ -2,11 +2,11 @@
 {
     public class ApiEndpoint
     {
-        public required int key { get; set; }
+        public string key { get; set; } = Guid.NewGuid().ToString();
         public string name { get; set; } = "";
         public string endpoint { get; set; } = "https://example.com/api/example";
         public string method { get; set; } = "GET";
-        public string tag { get; set; } = "DEV";
+        public List<string> tags { get; set; } = new();
         public List<QueryParameter>? query_parameters { get; set; }
         public List<Header>? headers { get; set; } = new List<Header>()
         {
@@ -18,6 +18,7 @@
         };
         public string? body { get; set; }
         public List<ApiResponse> responses { get; set; } = new List<ApiResponse>();
-
+        public DateTime created_at_utc { get; set; } = DateTime.UtcNow;
+        public DateTime last_updated_utc { get; set; } = DateTime.UtcNow;
     }
 }

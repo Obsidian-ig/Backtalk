@@ -72,7 +72,7 @@
     margin-top: 5vh;
 }
 
-.project-config-explorer {
+.project-properties-explorer {
     resize: both;
     width: 250px;
     height: 650px;
@@ -90,7 +90,6 @@
     align-items: center;
     position: absolute;
 }
-
 
 .endpoint-editor {
     width: 1020px;
@@ -110,7 +109,7 @@
     position: absolute;
 }
 
-.endpoint-editor-header-container {
+#endpoint-editor-header-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -124,7 +123,7 @@
     height: 33px;
     padding-left: 10px;
 }
-.endpoint-editor-header-tabs-container {
+#endpoint-editor-header-tabs-container {
     max-width: 90%;
     height: 100%;
     display: flex;
@@ -135,6 +134,13 @@
 #endpoint-editor-header-text {
     position: relative;
     margin-top: 7px;
+    margin-left: -8px;
+    border-right-style: solid;
+    border-width: 1px;
+    border-color: lightgrey;
+}
+#endpoint-editor-close-button {
+    margin-top: 5px;
 }
 
 
@@ -157,13 +163,22 @@
     position: absolute;
 }
 
+
+.explorer-header-container {
+    width: 100%;
+    height: 33px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(235, 235, 235);
+}
 .header-text {
     margin: 0;
     padding: 0;
     width: 115px;
     text-align: center;
 }
-
 .close-window-button {
     display: flex;
     justify-content: center;
@@ -179,11 +194,33 @@
     right: 0;
     position: absolute;
     margin-left: auto;
-    margin-top: 5px;
+    margin-top: 2px;
     margin-right: 5px;
 }
 
 .active {
     border-color: var(--bt-accent-color);
     box-shadow: 0px 10px 15px 5px rgba(27, 178, 37, 0.2);
+}
+
+
+.explorer-container {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding: 5px;
+}
+.explorer-container-header {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    color: black;
+    width: 100%;
+    text-align: left;
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: lightgrey;
 }

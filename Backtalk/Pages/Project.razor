@@ -7,6 +7,8 @@
 @inject INotificationService notificationService
 @inject IJSRuntime js
 
+<PageTitle>@project.name | BackTalk</PageTitle>
+
 <div class="main-content-container">
     <div class="main-content-header @headerClass" @onclick='() => ChangeFocus("header")'>
         <button type="button" class="project-option-button">File</button>
@@ -23,20 +25,22 @@
             <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
         } else
         {
-            <div class="project-config-explorer @configClass" id="project-config-explorer" @onclick='() => ChangeFocus("config")'>
-                <p class="header-text">Config Explorer</p>
-                <button type="button" class="close-window-button">X</button>
+            <div class="project-properties-explorer @propertiesClass" id="project-properties-explorer" @onclick='() => ChangeFocus("properties")'>
+                <div class="explorer-header-container">
+                    <p class="header-text">Properties Explorer</p>
+                    <button type="button" class="close-window-button">X</button>
+                </div>
             </div>
             <div class="endpoint-editor @editorClass" id="project-endpoint-editor" @onclick='() => ChangeFocus("editor")'>
-                <div class="endpoint-editor-header-container">
+                <div id="endpoint-editor-header-container">
                     <p class="header-text" id="endpoint-editor-header-text">Endpoint Editor</p>
-                    <div class="endpoint-editor-header-tabs-container">
+                    <div id="endpoint-editor-header-tabs-container">
                         @if (project.tabs_opened.Count > 0)
                         {
                             for (int i = 0; i < project.tabs_opened.Count; i++)
                             {
                                 var editorFocused = editorClass == "active" ? true : false;
-                                <EndpointEditorTab @key="project.tabs_opened[i]" tabName="@project.tabs_opened[i].tabName" active="project.tabs_opened[i].active" editorFocused="editorFocused" tabClickedOn="HandleTabClicked" tabClosed="HandleTabClosed"  />
+                                <EndpointEditorTab @key="project.tabs_opened[i]" tabData="project.tabs_opened[i]" editorFocused="editorFocused" tabClickedOn="HandleTabClicked" tabClosed="HandleTabClosed"  />
                             }
                         }
                     </div>
@@ -45,8 +49,20 @@
                 
             </div>
             <div class="project-endpoints-explorer @endpointsClass" id="project-endpoints-explorer" @onclick='() => ChangeFocus("endpoints")'>
-                <p class="header-text">Endpoints Explorer</p>
-                <button type="button" class="close-window-button">X</button>
+                <div class="explorer-header-container">
+                    <p class="header-text">Endpoints Explorer</p>
+                    <button type="button" class="close-window-button">X</button>
+                </div>
+                <div class="explorer-container" id="endpoints-explorer-folders-container">
+                    <p class="explorer-container-header">Folders:</p>
+                </div>
+                <div class="explorer-container" id="endpoints-explorer-all-container">
+                    <p class="explorer-container-header">All Endpoints:</p>
+                    @foreach (var endpoint in project.api_endpoints)
+                    {
+                        
+                    }
+                </div>
             </div>
         }
     </div>
@@ -66,12 +82,12 @@
     private ProjectData project = new ProjectData();
 
     private string headerClass = "";
-    private string configClass = "";
+    private string propertiesClass = "";
     private string editorClass = "";
     private string endpointsClass = "";
     private string activeClass = "active";
 
-    private Backtalk.Classes.EndpointEditorTab? focusedTab = null;
+    private EditorTab? focusedTab = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -95,7 +111,7 @@
         project = project2;
         foreach (var endpoint in project.api_endpoints)
         {
-            project.tabs_opened.Add(new Classes.EndpointEditorTab()
+            project.tabs_opened.Add(new Classes.EditorTab()
             {
                 tabName = endpoint.name,
                 endpoint = endpoint,
@@ -114,7 +130,7 @@
     {
         if (firstRender)
         {
-            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-config-explorer");
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-properties-explorer");
             await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoint-editor");
             await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoints-explorer");
         }
@@ -127,31 +143,31 @@
         {
             case "header":
                 headerClass = activeClass;
-                configClass = "";
+                propertiesClass = "";
                 editorClass = "";
                 endpointsClass = "";
                 break;
-            case "config":
+            case "properties":
                 headerClass = "";
-                configClass = activeClass;
+                propertiesClass = activeClass;
                 editorClass = "";
                 endpointsClass = "";
                 break;
             case "editor":
                 headerClass = "";
-                configClass = "";
+                propertiesClass = "";
                 editorClass = activeClass;
                 endpointsClass = "";
                 break;
             case "endpoints":
                 headerClass = "";
-                configClass = "";
+                propertiesClass = "";
                 editorClass = "";
                 endpointsClass = activeClass;
                 break;
             case "background":
                 headerClass = "";
-                configClass = "";
+                propertiesClass = "";
                 editorClass = "";
                 endpointsClass = "";
                 break;
@@ -160,16 +176,16 @@
         await Task.Yield();
     }
 
-    private async Task HandleTabClicked(string tabName)
+    private async Task HandleTabClicked(EditorTab tabData)
     {
         foreach (var tab in project.tabs_opened)
         {
-            if (tab.tabName == tabName)
+            if (tab.key == tabData.key)
             {
                 tab.active = true;
                 focusedTab = tab;
             }
-            if (tab.active == true && tab.tabName != tabName)
+            if (tab.active == true && tab.key != tabData.key)
             {
                 tab.active = false;
             }
@@ -178,12 +194,12 @@
         await Task.Yield();
     }
 
-    private async Task HandleTabClosed(string tabName)
+    private async Task HandleTabClosed(EditorTab tabData)
     {
 
         for (int i = 0; i < project.tabs_opened.Count; i++)
         {
-            if (project.tabs_opened[i].tabName == tabName)
+            if (project.tabs_opened[i].key == tabData.key)
             {
                 if (project.tabs_opened[i].active)
                 {
