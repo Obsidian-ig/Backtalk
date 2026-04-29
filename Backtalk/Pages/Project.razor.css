@@ -212,6 +212,7 @@
     flex-direction: column;
     margin-top: 20px;
     padding: 5px;
+    gap: 8px;
 }
 .explorer-container-header {
     margin: 0;

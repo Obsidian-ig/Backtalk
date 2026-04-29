@@ -1,10 +1,70 @@
 ﻿@using Backtalk.Classes
 
-<div class="explorer-endpoint-item">
-    <img class="endpoint-item-icon" src="@Assets["icon/endpoint-black.png"]" alt="endpoint icon" />
+<div class="explorer-endpoint-item @methodClass" @onclick="HandleEndpointItemClicked" @ondblclick="HandleEndpointItemDoubleClicked" @oncontextmenu="HandleEndpointItemRightClicked" @oncontextmenu:preventDefault="true">
+    <img class="endpoint-item-icon" src="@Assets["icons/endpoint-black.png"]" alt="endpoint icon" />
+    <p class="endpoint-item-name">@endpoint.name</p>
+    <div class="endpoint-item-context-menu" style="@contextMenuStyle">
+        <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-edit-button">Edit</button>
+        <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-delete-button">Delete</button>
+    </div>
 </div>
 
 @code {
     [Parameter]
     public required ApiEndpoint endpoint { get; set; }
+
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointSelected { get; set; }
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointOpened { get; set; }
+
+    private string methodClass = "";
+    private string contextMenuStyle = "display: none;";
+
+    protected override async Task OnInitializedAsync()
+    {
+        switch (endpoint.method)
+        {
+            case "GET":
+                methodClass = "endpoint-item-get";
+                break;
+            case "POST":
+                methodClass = "endpoint-item-post";
+                break;
+            case "PUT":
+                methodClass = "endpoint-item-put";
+                break;
+            case "PATCH":
+                methodClass = "endpoint-item-patch";
+                break;
+            case "DELETE":
+                methodClass = "endpoint-item-delete";
+                break;
+            default:
+                methodClass = "endpoint-item-uhh";
+                break;
+        }
+    }
+
+    private async Task HandleEndpointItemClicked(MouseEventArgs args)
+    {
+        HandleEndpointItemRightClicked(args);
+    }
+
+    private async Task HandleEndpointItemDoubleClicked()
+    {
+
+    }
+
+    private async Task HandleEndpointItemRightClicked(MouseEventArgs args)
+    {
+        if (contextMenuStyle.Contains("display: none;"))
+        {
+            contextMenuStyle = "display: flex;";
+        } else
+        {
+            contextMenuStyle = "display: none;";
+        }
+        contextMenuStyle += $"left: {args.OffsetX}px; top: {args.OffsetY}px;";
+    }
 }
