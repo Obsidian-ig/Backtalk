@@ -17,6 +17,7 @@ window.gsapInterop = {
             inertia: false,
             cursor: "inherit",
             dragClickables: false,
+            allowContextMenu: true,
             onPress: function (e) {
                 const rect = this.target.getBoundingClientRect();
                 const handleSize = 35;
