@@ -3,16 +3,7 @@
 <div class="explorer-endpoint-item @methodClass" data-clickable="true" @onclick="HandleEndpointItemClicked" @onclick:preventDefault="true" @onclick:stopPropagation="true" @ondblclick="HandleEndpointItemDoubleClicked" @ondblclick:stopPropagation="true" @oncontextmenu="HandleEndpointItemRightClicked" @oncontextmenu:preventDefault="true" @oncontextmenu:stopPropagation="true">
     <img class="endpoint-item-icon" src="@Assets["icons/endpoint-black.png"]" alt="endpoint icon" />
     <p class="endpoint-item-name">@endpoint.name</p>
-    <div class="endpoint-item-context-menu" style="@contextMenuStyle">
-        <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-edit-button">Edit</button>
-        <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-delete-button">Delete</button>
-    </div>
 </div>
-@if (contextMenuStyle.Contains("display: flex;"))
-{
-    <div class="invisible-wall" style="background-color: rgba(0, 0, 0, 0.2);position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 2;" data-clickable="true" @onclick="CloseContextMenu" @onclick:stopPropagation="true" @oncontextmenu="CloseContextMenu" @oncontextmenu:preventDefault="true"></div>
-}
-
 
 @code {
     [Parameter]
@@ -22,6 +13,8 @@
     public EventCallback<ApiEndpoint> endpointSelected { get; set; }
     [Parameter]
     public EventCallback<ApiEndpoint> endpointOpened { get; set; }
+    [Parameter]
+    public EventCallback<(ApiEndpoint endpoint, MouseEventArgs mea)> endpointContexed { get; set; }
 
     private string methodClass = "";
     private string contextMenuStyle = "display: none;";
@@ -61,22 +54,9 @@
 
     }
 
-    private async Task HandleEndpointItemRightClicked(MouseEventArgs args)
+    private async Task HandleEndpointItemRightClicked(MouseEventArgs mea)
     {
-        Console.WriteLine("Context Menu! Button: " + args.Button);
-        if (contextMenuStyle.Contains("display: none;"))
-        {
-            contextMenuStyle = "display: flex;";
-        } else
-        {
-            contextMenuStyle = "display: none;";
-        }
-        contextMenuStyle += $"left: {args.OffsetX}px; top: {args.OffsetY}px;";
-        StateHasChanged();
-        await Task.Yield();
-    }
-    private async Task CloseContextMenu()
-    {
-        contextMenuStyle = "display: none;";
+        Console.WriteLine("Context Menu! Button: " + mea.Button);
+        await endpointContexed.InvokeAsync((endpoint, mea));
     }
 }

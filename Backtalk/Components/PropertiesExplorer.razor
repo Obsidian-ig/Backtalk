@@ -1,5 +1,27 @@
-﻿<h3>PropertiesExplorer</h3>
+﻿@using Backtalk.Classes
+@inject IJSRuntime js
+
+<div class="project-properties-explorer @propertiesClass" id="project-properties-explorer" @onclick='HandlePropertiesExplorerClicked'>
+    <div class="explorer-header-container">
+        <p class="header-text">Properties Explorer</p>
+        <button type="button" class="close-window-button">X</button>
+    </div>
+</div>
 
 @code {
 
+    private string propertiesClass = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-properties-explorer");
+        }
+    }
+
+    private async Task HandlePropertiesExplorerClicked()
+    {
+        
+    }
 }

@@ -10,60 +10,16 @@
 <PageTitle>@project.name | BackTalk</PageTitle>
 
 <div class="main-content-container">
-    <div class="main-content-header @headerClass" @onclick='() => ChangeFocus("header")'>
-        <button type="button" class="project-option-button">File</button>
-        <button type="button" class="project-option-button">Edit</button>
-        <button type="button" class="project-option-button">View</button>
-        <button type="button" class="project-option-button">Git</button>
-        <button type="button" class="project-option-button">Project</button>
-        <p class="main-content-header-name">@project.name</p>
-        <p class="main-content-header-project-info">API Version: @project.api_version</p>
-    </div>
+    <ProjectHeader project="project" focused="false" />
     <div class="main-content-body">
         @if (!keyGiven)
         {
             <p>It looks like there was no project key provided; therefore, I cannot get any project data!</p>
         } else
         {
-            <div class="project-properties-explorer @propertiesClass" id="project-properties-explorer" @onclick='() => ChangeFocus("properties")'>
-                <div class="explorer-header-container">
-                    <p class="header-text">Properties Explorer</p>
-                    <button type="button" class="close-window-button">X</button>
-                </div>
-            </div>
-            <div class="endpoint-editor @editorClass" id="project-endpoint-editor" @onclick='() => ChangeFocus("editor")'>
-                <div id="endpoint-editor-header-container">
-                    <p class="header-text" id="endpoint-editor-header-text">Endpoint Editor</p>
-                    <div id="endpoint-editor-header-tabs-container">
-                        @if (project.tabs_opened.Count > 0)
-                        {
-                            for (int i = 0; i < project.tabs_opened.Count; i++)
-                            {
-                                var editorFocused = editorClass == "active" ? true : false;
-                                <EndpointEditorTab @key="project.tabs_opened[i]" tabData="project.tabs_opened[i]" editorFocused="editorFocused" tabClickedOn="HandleTabClicked" tabClosed="HandleTabClosed"  />
-                            }
-                        }
-                    </div>
-                </div>
-                <button type="button" class="close-window-button" id="endpoint-editor-close-button">X</button>
-                
-            </div>
-            <div class="project-endpoints-explorer @endpointsClass" id="project-endpoints-explorer" @onclick='() => ChangeFocus("endpoints")'>
-                <div class="explorer-header-container">
-                    <p class="header-text">Endpoints Explorer</p>
-                    <button type="button" class="close-window-button">X</button>
-                </div>
-                <div class="explorer-container" id="endpoints-explorer-folders-container">
-                    <p class="explorer-container-header">Folders:</p>
-                </div>
-                <div class="explorer-container" id="endpoints-explorer-all-container">
-                    <p class="explorer-container-header">All Endpoints:</p>
-                    @foreach (var endpoint in project.api_endpoints)
-                    {
-                        <ExplorerEndpointItem endpoint="endpoint" />
-                    }
-                </div>
-            </div>
+            <PropertiesExplorer />
+            <EndpointsEditor project="project" focused="false" />
+            <EndpointsExplorer project="project" focused="false" />
         }
     </div>
 </div>
@@ -77,17 +33,12 @@
     [SupplyParameterFromQuery(Name = "page")]
     public string page { get; set; } = "default";
 
+
     private bool keyGiven = true;
-
     private ProjectData project = new ProjectData();
-
-    private string headerClass = "";
-    private string propertiesClass = "";
-    private string editorClass = "";
-    private string endpointsClass = "";
     private string activeClass = "active";
 
-    private EditorTab? focusedTab = null;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -118,104 +69,5 @@
                 active = false
             });
         }
-        if (project.tabs_opened.Count > 0)
-        {
-            focusedTab = project.tabs_opened[0];
-            focusedTab.active = true;
-        }
-
     }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-properties-explorer");
-            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoint-editor");
-            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoints-explorer");
-        }
-    }
-
-
-    private async Task ChangeFocus(string containerName)
-    {
-        switch (containerName)
-        {
-            case "header":
-                headerClass = activeClass;
-                propertiesClass = "";
-                editorClass = "";
-                endpointsClass = "";
-                break;
-            case "properties":
-                headerClass = "";
-                propertiesClass = activeClass;
-                editorClass = "";
-                endpointsClass = "";
-                break;
-            case "editor":
-                headerClass = "";
-                propertiesClass = "";
-                editorClass = activeClass;
-                endpointsClass = "";
-                break;
-            case "endpoints":
-                headerClass = "";
-                propertiesClass = "";
-                editorClass = "";
-                endpointsClass = activeClass;
-                break;
-            case "background":
-                headerClass = "";
-                propertiesClass = "";
-                editorClass = "";
-                endpointsClass = "";
-                break;
-        }
-        StateHasChanged();
-        await Task.Yield();
-    }
-
-    private async Task HandleTabClicked(EditorTab tabData)
-    {
-        foreach (var tab in project.tabs_opened)
-        {
-            if (tab.key == tabData.key)
-            {
-                tab.active = true;
-                focusedTab = tab;
-            }
-            if (tab.active == true && tab.key != tabData.key)
-            {
-                tab.active = false;
-            }
-        }
-        StateHasChanged();
-        await Task.Yield();
-    }
-
-    private async Task HandleTabClosed(EditorTab tabData)
-    {
-
-        for (int i = 0; i < project.tabs_opened.Count; i++)
-        {
-            if (project.tabs_opened[i].key == tabData.key)
-            {
-                if (project.tabs_opened[i].active)
-                {
-                    //set the new focused tab to the adjacent one to the one that was just removed.
-                    focusedTab = null;
-                    if (i == 0 && project.tabs_opened.Count >= 2) focusedTab = project.tabs_opened[i + 1];
-                    if (i == project.tabs_opened.Count - 1 && project.tabs_opened.Count >= 2) focusedTab = project.tabs_opened[i - 1];
-                    if (i != 0 && i != project.tabs_opened.Count - 1 && project.tabs_opened.Count >= 3) focusedTab = project.tabs_opened[i + 1];
-                    if (focusedTab != null) focusedTab.active = true;
-                }
-                project.tabs_opened.RemoveAt(i);
-                break;
-            }
-        }
-        StateHasChanged();
-        await Task.Yield();
-    }
-
 }

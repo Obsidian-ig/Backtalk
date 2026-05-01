@@ -1,5 +1,100 @@
-﻿
+﻿@using Backtalk.Classes
+@inject IJSRuntime js
+
+<div class="project-endpoints-explorer @endpointsClass" id="project-endpoints-explorer" @onclick='HandleExplorerClicked'>
+    <div class="explorer-header-container">
+        <p class="header-text">Endpoints Explorer</p>
+        <button type="button" class="close-window-button">X</button>
+    </div>
+    <div class="explorer-container" id="endpoints-explorer-folders-container">
+        <p class="explorer-container-header">Folders:</p>
+    </div>
+    <div class="explorer-container" id="endpoints-explorer-all-container">
+        <p class="explorer-container-header">All Endpoints:</p>
+        @foreach (var endpoint in project.api_endpoints)
+        {
+            <ExplorerEndpointItem endpoint="endpoint" endpointOpened="HandleEndpointOpened" endpointSelected="HandleEndpointSelected" endpointContexed="HandleEndpointRightClicked" />
+        }
+    </div>
+</div>
+<div class="endpoint-item-context-menu" style="@contextMenuStyle">
+    <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-edit-button">Edit</button>
+    <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-delete-button">Delete</button>
+</div>
 
 @code {
+    [Parameter]
+    public required ProjectData project { get; set; }
 
+    [Parameter]
+    public bool focused { get; set; } = false;
+
+    [Parameter]
+    public EventCallback endpointsExplorerClicked { get; set; }
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointFocused { get; set; }
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointOpened { get; set; }
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointDeleted { get; set; }
+    [Parameter]
+    public EventCallback endpointCreated { get; set; }
+
+    private string endpointsClass = "";
+    private ApiEndpoint? focusedEndpoint = null; //the endpoint that should be displayed in the editor/props
+    private ApiEndpoint? contexedEndpoint = null; //the endpoint the context menu is opened for
+    private string contextMenuStyle = "display: none;";
+
+    private DotNetObjectReference<EndpointsExplorer>? objRef;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await js.InvokeVoidAsync("setupClickEventListener", objRef, "KillContextMenu");
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoints-explorer");
+        }
+    }
+
+    private async Task HandleExplorerClicked()
+    {
+
+    }
+
+    private async Task HandleEndpointSelected(ApiEndpoint endpoint)
+    {
+
+    }
+    private async Task HandleEndpointOpened(ApiEndpoint endpoint)
+    {
+
+    }
+    private async Task HandleEndpointRightClicked((ApiEndpoint endpoint, MouseEventArgs mea) p)
+    {
+        contexedEndpoint = p.endpoint;
+        contextMenuStyle = $"display: flex; left: {p.mea.ClientX}px; top: {p.mea.ClientY}px;";
+    }
+    private async Task HandleEndpointDeleted(ApiEndpoint endpoint)
+    {
+
+    }
+
+    [JSInvokable]
+    public void KillContextMenu()
+    {
+        contexedEndpoint = null;
+        contextMenuStyle = "display: none;";
+        Console.WriteLine("KillContextMenu");
+        StateHasChanged();
+    }
+
+    public void Dispose() => objRef?.Dispose();
 }

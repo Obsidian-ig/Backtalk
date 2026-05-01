@@ -1,0 +1,27 @@
+﻿@using Backtalk.Classes
+@inject IJSRuntime js
+
+<div class="main-content-header @headerClass" @onclick='HandleProjectHeaderClicked'>
+    <button type="button" class="project-option-button">File</button>
+    <button type="button" class="project-option-button">Edit</button>
+    <button type="button" class="project-option-button">View</button>
+    <button type="button" class="project-option-button">Git</button>
+    <button type="button" class="project-option-button">Project</button>
+    <p class="main-content-header-name">@project.name</p>
+    <p class="main-content-header-project-info">API Version: @project.api_version</p>
+</div>
+
+@code {
+    [Parameter]
+    public required ProjectData project { get; set; }
+
+    [Parameter]
+    public bool focused { get; set; } = false;
+
+    private string headerClass = "";
+
+    private async Task HandleProjectHeaderClicked()
+    {
+        
+    }
+}

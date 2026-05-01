@@ -1,5 +1,107 @@
-﻿<h3>EndpointsEditor</h3>
+﻿@using Backtalk.Classes
+@inject IJSRuntime js
+
+<div class="endpoint-editor @editorClass" id="project-endpoint-editor" @onclick='HandleEndpointsEditorClicked'>
+    <div id="endpoint-editor-header-container">
+        <p class="header-text" id="endpoint-editor-header-text">Endpoint Editor</p>
+        <div id="endpoint-editor-header-tabs-container">
+            @if (project.tabs_opened.Count > 0)
+            {
+                for (int i = 0; i < project.tabs_opened.Count; i++)
+                {
+                    var editorFocused = editorClass == "active" ? true : false;
+                    <EndpointEditorTab @key="project.tabs_opened[i]" tabData="project.tabs_opened[i]" editorFocused="editorFocused" tabClickedOn="HandleTabClicked" tabClosed="HandleTabClosed" />
+                }
+            }
+        </div>
+    </div>
+    <button type="button" class="close-window-button" id="endpoint-editor-close-button">X</button>
+                
+</div>
 
 @code {
+    [Parameter]
+    public required ProjectData project { get; set; }
 
+    [Parameter]
+    public bool focused { get; set; } = false;
+
+    [Parameter]
+    public EventCallback endpointsEditorClicked { get; set; }
+
+    [Parameter]
+    public EditorTab? focusedTab { get; set; } = null;
+
+    private string editorClass = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (project.tabs_opened.Count > 0)
+        {
+            focusedTab = project.tabs_opened[0];
+            focusedTab.active = true;
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoint-editor");
+        }
+    }
+
+    private async Task HandleEndpointsEditorClicked()
+    {
+
+    }
+
+    private async Task HandleTabClicked(EditorTab tabData)
+    {
+        foreach (var tab in project.tabs_opened)
+        {
+            if (tab.key == tabData.key)
+            {
+                tab.active = true;
+                focusedTab = tab;
+            }
+            if (tab.active == true && tab.key != tabData.key)
+            {
+                tab.active = false;
+            }
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    private async Task HandleTabClosed(EditorTab tabData)
+    {
+
+        for (int i = 0; i < project.tabs_opened.Count; i++)
+        {
+            if (project.tabs_opened[i].key == tabData.key)
+            {
+                if (project.tabs_opened[i].active)
+                {
+                    //set the new focused tab to the adjacent one to the one that was just removed.
+                    focusedTab = null;
+                    if (i == 0 && project.tabs_opened.Count >= 2) focusedTab = project.tabs_opened[i + 1];
+                    if (i == project.tabs_opened.Count - 1 && project.tabs_opened.Count >= 2) focusedTab = project.tabs_opened[i - 1];
+                    if (i != 0 && i != project.tabs_opened.Count - 1 && project.tabs_opened.Count >= 3) focusedTab = project.tabs_opened[i + 1];
+                    if (focusedTab != null) focusedTab.active = true;
+                }
+                project.tabs_opened.RemoveAt(i);
+                break;
+            }
+        }
+        StateHasChanged();
+        await Task.Yield();
+    }
 }
