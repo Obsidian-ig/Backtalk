@@ -15,6 +15,11 @@
     flex-direction: column;
     align-items: center;
     position: absolute;
+    overflow-y: scroll;
+}
+.project-endpoints-explorer::-webkit-scrollbar {
+    appearance: none;
+    width: 0px;
 }
 
 .explorer-header-container {
@@ -69,6 +74,15 @@
     gap: 8px;
 }
 
+.explorer-container-header-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: lightgrey;
+}
 .explorer-container-header {
     margin: 0;
     padding: 0;
@@ -76,9 +90,19 @@
     color: black;
     width: 100%;
     text-align: left;
-    border-bottom-style: solid;
-    border-width: 2px;
-    border-color: lightgrey;
+    
+}
+.explorer-container-kebab-button {
+    background-color: transparent;
+    border: none;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
 .endpoint-item-context-menu {
