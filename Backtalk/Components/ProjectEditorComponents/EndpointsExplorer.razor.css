@@ -24,7 +24,7 @@
 
 .explorer-header-container {
     width: 100%;
-    height: 33px;
+    min-height: 33px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -72,6 +72,12 @@
     margin-top: 20px;
     padding: 5px;
     gap: 8px;
+}
+#endpoints-explorer-all-container {
+    padding-bottom: 25px;
+}
+#endpoints-explorer-folders-container {
+    padding-right: 8px;
 }
 
 .explorer-container-header-container {

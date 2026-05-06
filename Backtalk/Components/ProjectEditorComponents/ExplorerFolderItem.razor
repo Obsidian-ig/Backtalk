@@ -1,0 +1,74 @@
+﻿@inject AppDb db
+
+<div class="explorer-folder-item">
+    <div class="explorer-folder-header-container">
+        <button type="button" class="expand-collapse-button" @onclick="HandleExpandCollapseToggle" @onclick:stopPropagation="true">
+            <img class="collapse-expand-arrow-icon @(folderExpanded ? "expanded" : "")" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse expand arrow" />
+        </button>
+        <div class="folder-container">
+            <img class="folder-icon" src="@Assets["icons/folder-black.png"]" alt="folder" />
+            <p class="folder-name">@folder.name</p>
+        </div>
+    </div>
+    <div class="folder-endpoints-container @(folderExpanded ? "endpoints-expanded" : "")">
+        @if (folderExpanded && endpointsDisplayOption != ExplorerDisplayOption.HIDDEN)
+        {
+            if (endpointsDisplayOption == null)
+            {
+                foreach (var e in endpoints)
+                {
+                    var key = $"folder_endpoint-{e.key}";
+                    <ExplorerEndpointItem @key="key"  endpoint="e" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointContexed" />
+                }
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public required ProjectFolder folder { get; set; }
+    [Parameter]
+    public required List<ApiEndpoint> projectEndpoints { get; set; }
+
+    private bool folderExpanded = false;
+    private ExplorerDisplayOption? endpointsDisplayOption = null;
+    private List<ApiEndpoint> endpoints = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        foreach (var key in folder.endpoints)
+        {
+            foreach (var pe in projectEndpoints)
+            {
+                if (pe.key == key)
+                {
+                    endpoints.Add(pe);
+                }
+            }
+        }
+    }
+
+    private async Task HandleExpandCollapseToggle()
+    {
+        folderExpanded = !folderExpanded;
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+
+    private async Task HandleEndpointSelected(ApiEndpoint endpoint)
+    {
+        
+    }
+
+    private async Task HandleEndpointOpened(ApiEndpoint endpoint)
+    {
+        
+    }
+
+    private async Task HandleEndpointContexed((ApiEndpoint endpoint, MouseEventArgs mea) p)
+    {
+        
+    }
+}
