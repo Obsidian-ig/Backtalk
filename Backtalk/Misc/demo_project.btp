@@ -1,0 +1,668 @@
+{
+  "Id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "ShopStream E-Commerce API",
+  "short_description": "RESTful API for the ShopStream e-commerce platform.",
+  "description": "The ShopStream API provides full access to the ShopStream e-commerce platform, including product catalog management, order processing, user authentication, cart management, inventory tracking, and payment processing. Designed for third-party integrators and internal frontend clients.",
+  "authors": [
+    {
+      "index": 0,
+      "key": "11111111-aaaa-4bbb-8ccc-dddddddddddd",
+      "name": "Jordan Mercer",
+      "pfp_b64": null,
+      "role": "Lead API Architect",
+      "discord_url": "https://discord.com/users/jordanmercer",
+      "github_url": "https://github.com/jordanmercer",
+      "youtube_url": null,
+      "description": "Responsible for the overall API design and versioning strategy.",
+      "other_contact_info": null
+    },
+    {
+      "index": 1,
+      "key": "22222222-bbbb-4ccc-8ddd-eeeeeeeeeeee",
+      "name": "Priya Nair",
+      "pfp_b64": null,
+      "role": "Backend Engineer",
+      "discord_url": null,
+      "github_url": "https://github.com/priyanair",
+      "youtube_url": null,
+      "description": "Handles payment and order processing endpoints.",
+      "other_contact_info": null
+    }
+  ],
+  "contacts": [
+    {
+      "index": 0,
+      "key": "33333333-cccc-4ddd-8eee-ffffffffffff",
+      "contact_name": "API Support",
+      "contact": "api-support@shopstream.io",
+      "method": "Email"
+    },
+    {
+      "index": 1,
+      "key": "44444444-dddd-4eee-8fff-000000000000",
+      "contact_name": "Developer Discord",
+      "contact": "https://discord.gg/shopstream-dev",
+      "method": "Discord"
+    }
+  ],
+  "last_updated_utc": "2025-04-20T14:30:00Z",
+  "created_at_utc": "2024-09-01T09:00:00Z",
+  "api_version": "2.3.1",
+  "config": {
+    "folders_expanded": ["Auth", "Products", "Orders"],
+    "endpoints_expanded": []
+  },
+  "endpoints_count": 18,
+  "get_count": 9,
+  "post_count": 6,
+  "put_count": 2,
+  "patch_count": 1,
+  "delete_count": 2,
+  "status_endpoint": "https://api.shopstream.io/v2/status",
+  "folders": [
+    {
+      "name": "Auth",
+      "endpoints": [
+        "aaaaaaaa-0001-4000-8000-000000000001",
+        "aaaaaaaa-0002-4000-8000-000000000002",
+        "aaaaaaaa-0003-4000-8000-000000000003"
+      ],
+      "created_at_utc": "2024-09-01T09:05:00Z",
+      "last_updated_utc": "2025-01-10T11:00:00Z"
+    },
+    {
+      "name": "Products",
+      "endpoints": [
+        "bbbbbbbb-0001-4000-8000-000000000001",
+        "bbbbbbbb-0002-4000-8000-000000000002",
+        "bbbbbbbb-0003-4000-8000-000000000003",
+        "bbbbbbbb-0004-4000-8000-000000000004"
+      ],
+      "created_at_utc": "2024-09-01T09:10:00Z",
+      "last_updated_utc": "2025-03-15T08:45:00Z"
+    },
+    {
+      "name": "Cart",
+      "endpoints": [
+        "cccccccc-0001-4000-8000-000000000001",
+        "cccccccc-0002-4000-8000-000000000002",
+        "cccccccc-0003-4000-8000-000000000003"
+      ],
+      "created_at_utc": "2024-09-02T10:00:00Z",
+      "last_updated_utc": "2025-02-28T16:20:00Z"
+    },
+    {
+      "name": "Orders",
+      "endpoints": [
+        "dddddddd-0001-4000-8000-000000000001",
+        "dddddddd-0002-4000-8000-000000000002",
+        "dddddddd-0003-4000-8000-000000000003",
+        "dddddddd-0004-4000-8000-000000000004"
+      ],
+      "created_at_utc": "2024-09-03T12:00:00Z",
+      "last_updated_utc": "2025-04-01T09:30:00Z"
+    },
+    {
+      "name": "Users",
+      "endpoints": [
+        "eeeeeeee-0001-4000-8000-000000000001",
+        "eeeeeeee-0002-4000-8000-000000000002",
+        "eeeeeeee-0003-4000-8000-000000000003"
+      ],
+      "created_at_utc": "2024-09-04T14:00:00Z",
+      "last_updated_utc": "2025-03-22T13:15:00Z"
+    },
+    {
+      "name": "Payments",
+      "endpoints": [
+        "ffffffff-0001-4000-8000-000000000001"
+      ],
+      "created_at_utc": "2024-10-01T08:00:00Z",
+      "last_updated_utc": "2025-04-10T10:00:00Z"
+    }
+  ],
+  "tabs_opened": [
+    {
+      "key": "tab00001-1111-4000-8000-000000000001",
+      "tabName": "POST /auth/login",
+      "active": true,
+      "endpoint": {
+        "key": "aaaaaaaa-0001-4000-8000-000000000001",
+        "name": "Login",
+        "endpoint": "https://api.shopstream.io/v2/auth/login",
+        "method": "POST",
+        "tags": ["auth"],
+        "query_parameters": null,
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "body": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"s3cr3t!\"\n}",
+        "responses": [
+          {
+            "status_code": 200,
+            "condition": "Valid credentials",
+            "message": "Login successful",
+            "response": "{\n  \"access_token\": \"eyJhbGci...\",\n  \"refresh_token\": \"dGhpcyBp...\",\n  \"expires_in\": 3600\n}"
+          },
+          {
+            "status_code": 401,
+            "condition": "Invalid credentials",
+            "message": "Unauthorized",
+            "response": "{\n  \"error\": \"Invalid email or password.\"\n}"
+          }
+        ],
+        "created_at_utc": "2024-09-01T09:05:00Z",
+        "last_updated_utc": "2025-01-10T11:00:00Z"
+      }
+    }
+  ],
+  "api_endpoints": [
+    {
+      "key": "",
+      "name": "",
+      "endpoint": "https://example.com/api/example",
+      "method": "GET",
+      "tags": [],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": null,
+      "responses": [],
+      "created_at_utc": "2024-09-01T09:00:00Z",
+      "last_updated_utc": "2024-09-01T09:00:00Z"
+    },
+    {
+      "key": "aaaaaaaa-0001-4000-8000-000000000001",
+      "name": "Login",
+      "endpoint": "https://api.shopstream.io/v2/auth/login",
+      "method": "POST",
+      "tags": ["auth"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"s3cr3t!\"\n}",
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Valid credentials",
+          "message": "Login successful",
+          "response": "{\n  \"access_token\": \"eyJhbGci...\",\n  \"refresh_token\": \"dGhpcyBp...\",\n  \"expires_in\": 3600\n}"
+        },
+        {
+          "status_code": 401,
+          "condition": "Invalid credentials",
+          "message": "Unauthorized",
+          "response": "{\n  \"error\": \"Invalid email or password.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-01T09:05:00Z",
+      "last_updated_utc": "2025-01-10T11:00:00Z"
+    },
+    {
+      "key": "aaaaaaaa-0002-4000-8000-000000000002",
+      "name": "Refresh Token",
+      "endpoint": "https://api.shopstream.io/v2/auth/refresh",
+      "method": "POST",
+      "tags": ["auth"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": "{\n  \"refresh_token\": \"dGhpcyBp...\"\n}",
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Valid refresh token",
+          "message": "Token refreshed",
+          "response": "{\n  \"access_token\": \"eyJuZXci...\",\n  \"expires_in\": 3600\n}"
+        },
+        {
+          "status_code": 401,
+          "condition": "Expired or invalid refresh token",
+          "message": "Unauthorized",
+          "response": "{\n  \"error\": \"Refresh token is invalid or expired.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-01T09:10:00Z",
+      "last_updated_utc": "2025-01-10T11:05:00Z"
+    },
+    {
+      "key": "aaaaaaaa-0003-4000-8000-000000000003",
+      "name": "Logout",
+      "endpoint": "https://api.shopstream.io/v2/auth/logout",
+      "method": "POST",
+      "tags": ["auth"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 204,
+          "condition": "Successfully logged out",
+          "message": "No Content",
+          "response": null
+        }
+      ],
+      "created_at_utc": "2024-09-01T09:15:00Z",
+      "last_updated_utc": "2025-01-10T11:10:00Z"
+    },
+    {
+      "key": "bbbbbbbb-0001-4000-8000-000000000001",
+      "name": "List Products",
+      "endpoint": "https://api.shopstream.io/v2/products",
+      "method": "GET",
+      "tags": ["products", "catalog"],
+      "query_parameters": [
+        { "name": "page", "type": "integer", "example": "1", "required": false },
+        { "name": "limit", "type": "integer", "example": "20", "required": false },
+        { "name": "category", "type": "string", "example": "electronics", "required": false },
+        { "name": "search", "type": "string", "example": "wireless headphones", "required": false },
+        { "name": "sort", "type": "string", "example": "price_asc", "required": false }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Success",
+          "message": "Returns paginated product list",
+          "response": "{\n  \"data\": [\n    {\n      \"id\": \"prod-abc123\",\n      \"name\": \"Wireless Headphones Pro\",\n      \"price\": 89.99,\n      \"category\": \"electronics\",\n      \"stock\": 142\n    }\n  ],\n  \"page\": 1,\n  \"total\": 340\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-01T09:20:00Z",
+      "last_updated_utc": "2025-03-15T08:45:00Z"
+    },
+    {
+      "key": "bbbbbbbb-0002-4000-8000-000000000002",
+      "name": "Get Product by ID",
+      "endpoint": "https://api.shopstream.io/v2/products/{productId}",
+      "method": "GET",
+      "tags": ["products", "catalog"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Product found",
+          "message": "Returns product detail",
+          "response": "{\n  \"id\": \"prod-abc123\",\n  \"name\": \"Wireless Headphones Pro\",\n  \"description\": \"Premium noise-cancelling headphones.\",\n  \"price\": 89.99,\n  \"category\": \"electronics\",\n  \"images\": [\"https://cdn.shopstream.io/products/abc123/1.jpg\"],\n  \"stock\": 142,\n  \"rating\": 4.7\n}"
+        },
+        {
+          "status_code": 404,
+          "condition": "Product not found",
+          "message": "Not Found",
+          "response": "{\n  \"error\": \"Product not found.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-01T09:25:00Z",
+      "last_updated_utc": "2025-03-15T08:50:00Z"
+    },
+    {
+      "key": "bbbbbbbb-0003-4000-8000-000000000003",
+      "name": "Create Product",
+      "endpoint": "https://api.shopstream.io/v2/products",
+      "method": "POST",
+      "tags": ["products", "catalog", "admin"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": "{\n  \"name\": \"New Product Name\",\n  \"description\": \"Product description here.\",\n  \"price\": 29.99,\n  \"category\": \"accessories\",\n  \"stock\": 50\n}",
+      "responses": [
+        {
+          "status_code": 201,
+          "condition": "Product created successfully",
+          "message": "Created",
+          "response": "{\n  \"id\": \"prod-xyz789\",\n  \"name\": \"New Product Name\",\n  \"price\": 29.99\n}"
+        },
+        {
+          "status_code": 422,
+          "condition": "Validation error",
+          "message": "Unprocessable Entity",
+          "response": "{\n  \"error\": \"Validation failed.\",\n  \"details\": [\"price must be a positive number\"]\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-02T10:00:00Z",
+      "last_updated_utc": "2025-03-15T09:00:00Z"
+    },
+    {
+      "key": "bbbbbbbb-0004-4000-8000-000000000004",
+      "name": "Delete Product",
+      "endpoint": "https://api.shopstream.io/v2/products/{productId}",
+      "method": "DELETE",
+      "tags": ["products", "admin"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 204,
+          "condition": "Product deleted",
+          "message": "No Content",
+          "response": null
+        },
+        {
+          "status_code": 404,
+          "condition": "Product not found",
+          "message": "Not Found",
+          "response": "{\n  \"error\": \"Product not found.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-03T11:00:00Z",
+      "last_updated_utc": "2025-03-16T07:30:00Z"
+    },
+    {
+      "key": "cccccccc-0001-4000-8000-000000000001",
+      "name": "Get Cart",
+      "endpoint": "https://api.shopstream.io/v2/cart",
+      "method": "GET",
+      "tags": ["cart"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Cart retrieved",
+          "message": "Returns current user cart",
+          "response": "{\n  \"cart_id\": \"cart-99887766\",\n  \"items\": [\n    {\n      \"product_id\": \"prod-abc123\",\n      \"name\": \"Wireless Headphones Pro\",\n      \"quantity\": 2,\n      \"unit_price\": 89.99\n    }\n  ],\n  \"subtotal\": 179.98\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-02T10:05:00Z",
+      "last_updated_utc": "2025-02-28T16:20:00Z"
+    },
+    {
+      "key": "cccccccc-0002-4000-8000-000000000002",
+      "name": "Add Item to Cart",
+      "endpoint": "https://api.shopstream.io/v2/cart/items",
+      "method": "POST",
+      "tags": ["cart"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": "{\n  \"product_id\": \"prod-abc123\",\n  \"quantity\": 1\n}",
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Item added successfully",
+          "message": "Cart updated",
+          "response": "{\n  \"cart_id\": \"cart-99887766\",\n  \"item_count\": 3,\n  \"subtotal\": 269.97\n}"
+        },
+        {
+          "status_code": 400,
+          "condition": "Insufficient stock",
+          "message": "Bad Request",
+          "response": "{\n  \"error\": \"Requested quantity exceeds available stock.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-02T10:10:00Z",
+      "last_updated_utc": "2025-02-28T16:25:00Z"
+    },
+    {
+      "key": "cccccccc-0003-4000-8000-000000000003",
+      "name": "Remove Item from Cart",
+      "endpoint": "https://api.shopstream.io/v2/cart/items/{productId}",
+      "method": "DELETE",
+      "tags": ["cart"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Item removed",
+          "message": "Cart updated",
+          "response": "{\n  \"cart_id\": \"cart-99887766\",\n  \"item_count\": 2,\n  \"subtotal\": 179.98\n}"
+        },
+        {
+          "status_code": 404,
+          "condition": "Item not in cart",
+          "message": "Not Found",
+          "response": "{\n  \"error\": \"Item not found in cart.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-02T10:15:00Z",
+      "last_updated_utc": "2025-02-28T16:30:00Z"
+    },
+    {
+      "key": "dddddddd-0001-4000-8000-000000000001",
+      "name": "List Orders",
+      "endpoint": "https://api.shopstream.io/v2/orders",
+      "method": "GET",
+      "tags": ["orders"],
+      "query_parameters": [
+        { "name": "page", "type": "integer", "example": "1", "required": false },
+        { "name": "limit", "type": "integer", "example": "10", "required": false },
+        { "name": "status", "type": "string", "example": "shipped", "required": false }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Success",
+          "message": "Returns paginated order list",
+          "response": "{\n  \"data\": [\n    {\n      \"order_id\": \"ord-112233\",\n      \"status\": \"shipped\",\n      \"total\": 179.98,\n      \"created_at\": \"2025-03-01T10:00:00Z\"\n    }\n  ],\n  \"page\": 1,\n  \"total\": 24\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-03T12:00:00Z",
+      "last_updated_utc": "2025-04-01T09:30:00Z"
+    },
+    {
+      "key": "dddddddd-0002-4000-8000-000000000002",
+      "name": "Get Order by ID",
+      "endpoint": "https://api.shopstream.io/v2/orders/{orderId}",
+      "method": "GET",
+      "tags": ["orders"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Order found",
+          "message": "Returns full order details",
+          "response": "{\n  \"order_id\": \"ord-112233\",\n  \"status\": \"shipped\",\n  \"items\": [\n    { \"product_id\": \"prod-abc123\", \"quantity\": 2, \"unit_price\": 89.99 }\n  ],\n  \"shipping_address\": \"123 Main St, Springfield, USA\",\n  \"total\": 179.98,\n  \"created_at\": \"2025-03-01T10:00:00Z\"\n}"
+        },
+        {
+          "status_code": 404,
+          "condition": "Order not found",
+          "message": "Not Found",
+          "response": "{\n  \"error\": \"Order not found.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-03T12:10:00Z",
+      "last_updated_utc": "2025-04-01T09:35:00Z"
+    },
+    {
+      "key": "dddddddd-0003-4000-8000-000000000003",
+      "name": "Place Order",
+      "endpoint": "https://api.shopstream.io/v2/orders",
+      "method": "POST",
+      "tags": ["orders"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": "{\n  \"cart_id\": \"cart-99887766\",\n  \"shipping_address\": {\n    \"line1\": \"123 Main St\",\n    \"city\": \"Springfield\",\n    \"state\": \"IL\",\n    \"zip\": \"62701\",\n    \"country\": \"US\"\n  },\n  \"payment_method_id\": \"pm-aabbccdd\"\n}",
+      "responses": [
+        {
+          "status_code": 201,
+          "condition": "Order placed successfully",
+          "message": "Created",
+          "response": "{\n  \"order_id\": \"ord-998877\",\n  \"status\": \"pending\",\n  \"total\": 179.98,\n  \"estimated_delivery\": \"2025-04-08\"\n}"
+        },
+        {
+          "status_code": 402,
+          "condition": "Payment failed",
+          "message": "Payment Required",
+          "response": "{\n  \"error\": \"Payment method declined.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-03T12:20:00Z",
+      "last_updated_utc": "2025-04-01T09:40:00Z"
+    },
+    {
+      "key": "dddddddd-0004-4000-8000-000000000004",
+      "name": "Update Order Status",
+      "endpoint": "https://api.shopstream.io/v2/orders/{orderId}/status",
+      "method": "PATCH",
+      "tags": ["orders", "admin"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": "{\n  \"status\": \"shipped\",\n  \"tracking_number\": \"1Z999AA10123456784\"\n}",
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Status updated",
+          "message": "Order updated",
+          "response": "{\n  \"order_id\": \"ord-112233\",\n  \"status\": \"shipped\",\n  \"tracking_number\": \"1Z999AA10123456784\"\n}"
+        },
+        {
+          "status_code": 404,
+          "condition": "Order not found",
+          "message": "Not Found",
+          "response": "{\n  \"error\": \"Order not found.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-04T08:00:00Z",
+      "last_updated_utc": "2025-04-01T10:00:00Z"
+    },
+    {
+      "key": "eeeeeeee-0001-4000-8000-000000000001",
+      "name": "Get Current User",
+      "endpoint": "https://api.shopstream.io/v2/users/me",
+      "method": "GET",
+      "tags": ["users"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Authenticated user found",
+          "message": "Returns user profile",
+          "response": "{\n  \"id\": \"usr-aabb1122\",\n  \"email\": \"user@example.com\",\n  \"name\": \"Jane Doe\",\n  \"created_at\": \"2024-01-15T08:00:00Z\"\n}"
+        },
+        {
+          "status_code": 401,
+          "condition": "Not authenticated",
+          "message": "Unauthorized",
+          "response": "{\n  \"error\": \"Authentication required.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-04T14:00:00Z",
+      "last_updated_utc": "2025-03-22T13:15:00Z"
+    },
+    {
+      "key": "eeeeeeee-0002-4000-8000-000000000002",
+      "name": "Update User Profile",
+      "endpoint": "https://api.shopstream.io/v2/users/me",
+      "method": "PUT",
+      "tags": ["users"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": "{\n  \"name\": \"Jane Doe\",\n  \"phone\": \"+15555550100\",\n  \"address\": {\n    \"line1\": \"456 Oak Ave\",\n    \"city\": \"Portland\",\n    \"state\": \"OR\",\n    \"zip\": \"97201\",\n    \"country\": \"US\"\n  }\n}",
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Profile updated",
+          "message": "User updated",
+          "response": "{\n  \"id\": \"usr-aabb1122\",\n  \"name\": \"Jane Doe\",\n  \"phone\": \"+15555550100\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-04T14:10:00Z",
+      "last_updated_utc": "2025-03-22T13:20:00Z"
+    },
+    {
+      "key": "eeeeeeee-0003-4000-8000-000000000003",
+      "name": "List User Addresses",
+      "endpoint": "https://api.shopstream.io/v2/users/me/addresses",
+      "method": "GET",
+      "tags": ["users"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": null,
+      "responses": [
+        {
+          "status_code": 200,
+          "condition": "Addresses retrieved",
+          "message": "Returns list of saved addresses",
+          "response": "{\n  \"addresses\": [\n    {\n      \"id\": \"addr-001\",\n      \"label\": \"Home\",\n      \"line1\": \"456 Oak Ave\",\n      \"city\": \"Portland\",\n      \"state\": \"OR\",\n      \"zip\": \"97201\",\n      \"country\": \"US\",\n      \"is_default\": true\n    }\n  ]\n}"
+        }
+      ],
+      "created_at_utc": "2024-09-05T09:00:00Z",
+      "last_updated_utc": "2025-03-22T13:25:00Z"
+    },
+    {
+      "key": "ffffffff-0001-4000-8000-000000000001",
+      "name": "Add Payment Method",
+      "endpoint": "https://api.shopstream.io/v2/payments/methods",
+      "method": "POST",
+      "tags": ["payments"],
+      "query_parameters": null,
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {access_token}" }
+      ],
+      "body": "{\n  \"type\": \"card\",\n  \"token\": \"tok_stripe_generated_abc123\",\n  \"set_as_default\": true\n}",
+      "responses": [
+        {
+          "status_code": 201,
+          "condition": "Payment method added",
+          "message": "Created",
+          "response": "{\n  \"payment_method_id\": \"pm-aabbccdd\",\n  \"type\": \"card\",\n  \"last4\": \"4242\",\n  \"brand\": \"Visa\",\n  \"expires\": \"12/27\"\n}"
+        },
+        {
+          "status_code": 400,
+          "condition": "Invalid token",
+          "message": "Bad Request",
+          "response": "{\n  \"error\": \"Payment token is invalid or expired.\"\n}"
+        }
+      ],
+      "created_at_utc": "2024-10-01T08:00:00Z",
+      "last_updated_utc": "2025-04-10T10:00:00Z"
+    }
+  ]
+}
