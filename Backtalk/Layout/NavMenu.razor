@@ -2,23 +2,40 @@
 @inject NavigationManager nav
 @inject INotificationService notificationService
 
-<nav class="navmenu container-fluid @navmenuClass theme-@(theme)" @onmouseenter="HandleNavmenuMouseHover" @onmouseleave="HandleNavmenuMouseLeave">
-    <div class="row">
-        <div class="col-5 navmenu-navlinks-container">
-            <a class="navmenu-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
-            <a class="navmenu-navlink @projectsNavlinkClass" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
-            <a class="navmenu-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
+@if (!projectNavmenu)
+{
+    <nav class="navmenu container-fluid theme-@(theme)">
+        <div class="row">
+            <div class="col-5 navmenu-navlinks-container">
+                <a class="navmenu-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
+                <a class="navmenu-navlink @projectsNavlinkClass" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
+                <a class="navmenu-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
+            </div>
+            <div class="col-2 navmenu-brand-container">
+                <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" @onclick="HandleLogoClicked" />
+            </div>
+            <div class="col-5 navmenu-account-options">
+                <a class="navmenu-navlink-account" href="signup" @onclick="HandleAccountOptionsClicked" @onclick:preventDefault="true">Sign Up</a>
+                <a class="navmenu-navlink-account" href="login" @onclick="HandleAccountOptionsClicked" @onclick:preventDefault="true">Log In</a>
+            </div>
         </div>
-        <div class="col-2 navmenu-brand-container">
-            <img src="@Assets["logo.png"]" alt="logo" class="navmenu-logo-image" @onclick="HandleLogoClicked" />
-        </div>
-        <div class="col-5 navmenu-account-options">
-            <a class="navmenu-navlink-account" href="signup" @onclick="HandleAccountOptionsClicked" @onclick:preventDefault="true">Sign Up</a>
-            <a class="navmenu-navlink-account" href="login" @onclick="HandleAccountOptionsClicked" @onclick:preventDefault="true">Log In</a>
-        </div>
-    </div>
     
-</nav>
+    </nav>
+} else
+{
+    <nav class="navmenu-dropdown">
+        <img class="navmenu-dropdown-logo" src="@Assets["logo.png"]" alt="logo" data-clickable="true" @onclick="HandleDropDownLogoClicked" />
+        @if (projectNavmenuExpanded)
+        {
+            <div class="navmenu-dropdown-menu">
+                <a class="navmenu-dropdown-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
+                <a class="navmenu-dropdown-navlink @projectsNavlinkClass" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
+                <a class="navmenu-dropdown-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
+            </div>
+        }
+    </nav>
+}
+
 
 @code {
     [CascadingParameter]
@@ -28,7 +45,9 @@
     private string homeNavlinkClass = "navmenu-navlink-active";
     private string projectsNavlinkClass = "";
     private string aboutNavlinkClass = "";
-    private string navmenuClass = "";
+
+    private bool projectNavmenu = false;
+    private bool projectNavmenuExpanded = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,6 +63,7 @@
             homeNavlinkClass = navlinkActiveClass;
             projectsNavlinkClass = "";
             aboutNavlinkClass = "";
+            projectNavmenu = false;
         }
         else if (nav.Uri.Contains("project"))
         {
@@ -51,10 +71,11 @@
             homeNavlinkClass = "";
             projectsNavlinkClass = navlinkActiveClass;
             aboutNavlinkClass = "";
+            projectNavmenu = false;
             if (nav.Uri.Contains("project?key="))
             {
                 //shrink navbar
-                navmenuClass = "navmenu-collapsed";
+                projectNavmenu = true;
             }
         }
         else if (nav.Uri.Contains("about"))
@@ -63,6 +84,7 @@
             homeNavlinkClass = "";
             projectsNavlinkClass = "";
             aboutNavlinkClass = navlinkActiveClass;
+            projectNavmenu = false;
         }
         else
         {
@@ -70,25 +92,10 @@
             homeNavlinkClass = "";
             projectsNavlinkClass = "";
             aboutNavlinkClass = "";
+            projectNavmenu = false;
         }
         StateHasChanged();
         await Task.Yield();
-    }
-
-    private async Task HandleNavmenuMouseHover()
-    {
-        if (nav.Uri.Contains("project?key="))
-        {
-            navmenuClass = "";
-        }
-    }
-
-    private async Task HandleNavmenuMouseLeave()
-    {
-        if (nav.Uri.Contains("project?key="))
-        {
-            navmenuClass = "navmenu-collapsed";
-        }
     }
 
     private async Task HandleLogoClicked()
@@ -140,4 +147,15 @@
             expire_at_utc = DateTime.UtcNow.AddSeconds(3)
         });
     }
+
+
+
+
+    private async Task HandleDropDownLogoClicked()
+    {
+        projectNavmenuExpanded = !projectNavmenuExpanded;
+        StateHasChanged();
+        await Task.Yield();
+    }
+
 }

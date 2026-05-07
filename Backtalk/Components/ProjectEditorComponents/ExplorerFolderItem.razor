@@ -5,7 +5,7 @@
         <button type="button" class="expand-collapse-button" @onclick="HandleExpandCollapseToggle" @onclick:stopPropagation="true">
             <img class="collapse-expand-arrow-icon @(folderExpanded ? "expanded" : "")" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse expand arrow" />
         </button>
-        <div class="folder-container">
+        <div class="folder-container @(focused ? "focused" : "")" data-clickable="true" @onclick="HandleFolderSelected" @onclick:stopPropagation="true" @ondblclick="HandleFolderOpened" @ondblclick:stopPropagation="true" @oncontextmenu="HandleFolderContexed" @oncontextmenu:stopPropagation="true">
             <img class="folder-icon" src="@Assets["icons/folder-black.png"]" alt="folder" />
             <p class="folder-name">@folder.name</p>
         </div>
@@ -20,6 +20,41 @@
                     var key = $"folder_endpoint-{e.key}";
                     <ExplorerEndpointItem @key="key"  endpoint="e" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointContexed" />
                 }
+            } else
+            {
+                var sortedList = endpoints;
+                switch(endpointsDisplayOption)
+                {
+                    case ExplorerDisplayOption.SORT_BY_NAME:
+                        sortedList = Sorting.SortEndpointsByName(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_NAME_REVERSED:
+                        sortedList = Sorting.SortEndpointsByName(sortedList, reversed: true);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_TYPE:
+                        sortedList = Sorting.SortEndpointsByType(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_TYPE_REVERSED:
+                        sortedList = Sorting.SortEndpointsByType(sortedList, reversed: true);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_CREATION_DATE:
+                        sortedList = Sorting.SortEndpointsByCreationDate(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_CREATION_DATE_REVERSED:
+                        sortedList = Sorting.SortEndpointsByCreationDate(sortedList, reversed: true);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED:
+                        sortedList = Sorting.SortEndpointsByLastModifiedDate(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED_REVERSED:
+                        sortedList = Sorting.SortEndpointsByLastModifiedDate(sortedList, reversed: true);
+                        break;
+                }
+                foreach (var e in sortedList)
+                {
+                    var key = $"folder_endpoint-{e.key}";
+                    <ExplorerEndpointItem @key="key" endpoint="e" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointContexed" />
+                }
             }
         }
     </div>
@@ -31,8 +66,27 @@
     [Parameter]
     public required List<ApiEndpoint> projectEndpoints { get; set; }
 
+    [Parameter]
+    public ExplorerDisplayOption? endpointsDisplayOption { get; set; } = null;
+
+    [Parameter]
+    public bool focused { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<ProjectFolder> folderSelected { get; set; }
+    [Parameter] //Will make the endpoints explorer open a view showing only the contents of the folder.
+    public EventCallback<ProjectFolder> folderOpened { get; set; }
+    [Parameter]
+    public EventCallback<(ProjectFolder folder, MouseEventArgs mea)> folderContexed { get; set; }
+
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointSelected { get; set; }
+    [Parameter]
+    public EventCallback<ApiEndpoint> endpointOpened { get; set; }
+    [Parameter]
+    public EventCallback<(ApiEndpoint endpoint, MouseEventArgs mea)> endpointContexed { get; set; }
+
     private bool folderExpanded = false;
-    private ExplorerDisplayOption? endpointsDisplayOption = null;
     private List<ApiEndpoint> endpoints = new();
 
     protected override async Task OnInitializedAsync()
@@ -57,18 +111,34 @@
     }
 
 
+    private async Task HandleFolderSelected()
+    {
+        await folderSelected.InvokeAsync(folder);
+        //styling and stuff idk
+    }
+    private async Task HandleFolderOpened()
+    {
+        await folderOpened.InvokeAsync(folder);
+    }
+    private async Task HandleFolderContexed(MouseEventArgs mea)
+    {
+        await folderContexed.InvokeAsync((folder, mea));
+    }
+
+
+    //Pipelines from the child api endpoints to the endpoints explorer
     private async Task HandleEndpointSelected(ApiEndpoint endpoint)
     {
-        
+        await endpointSelected.InvokeAsync(endpoint);
     }
 
     private async Task HandleEndpointOpened(ApiEndpoint endpoint)
     {
-        
+        await endpointOpened.InvokeAsync(endpoint);
     }
 
     private async Task HandleEndpointContexed((ApiEndpoint endpoint, MouseEventArgs mea) p)
     {
-        
+        await endpointContexed.InvokeAsync(p);
     }
 }

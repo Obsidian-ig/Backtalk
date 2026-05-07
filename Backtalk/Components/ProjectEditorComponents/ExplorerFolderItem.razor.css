@@ -53,6 +53,7 @@
 }
 .folder-container:hover {
     filter: brightness(0.9);
+    cursor: pointer;
 }
 .folder-icon {
     width: 22px;
@@ -79,6 +80,7 @@
     margin-top: 5px;
     gap: 3px;
 }
-.endpoints-expanded {
+
+.focused .folder-container {
 
 }

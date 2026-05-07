@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Backtalk.Classes
+namespace Backtalk.Classes.ProjectData
 {
     public class ProjectData
     {
@@ -24,12 +24,6 @@ namespace Backtalk.Classes
         public List<ProjectFolder> folders { get; set; } = new List<ProjectFolder>();
         public string status_endpoint { get; set; } = "";
         public List<EditorTab> tabs_opened { get; set; } = new List<EditorTab>();
-        public List<ApiEndpoint> api_endpoints { get; set; } = new List<ApiEndpoint>()
-        {
-            new ApiEndpoint()
-            {
-                key = ""
-            }
-        };
+        public List<ApiEndpoint> api_endpoints { get; set; } = new();
     }
 }

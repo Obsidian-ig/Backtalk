@@ -27,28 +27,28 @@
                 switch (option)
                 {
                     case ExplorerDisplayOption.SORT_BY_NAME:
-                        sortedList = SortFoldersByName(sortedList);
+                        sortedList = Sorting.SortFoldersByName(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_NAME_REVERSED:
-                        sortedList = SortFoldersByName(sortedList, reversed: true);
+                        sortedList = Sorting.SortFoldersByName(sortedList, reversed: true);
                         break;
                     case ExplorerDisplayOption.SORT_BY_CREATION_DATE:
-                        sortedList = SortFoldersByCreationDate(sortedList);
+                        sortedList = Sorting.SortFoldersByCreationDate(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_CREATION_DATE_REVERSED:
-                        sortedList = SortFoldersByCreationDate(sortedList, reversed: true);
+                        sortedList = Sorting.SortFoldersByCreationDate(sortedList, reversed: true);
                         break;
                     case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED:
-                        sortedList = SortFoldersByLastModifiedDate(sortedList);
+                        sortedList = Sorting.SortFoldersByLastModifiedDate(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED_REVERSED:
-                        sortedList = SortFoldersByLastModifiedDate(sortedList, reversed: true);
+                        sortedList = Sorting.SortFoldersByLastModifiedDate(sortedList, reversed: true);
                         break;
                     case ExplorerDisplayOption.SORT_BY_ENDPOINTS_COUNT:
-                        sortedList = SortFoldersByEndpointCount(sortedList);
+                        sortedList = Sorting.SortFoldersByEndpointCount(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_ENDPOINTS_COUNT_REVERSED:
-                        sortedList = SortFoldersByEndpointCount(sortedList, reversed: true);
+                        sortedList = Sorting.SortFoldersByEndpointCount(sortedList, reversed: true);
                         break;
                 }
                 for (int j = 0; j < sortedList.Count; j++)
@@ -65,7 +65,7 @@
         </div>
         @if (allDisplayOption != ExplorerDisplayOption.HIDDEN)
         {
-            if (allDisplayOption == null)
+            if (allDisplayOption == null && project.api_endpoints.Count > 0)
             {
                 foreach (var endpoint in project.api_endpoints)
                 {
@@ -79,33 +79,36 @@
                 switch (option)
                 {
                     case ExplorerDisplayOption.SORT_BY_NAME:
-                        sortedList = SortEndpointsByName(sortedList);
+                        sortedList = Sorting.SortEndpointsByName(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_NAME_REVERSED:
-                        sortedList = SortEndpointsByName(sortedList, reversed: true);
+                        sortedList = Sorting.SortEndpointsByName(sortedList, reversed: true);
                         break;
                     case ExplorerDisplayOption.SORT_BY_TYPE:
-                        sortedList = SortEndpointsByType(sortedList);
+                        sortedList = Sorting.SortEndpointsByType(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_TYPE_REVERSED:
-                        sortedList = SortEndpointsByType(sortedList, reversed: true);
+                        sortedList = Sorting.SortEndpointsByType(sortedList, reversed: true);
                         break;
                     case ExplorerDisplayOption.SORT_BY_CREATION_DATE:
-                        sortedList = SortEndpointsByCreationDate(sortedList);
+                        sortedList = Sorting.SortEndpointsByCreationDate(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_CREATION_DATE_REVERSED:
-                        sortedList = SortEndpointsByCreationDate(sortedList, reversed: true);
+                        sortedList = Sorting.SortEndpointsByCreationDate(sortedList, reversed: true);
                         break;
                     case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED:
-                        sortedList = SortEndpointsByLastModifiedDate(sortedList);
+                        sortedList = Sorting.SortEndpointsByLastModifiedDate(sortedList);
                         break;
                     case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED_REVERSED:
-                        sortedList = SortEndpointsByLastModifiedDate(sortedList, reversed: true);
+                        sortedList = Sorting.SortEndpointsByLastModifiedDate(sortedList, reversed: true);
                         break;
                 }
-                for (int j = 0; j < sortedList.Count; j++)
+                if (sortedList.Count > 0)
                 {
-                    <ExplorerEndpointItem @key="sortedList[j].key" endpoint="sortedList[j]" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" />
+                    for (int j = 0; j < sortedList.Count; j++)
+                    {
+                        <ExplorerEndpointItem @key="sortedList[j].key" endpoint="sortedList[j]" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" />
+                    }
                 }
             }
         }
@@ -134,6 +137,7 @@
     [Parameter]
     public EventCallback endpointCreated { get; set; }
 
+
     private string endpointsClass = "";
     private ApiEndpoint? focusedEndpoint = null; //the endpoint that should be displayed in the editor/props
     private ApiEndpoint? contexedEndpoint = null; //the endpoint the context menu is opened for
@@ -142,7 +146,16 @@
     private DotNetObjectReference<EndpointsExplorer>? objRef;
 
     private ExplorerDisplayOption? foldersDisplayOption = null;
-    private ExplorerDisplayOption? allDisplayOption = ExplorerDisplayOption.SORT_BY_CREATION_DATE;
+    private ExplorerDisplayOption? allDisplayOption = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Initialized!");
+        foreach (var e in project.api_endpoints)
+        {
+            Console.WriteLine($"ENDPOINT: {e.name}, {e.key}, {e.endpoint}");
+        }
+    }
 
 
     protected override async Task OnParametersSetAsync()
@@ -187,110 +200,6 @@
     {
         await endpointDeleted.InvokeAsync(contexedEndpoint);
     }
-
-
-    /*SORTING ENDPOINTS AND FOLDERS*/
-    private List<ApiEndpoint> SortEndpointsByName(List<ApiEndpoint> endpoints, bool reversed = false)
-    {
-        var sortedList = endpoints;
-        if (!reversed)
-        {
-            sortedList.Sort((x, y) => x.name.CompareTo(y.name));
-        } else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.name).ToList();
-        }
-        return sortedList;
-    }
-    private List<ApiEndpoint> SortEndpointsByType(List<ApiEndpoint> endpoints, bool reversed = false)
-    {
-        var sortedList = endpoints;
-        if (!reversed)
-        {
-            sortedList.Sort((x, y) => x.method.CompareTo(y.method));
-        } else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.method).ToList();
-        }
-        return sortedList;
-    }
-    private List<ApiEndpoint> SortEndpointsByCreationDate(List<ApiEndpoint> endpoints, bool reversed = false)
-    {
-        var sortedList = endpoints;
-        if (!reversed)
-        {
-            sortedList = sortedList.OrderBy(x => x.created_at_utc).ToList();
-        } else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.created_at_utc).ToList();
-        }
-        return sortedList;
-    }
-    private List<ApiEndpoint> SortEndpointsByLastModifiedDate(List<ApiEndpoint> endpoints, bool reversed = false)
-    {
-        var sortedList = endpoints;
-        if (!reversed)
-        {
-            sortedList = sortedList.OrderBy(x => x.last_updated_utc).ToList();
-        } else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.last_updated_utc).ToList();
-        }
-        return sortedList;
-    }
-    private List<ProjectFolder> SortFoldersByName(List<ProjectFolder> Folders, bool reversed = false)
-    {
-        var sortedList = Folders;
-        if (!reversed)
-        {
-            sortedList.Sort((x, y) => x.name.CompareTo(y.name));
-        }
-        else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.name).ToList();
-        }
-        return sortedList;
-    }
-    private List<ProjectFolder> SortFoldersByCreationDate(List<ProjectFolder> Folders, bool reversed = false)
-    {
-        var sortedList = Folders;
-        if (!reversed)
-        {
-            sortedList = sortedList.OrderBy(x => x.created_at_utc).ToList();
-        }
-        else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.created_at_utc).ToList();
-        }
-        return sortedList;
-    }
-    private List<ProjectFolder> SortFoldersByLastModifiedDate(List<ProjectFolder> Folders, bool reversed = false)
-    {
-        var sortedList = Folders;
-        if (!reversed)
-        {
-            sortedList = sortedList.OrderBy(x => x.last_updated_utc).ToList();
-        }
-        else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.last_updated_utc).ToList();
-        }
-        return sortedList;
-    }
-    private List<ProjectFolder> SortFoldersByEndpointCount(List<ProjectFolder> Folders, bool reversed = false)
-    {
-        var sortedList = Folders;
-        if (!reversed)
-        {
-            sortedList = sortedList.OrderBy(x => x.endpoints.Count).ToList();
-        }
-        else
-        {
-            sortedList = sortedList.OrderByDescending(x => x.endpoints.Count).ToList();
-        }
-        return sortedList;
-    }
-    /*END OF ENDPOINTS AND FOLDERS SORTING*/
 
 
 

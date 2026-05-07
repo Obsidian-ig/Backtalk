@@ -72,10 +72,6 @@ TO DO
 
 **ENDPOINTS EXPLORER**
 
-\-Make a "header" section like the editor
-
-\-Align the title and the close button vertically
-
 \-
 
 

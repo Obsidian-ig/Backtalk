@@ -58,7 +58,7 @@
         project = project2;
         foreach (var endpoint in project.api_endpoints)
         {
-            project.tabs_opened.Add(new Classes.EditorTab()
+            project.tabs_opened.Add(new EditorTab()
             {
                 tabName = endpoint.name,
                 endpoint = endpoint,

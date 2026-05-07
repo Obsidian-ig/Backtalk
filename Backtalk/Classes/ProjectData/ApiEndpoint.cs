@@ -1,9 +1,9 @@
-﻿namespace Backtalk.Classes
+﻿namespace Backtalk.Classes.ProjectData
 {
     public class ApiEndpoint
     {
         public string key { get; set; } = Guid.NewGuid().ToString();
-        public string name { get; set; } = "";
+        public string name { get; set; } = "Default Name";
         public string endpoint { get; set; } = "https://example.com/api/example";
         public string method { get; set; } = "GET";
         public List<string> tags { get; set; } = new();

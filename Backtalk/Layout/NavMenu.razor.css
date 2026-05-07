@@ -75,34 +75,35 @@
     color: var(--bt-txt-color);
 }
 
-.navmenu-collapsed {
-    height: 1px;
-    font-size: 0px;
+
+/*PROJECT EDITOR/MOBILE NAVMENU*/
+.navmenu-dropdown {
     display: flex;
-    padding: 0;
-}
-.navmenu-collapsed a {
-    display: none;
-}
-.navmenu-collapsed .navmenu-navlinks-container {
-    width: 0px;
-    padding: 0px;
-    background-color: blue;
-    display: flex;
-}
-.navmenu-collapsed .navmenu-account-options {
-    width: 0;
-    padding: 0;
-}
-.navmenu-collapsed .navmenu-brand-container {
+    flex-direction: column;
+    justify-content: center;
     width: fit-content;
-    height: fit-content;
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    margin-left: 25px;
-    margin-top: 19px;
+    margin-top: 2vh;
+    margin-left: 20px;
+    position: relative;
+    z-index: 999999;
 }
-.navmenu-collapsed .navmenu-logo-image {
-    width: 100px;
+
+.navmenu-dropdown-logo {
+    width: 120px;
+}
+.navmenu-dropdown-logo:hover {
+    cursor: pointer;
+}
+
+.navmenu-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: lightgrey;
+}
+.navmenu-dropdown-navlink {
+    color: black;
+}
+.navmenu-dropdown-navlink:hover {
+    color: grey;
 }

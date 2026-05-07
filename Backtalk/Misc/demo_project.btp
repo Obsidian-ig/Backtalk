@@ -158,21 +158,6 @@
   ],
   "api_endpoints": [
     {
-      "key": "",
-      "name": "",
-      "endpoint": "https://example.com/api/example",
-      "method": "GET",
-      "tags": [],
-      "query_parameters": null,
-      "headers": [
-        { "name": "Content-Type", "value": "application/json" }
-      ],
-      "body": null,
-      "responses": [],
-      "created_at_utc": "2024-09-01T09:00:00Z",
-      "last_updated_utc": "2024-09-01T09:00:00Z"
-    },
-    {
       "key": "aaaaaaaa-0001-4000-8000-000000000001",
       "name": "Login",
       "endpoint": "https://api.shopstream.io/v2/auth/login",

@@ -1,4 +1,4 @@
-﻿namespace Backtalk.Classes
+﻿namespace Backtalk.Classes.ProjectData
 {
     public class ApiResponse
     {
