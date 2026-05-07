@@ -1,5 +1,4 @@
-﻿@using Backtalk.Classes
-@inject IJSRuntime js
+﻿@inject IJSRuntime js
 
 <div class="project-endpoints-explorer @endpointsClass" id="project-endpoints-explorer" @onclick='HandleExplorerClicked'>
     <div class="explorer-header-container">
@@ -11,6 +10,53 @@
             <p class="explorer-container-header">Folders</p>
             <button type="button" class="explorer-container-kebab-button">...</button>
         </div>
+        @if (foldersDisplayOption != ExplorerDisplayOption.HIDDEN)
+        {
+            if (foldersDisplayOption == null)
+            {
+                foreach (var folder in project.folders)
+                {
+                    // explorer folder item here
+                    <ExplorerFolderItem @key="folder" folder="folder" projectEndpoints="project.api_endpoints" />
+                }
+            }
+            else
+            {
+                var sortedList = project.folders;
+                var option = foldersDisplayOption;
+                switch (option)
+                {
+                    case ExplorerDisplayOption.SORT_BY_NAME:
+                        sortedList = SortFoldersByName(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_NAME_REVERSED:
+                        sortedList = SortFoldersByName(sortedList, reversed: true);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_CREATION_DATE:
+                        sortedList = SortFoldersByCreationDate(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_CREATION_DATE_REVERSED:
+                        sortedList = SortFoldersByCreationDate(sortedList, reversed: true);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED:
+                        sortedList = SortFoldersByLastModifiedDate(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_LAST_MODIFIED_REVERSED:
+                        sortedList = SortFoldersByLastModifiedDate(sortedList, reversed: true);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_ENDPOINTS_COUNT:
+                        sortedList = SortFoldersByEndpointCount(sortedList);
+                        break;
+                    case ExplorerDisplayOption.SORT_BY_ENDPOINTS_COUNT_REVERSED:
+                        sortedList = SortFoldersByEndpointCount(sortedList, reversed: true);
+                        break;
+                }
+                for (int j = 0; j < sortedList.Count; j++)
+                {
+                    // explorer folder item goes here
+                }
+            }
+        }
     </div>
     <div class="explorer-container" id="endpoints-explorer-all-container">
         <div class="explorer-container-header-container">
@@ -23,7 +69,7 @@
             {
                 foreach (var endpoint in project.api_endpoints)
                 {
-                    <ExplorerEndpointItem @key="endpoint" endpoint="endpoint" endpointOpened="HandleEndpointOpened" endpointSelected="HandleEndpointSelected" endpointContexed="HandleEndpointRightClicked" />
+                    <ExplorerEndpointItem @key="endpoint.key" endpoint="endpoint" endpointOpened="HandleEndpointOpened" endpointSelected="HandleEndpointSelected" endpointContexed="HandleEndpointRightClicked" />
                 }
             }
             else
@@ -59,7 +105,7 @@
                 }
                 for (int j = 0; j < sortedList.Count; j++)
                 {
-                    <ExplorerEndpointItem @key="sortedList[j]" endpoint="sortedList[j]" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" />
+                    <ExplorerEndpointItem @key="sortedList[j].key" endpoint="sortedList[j]" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" />
                 }
             }
         }
@@ -95,8 +141,8 @@
 
     private DotNetObjectReference<EndpointsExplorer>? objRef;
 
-    private List<ExplorerDisplayOption> foldersDisplayOptions = new();
-    private ExplorerDisplayOption? allDisplayOption = ExplorerDisplayOption.SORT_BY_LAST_MODIFIED;
+    private ExplorerDisplayOption? foldersDisplayOption = null;
+    private ExplorerDisplayOption? allDisplayOption = ExplorerDisplayOption.SORT_BY_CREATION_DATE;
 
 
     protected override async Task OnParametersSetAsync()
@@ -143,35 +189,108 @@
     }
 
 
+    /*SORTING ENDPOINTS AND FOLDERS*/
     private List<ApiEndpoint> SortEndpointsByName(List<ApiEndpoint> endpoints, bool reversed = false)
     {
         var sortedList = endpoints;
-        sortedList.Sort((x, y) => x.name.CompareTo(y.name));
-        if (reversed) sortedList = sortedList.OrderByDescending(x => x.name).ToList();   
+        if (!reversed)
+        {
+            sortedList.Sort((x, y) => x.name.CompareTo(y.name));
+        } else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.name).ToList();
+        }
         return sortedList;
     }
     private List<ApiEndpoint> SortEndpointsByType(List<ApiEndpoint> endpoints, bool reversed = false)
     {
         var sortedList = endpoints;
-        sortedList.Sort((x, y) => x.method.CompareTo(y.method));
-        if (reversed) sortedList = sortedList.OrderByDescending(x => x.method).ToList();
+        if (!reversed)
+        {
+            sortedList.Sort((x, y) => x.method.CompareTo(y.method));
+        } else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.method).ToList();
+        }
         return sortedList;
     }
     private List<ApiEndpoint> SortEndpointsByCreationDate(List<ApiEndpoint> endpoints, bool reversed = false)
     {
         var sortedList = endpoints;
-        sortedList = sortedList.OrderBy(x => x.created_at_utc).ToList();
-        if (reversed) sortedList = sortedList.OrderByDescending(x => x.created_at_utc).ToList();
+        if (!reversed)
+        {
+            sortedList = sortedList.OrderBy(x => x.created_at_utc).ToList();
+        } else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.created_at_utc).ToList();
+        }
         return sortedList;
     }
     private List<ApiEndpoint> SortEndpointsByLastModifiedDate(List<ApiEndpoint> endpoints, bool reversed = false)
     {
         var sortedList = endpoints;
-        sortedList = sortedList.OrderBy(x => x.last_updated_utc).ToList();
-        if (reversed) sortedList = sortedList.OrderByDescending(x => x.last_updated_utc).ToList();
+        if (!reversed)
+        {
+            sortedList = sortedList.OrderBy(x => x.last_updated_utc).ToList();
+        } else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.last_updated_utc).ToList();
+        }
         return sortedList;
     }
-
+    private List<ProjectFolder> SortFoldersByName(List<ProjectFolder> Folders, bool reversed = false)
+    {
+        var sortedList = Folders;
+        if (!reversed)
+        {
+            sortedList.Sort((x, y) => x.name.CompareTo(y.name));
+        }
+        else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.name).ToList();
+        }
+        return sortedList;
+    }
+    private List<ProjectFolder> SortFoldersByCreationDate(List<ProjectFolder> Folders, bool reversed = false)
+    {
+        var sortedList = Folders;
+        if (!reversed)
+        {
+            sortedList = sortedList.OrderBy(x => x.created_at_utc).ToList();
+        }
+        else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.created_at_utc).ToList();
+        }
+        return sortedList;
+    }
+    private List<ProjectFolder> SortFoldersByLastModifiedDate(List<ProjectFolder> Folders, bool reversed = false)
+    {
+        var sortedList = Folders;
+        if (!reversed)
+        {
+            sortedList = sortedList.OrderBy(x => x.last_updated_utc).ToList();
+        }
+        else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.last_updated_utc).ToList();
+        }
+        return sortedList;
+    }
+    private List<ProjectFolder> SortFoldersByEndpointCount(List<ProjectFolder> Folders, bool reversed = false)
+    {
+        var sortedList = Folders;
+        if (!reversed)
+        {
+            sortedList = sortedList.OrderBy(x => x.endpoints.Count).ToList();
+        }
+        else
+        {
+            sortedList = sortedList.OrderByDescending(x => x.endpoints.Count).ToList();
+        }
+        return sortedList;
+    }
+    /*END OF ENDPOINTS AND FOLDERS SORTING*/
 
 
 

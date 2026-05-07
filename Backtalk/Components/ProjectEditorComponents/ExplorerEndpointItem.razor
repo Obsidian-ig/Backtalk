@@ -1,6 +1,4 @@
-﻿@using Backtalk.Classes
-
-<div class="explorer-endpoint-item @methodClass" data-clickable="true" @onclick="HandleEndpointItemClicked" @onclick:preventDefault="true" @onclick:stopPropagation="true" @ondblclick="HandleEndpointItemDoubleClicked" @ondblclick:stopPropagation="true" @oncontextmenu="HandleEndpointItemRightClicked" @oncontextmenu:preventDefault="true" @oncontextmenu:stopPropagation="true">
+﻿<div class="explorer-endpoint-item @methodClass" data-clickable="true" @onclick="HandleEndpointItemClicked" @onclick:preventDefault="true" @onclick:stopPropagation="true" @ondblclick="HandleEndpointItemDoubleClicked" @ondblclick:stopPropagation="true" @oncontextmenu="HandleEndpointItemRightClicked" @oncontextmenu:preventDefault="true" @oncontextmenu:stopPropagation="true">
     <img class="endpoint-item-icon" src="@Assets["icons/endpoint-black.png"]" alt="endpoint icon" />
     <p class="endpoint-item-name">@endpoint.name</p>
 </div>
