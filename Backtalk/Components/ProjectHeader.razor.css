@@ -15,6 +15,7 @@
     box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     z-index: 3;
+    color: black;
 }
 
 .main-content-header-project-info {
@@ -35,6 +36,7 @@
     font-size: 19px;
     height: 100%;
     margin-left: 10px;
+    color: black;
 }
 
     .project-option-button:hover {
