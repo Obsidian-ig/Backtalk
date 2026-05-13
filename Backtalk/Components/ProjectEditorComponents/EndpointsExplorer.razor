@@ -17,7 +17,7 @@
                 foreach (var folder in project.folders)
                 {
                     // explorer folder item here
-                    <ExplorerFolderItem @key="folder" folder="folder" projectEndpoints="project.api_endpoints" />
+                    <ExplorerFolderItem @key="folder" folder="folder" projectEndpoints="project.api_endpoints" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" folderSelected="HandleFolderSelected" folderOpened="HandleFolderOpened" folderContexed="HandleFolderRightClicked" />
                 }
             }
             else
@@ -54,6 +54,7 @@
                 for (int j = 0; j < sortedList.Count; j++)
                 {
                     // explorer folder item goes here
+                    <ExplorerFolderItem @key="sortedList[j]" folder="sortedList[j]" projectEndpoints="project.api_endpoints" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" folderSelected="HandleFolderSelected" folderOpened="HandleFolderOpened" folderContexed="HandleFolderRightClicked" />
                 }
             }
         }
@@ -115,8 +116,28 @@
     </div>
 </div>
 <div class="endpoint-item-context-menu" style="@contextMenuStyle">
-    <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-edit-button" @onclick="HandleEditContexed" @onclick:stopPropagation="true">Edit</button>
-    <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-delete-button" @onclick="HandleDeleteContexed" @onclick:stopPropagation="true">Delete</button>
+    <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-edit-button" @onclick="HandleEditContexedEndpoint" @onclick:stopPropagation="true">Edit</button>
+    <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-delete-button" @onclick="HandleDeleteContexedEndpoint" @onclick:stopPropagation="true">Delete</button>
+</div>
+<div class="folder-item-context-menu" style="">
+    <button type="button" class="folder-item-context-menu-button context-menu-start-button" id="folder-item-context-menu-button-open">Open</button>
+    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-delete">Delete</button>
+    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-rename">Rename</button>
+    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-sorting">
+        Sorting
+        <img class="folder-item-context-menu-sorting-button-icon" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse/expand icon" />
+    </button>
+    <div class="folder-item-context-menu-sorting-options-container">
+        <p class="sorting-options-container-header">Sort By:</p>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-name">Name</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-namereversed">Name (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-type">Type</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-typereversed">Type (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-creationdate">Creation Date</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-creationdatereversed">Creation Date (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-lastmodified">Last Modified</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-lastmodifiedreversed">Last Modified (D)</button>
+    </div>
 </div>
 
 @code {
@@ -181,6 +202,7 @@
 
     private async Task HandleEndpointSelected(ApiEndpoint endpoint)
     {
+        focusedEndpoint = endpoint;
         await endpointFocused.InvokeAsync(endpoint);
     }
     private async Task HandleEndpointOpened(ApiEndpoint endpoint)
@@ -192,13 +214,26 @@
         contexedEndpoint = p.endpoint;
         contextMenuStyle = $"display: flex; left: {p.mea.ClientX}px; top: {p.mea.ClientY}px;";
     }
-    private async Task HandleEditContexed()
+    private async Task HandleEditContexedEndpoint()
     {
         await endpointOpened.InvokeAsync(contexedEndpoint);
     }
-    private async Task HandleDeleteContexed()
+    private async Task HandleDeleteContexedEndpoint()
     {
         await endpointDeleted.InvokeAsync(contexedEndpoint);
+    }
+
+    private async Task HandleFolderSelected(ProjectFolder folder)
+    {
+
+    }
+    private async Task HandleFolderOpened(ProjectFolder folder)
+    {
+        
+    }
+    private async Task HandleFolderRightClicked((ProjectFolder folder, MouseEventArgs mea) p)
+    {
+        
     }
 
 

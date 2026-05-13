@@ -157,3 +157,96 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+
+
+
+
+.folder-item-context-menu {
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    position: absolute;
+    z-index: 2147483647;
+    color: black;
+    top: 15vh;
+}
+.folder-item-context-menu-button {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    color: black;
+}
+    .folder-item-context-menu-button:hover {
+        background-color: lightgrey;
+    }
+
+
+
+#folder-item-context-menu-button-sorting {
+    align-items: center;
+    
+}
+.folder-item-context-menu-sorting-button-icon {
+    position: relative;
+    margin-left: auto;
+    width: 10px;
+    height: 10px;
+    transition: ease-in-out 0.1s;
+}
+.folder-item-context-menu-sorting-button-icon .expanded {
+    transform: rotate(90deg);
+}
+
+.folder-item-context-menu-sorting-options-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0px;
+    margin-left: 20px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.folder-item-context-menu-sorting-options-container .expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.sorting-options-container-header {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    font-weight: bold;
+}
+.folder-item-context-menu-sorting-option {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: left;
+}
+.folder-item-context-menu-sorting-option:hover {
+    background-color: lightgrey;
+}
+
+
+#folder-item-context-menu-sorting-option-lastmodifiedreversed {
+    border-bottom-right-radius: 8px;
+}
+
+
+.context-menu-start-button {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.context-menu-end-button {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}

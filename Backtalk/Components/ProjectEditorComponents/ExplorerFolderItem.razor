@@ -1,6 +1,4 @@
-﻿@inject AppDb db
-
-<div class="explorer-folder-item">
+﻿<div class="explorer-folder-item">
     <div class="explorer-folder-header-container">
         <button type="button" class="expand-collapse-button" @onclick="HandleExpandCollapseToggle" @onclick:stopPropagation="true">
             <img class="collapse-expand-arrow-icon @(folderExpanded ? "expanded" : "")" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse expand arrow" />
@@ -11,9 +9,9 @@
         </div>
     </div>
     <div class="folder-endpoints-container @(folderExpanded ? "endpoints-expanded" : "")">
-        @if (folderExpanded && endpointsDisplayOption != ExplorerDisplayOption.HIDDEN)
+        @if (folderExpanded && folder.endpoints_display_option != ExplorerDisplayOption.HIDDEN)
         {
-            if (endpointsDisplayOption == null)
+            if (folder.endpoints_display_option == null)
             {
                 foreach (var e in endpoints)
                 {
@@ -23,7 +21,7 @@
             } else
             {
                 var sortedList = endpoints;
-                switch(endpointsDisplayOption)
+                switch(folder.endpoints_display_option)
                 {
                     case ExplorerDisplayOption.SORT_BY_NAME:
                         sortedList = Sorting.SortEndpointsByName(sortedList);
@@ -65,9 +63,6 @@
     public required ProjectFolder folder { get; set; }
     [Parameter]
     public required List<ApiEndpoint> projectEndpoints { get; set; }
-
-    [Parameter]
-    public ExplorerDisplayOption? endpointsDisplayOption { get; set; } = null;
 
     [Parameter]
     public bool focused { get; set; } = false;
