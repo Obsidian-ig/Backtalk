@@ -1,6 +1,7 @@
 ﻿@using Backtalk.Services
 @inject NavigationManager nav
 @inject INotificationService notificationService
+@inject IJSRuntime js
 
 @if (!projectNavmenu)
 {
@@ -24,15 +25,12 @@
 } else
 {
     <nav class="navmenu-dropdown">
-        <img class="navmenu-dropdown-logo" src="@Assets["logo.png"]" alt="logo" data-clickable="true" @onclick="HandleDropDownLogoClicked" />
-        @if (projectNavmenuExpanded)
-        {
-            <div class="navmenu-dropdown-menu">
-                <a class="navmenu-dropdown-navlink @homeNavlinkClass" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
-                <a class="navmenu-dropdown-navlink @projectsNavlinkClass" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
-                <a class="navmenu-dropdown-navlink @aboutNavlinkClass" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
-            </div>
-        }
+        <img class="navmenu-dropdown-logo" src="@Assets["logo.png"]" alt="logo" data-clickable="true" @onclick="HandleDropDownLogoClicked" @onclick:preventDefault="true" @onclick:stopPropagation="true" />
+        <div class="navmenu-dropdown-menu" style="@dropdownMenuStyle">
+            <a class="navmenu-dropdown-navlink @homeNavlinkClass" id="navmenu-dropdown-navlink-home" href="" @onclick="() => HandleNavLinkClicked('h')">Home</a>
+            <a class="navmenu-dropdown-navlink @projectsNavlinkClass" id="navmenu-dropdown-navlink-projects" href="projects" @onclick="() => HandleNavLinkClicked('p')">Projects</a>
+            <a class="navmenu-dropdown-navlink @aboutNavlinkClass" id="navmenu-dropdown-navlink-about" href="about" @onclick="() => HandleNavLinkClicked('a')">About</a>
+        </div>
     </nav>
 }
 
@@ -48,11 +46,18 @@
 
     private bool projectNavmenu = false;
     private bool projectNavmenuExpanded = false;
+    private string dropdownMenuStyle = "border-style: none;";
+    //this stops the click event listener from instantly closing the menu before it even opens
+    private bool projectNavmenuDropdownClicking = false;
+
+    private DotNetObjectReference<NavMenu>? _objRef = null;
 
     protected override async Task OnInitializedAsync()
     {
         UpdateNavMenu(null, null);
         nav.LocationChanged += UpdateNavMenu;
+        _objRef = DotNetObjectReference.Create(this);
+        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "CloseDropDownMenu");
     }
 
     private async void UpdateNavMenu(object? sender, LocationChangedEventArgs? args)
@@ -153,9 +158,31 @@
 
     private async Task HandleDropDownLogoClicked()
     {
+        projectNavmenuDropdownClicking = true;
         projectNavmenuExpanded = !projectNavmenuExpanded;
+        if (projectNavmenuExpanded)
+        {
+            dropdownMenuStyle = "height: 80px; width: 100px; opacity: 1;";
+        } else
+        {
+            dropdownMenuStyle = "border-style: none;";
+        }
         StateHasChanged();
         await Task.Yield();
+        projectNavmenuDropdownClicking = false;
+    }
+
+    [JSInvokable]
+    public async Task CloseDropDownMenu()
+    {
+        if (!projectNavmenuDropdownClicking)
+        {
+            projectNavmenuExpanded = false;
+            dropdownMenuStyle = "border-style: none;";
+            Console.WriteLine("CloseDropDownMenu");
+            StateHasChanged();
+            await Task.Yield();
+        }
     }
 
 }
