@@ -21,7 +21,10 @@
                 {
                     <div class="create-import-project-menu">
                         <button class="create-import-project-create-button" @onclick="CreateNewProjectButtonClicked">Create Project</button>
-                        <button class="create-import-project-import-button" @onclick="ImportNewProjectButtonClicked">Import Project</button>
+                        <label class="create-import-project-import-button">
+                            <InputFile OnChange="HandleFileUploaded" accept=".json,.btp" hidden></InputFile>
+                            <span>Import Project</span>
+                        </label>
                     </div>
                 }
             </div>
@@ -146,6 +149,66 @@
         StateHasChanged();
         await Task.Yield();
     }
+
+
+    private async Task HandleFileUploaded(InputFileChangeEventArgs args)
+    {
+        try
+        {
+            var file = args.File;
+
+            var stream = file.OpenReadStream();
+            var reader = new StreamReader(stream);
+
+            var json = await reader.ReadToEndAsync();
+
+            var projectData = JsonSerializer.Deserialize<ProjectData>(json);
+            if (projectData != null && projects != null)
+            {
+                var projectAlreadyExists = false;
+                foreach (var p in projects)
+                {
+                    if (projectData.name.Trim().ToLower() == p.name.Trim().ToLower())
+                    {
+                        Console.WriteLine("Project already exists!");
+                        projectAlreadyExists = true;
+                        break;
+                        //ask user if they want to overwrite the existing project
+                    }
+                }
+                if (!projectAlreadyExists)
+                {
+                    projectData.name = projectData.name.Trim();
+                    projects.Add(projectData);
+                    await db.Projects.AddAsync<ProjectData>(projectData);
+                    await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationSuccess());
+                }
+                else
+                {
+                    await notificationService.CreatePopupNotificationAsync(new Notification()
+                    {
+                        type = NotificationType.POPUP_ERROR,
+                        symbol = NotificationSymbol.ERROR,
+                        message = "A project with that name already exists!",
+                        expire_at_utc = DateTime.UtcNow.AddSeconds(4)
+                    });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex);
+            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
+        }
+    }
+
+
+
+
+
+
+
+
     private async Task ImportNewProjectButtonClicked()
     {
         showCreateImportProjectMenu = false;

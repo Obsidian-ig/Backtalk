@@ -3,7 +3,7 @@
         <button type="button" class="expand-collapse-button" @onclick="HandleExpandCollapseToggle" @onclick:stopPropagation="true">
             <img class="collapse-expand-arrow-icon @(folderExpanded ? "expanded" : "")" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse expand arrow" />
         </button>
-        <div class="folder-container @(focused ? "focused" : "")" data-clickable="true" @onclick="HandleFolderSelected" @onclick:stopPropagation="true" @ondblclick="HandleFolderOpened" @ondblclick:stopPropagation="true" @oncontextmenu="HandleFolderContexed" @oncontextmenu:stopPropagation="true">
+        <div class="folder-container @(focused ? "focused" : "")" data-clickable="true" @onclick="HandleFolderSelected" @onclick:stopPropagation="true" @ondblclick="HandleFolderOpened" @ondblclick:stopPropagation="true" @oncontextmenu="HandleFolderContexed" @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true"">
             <img class="folder-icon" src="@Assets["icons/folder-black.png"]" alt="folder" />
             <p class="folder-name">@folder.name</p>
         </div>

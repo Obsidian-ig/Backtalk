@@ -92,6 +92,7 @@
 }
 .create-import-project-import-button:hover {
     color: rgb(110, 110, 110);
+    cursor: pointer;
 }
 
 .main-content-body {

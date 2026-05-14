@@ -120,7 +120,7 @@
     border-style: solid;
     border-width: 1px;
     border-color: grey;
-    display: flex;
+    display: none;
     flex-direction: column;
     border-radius: 8px;
     position: absolute;
@@ -194,7 +194,15 @@
 
 #folder-item-context-menu-button-sorting {
     align-items: center;
-    
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    transition: 
+        border-bottom-left-radius ease-out 0.5s,
+        border-bottom-right-radius ease-out 0.5s;
+}
+#folder-item-context-menu-button-sorting.expanded {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 .folder-item-context-menu-sorting-button-icon {
     position: relative;
@@ -203,9 +211,9 @@
     height: 10px;
     transition: ease-in-out 0.1s;
 }
-.folder-item-context-menu-sorting-button-icon .expanded {
-    transform: rotate(90deg);
-}
+    .folder-item-context-menu-sorting-button-icon.expanded {
+        transform: rotate(90deg);
+    }
 
 .folder-item-context-menu-sorting-options-container {
     display: flex;
@@ -215,10 +223,14 @@
     margin-left: 20px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    height: 0px;
+    overflow: hidden;
+    /*Sucks to be on firefox with no animations haha*/
+    interpolate-size: allow-keywords;
+    transition: ease-in-out 0.3s;
 }
-.folder-item-context-menu-sorting-options-container .expanded {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+.folder-item-context-menu-sorting-options-container.expanded {
+    height: fit-content;
 }
 .sorting-options-container-header {
     margin: 0;

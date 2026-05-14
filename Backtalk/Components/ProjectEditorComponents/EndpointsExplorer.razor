@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime js
 
-<div class="project-endpoints-explorer @endpointsClass" id="project-endpoints-explorer" @onclick='HandleExplorerClicked'>
+<div class="project-endpoints-explorer @explorerClass" id="project-endpoints-explorer" @onclick='HandleExplorerClicked'>
     <div class="explorer-header-container">
         <p class="header-text">Endpoints Explorer</p>
         <button type="button" class="close-window-button">X</button>
@@ -115,19 +115,21 @@
         }
     </div>
 </div>
-<div class="endpoint-item-context-menu" style="@contextMenuStyle">
+<div class="endpoint-item-context-menu" style="@endpointContextMenuStyle">
     <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-edit-button" @onclick="HandleEditContexedEndpoint" @onclick:stopPropagation="true">Edit</button>
     <button type="button" class="endpoint-item-context-menu-button" id="endpoint-item-context-menu-delete-button" @onclick="HandleDeleteContexedEndpoint" @onclick:stopPropagation="true">Delete</button>
 </div>
-<div class="folder-item-context-menu" style="">
-    <button type="button" class="folder-item-context-menu-button context-menu-start-button" id="folder-item-context-menu-button-open">Open</button>
-    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-delete">Delete</button>
-    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-rename">Rename</button>
-    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-sorting">
+
+
+<div class="folder-item-context-menu" style="@folderContextMenuStyle">
+    <button type="button" class="folder-item-context-menu-button context-menu-start-button" id="folder-item-context-menu-button-open" @onclick="HandleContexedFolderOpened" @onclick:stopPropagation="true">Open</button>
+    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-delete" @onclick="HandleContexedFolderDeleted" @onclick:stopPropagation="true">Delete</button>
+    <button type="button" class="folder-item-context-menu-button" id="folder-item-context-menu-button-rename" @onclick="HandleContexedFolderRenamed" @onclick:stopPropagation="true">Rename</button>
+    <button type="button" class="folder-item-context-menu-button @folderContextMenuSortingOptionButtonClass" id="folder-item-context-menu-button-sorting" @onclick="HandleFolderContextMenuSortingOptionsToggled" @onclick:stopPropagation="true" @onclick:preventDefault="true">
         Sorting
-        <img class="folder-item-context-menu-sorting-button-icon" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse/expand icon" />
+        <img class="folder-item-context-menu-sorting-button-icon @folderContextMenuSortingOptionButtonClass" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse/expand icon" />
     </button>
-    <div class="folder-item-context-menu-sorting-options-container">
+    <div class="folder-item-context-menu-sorting-options-container @folderContextMenuSortingOptionsClass">
         <p class="sorting-options-container-header">Sort By:</p>
         <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-name">Name</button>
         <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-namereversed">Name (D)</button>
@@ -158,11 +160,28 @@
     [Parameter]
     public EventCallback endpointCreated { get; set; }
 
+    [Parameter]
+    public EventCallback<ProjectFolder> folderFocused { get; set; }
+    [Parameter]
+    public EventCallback<ProjectFolder> folderDeleted { get; set; }
+    [Parameter]
+    public EventCallback<ProjectFolder> folderCreated { get; set; }
 
-    private string endpointsClass = "";
+
+    private string explorerClass = "";
     private ApiEndpoint? focusedEndpoint = null; //the endpoint that should be displayed in the editor/props
     private ApiEndpoint? contexedEndpoint = null; //the endpoint the context menu is opened for
-    private string contextMenuStyle = "display: none;";
+    private string endpointContextMenuStyle = "display: none;";
+
+    private ProjectFolder? focusedFolder = null;
+    private ProjectFolder? contexedFolder = null;
+    private string folderContextMenuStyle = "display: none;"; //drop animation?
+    private bool showFolderContextMenuSortingOptions = false;
+    private string folderContextMenuSortingOptionsClass = "";
+    private string folderContextMenuSortingOptionButtonClass = "";
+
+    private string expandedClass = "expanded";
+    private bool clickingContextMenuButtonThatShouldntCloseTheContextMenuAfterClickingLikeTheOtherButtons = false;
 
     private DotNetObjectReference<EndpointsExplorer>? objRef;
 
@@ -212,7 +231,7 @@
     private async Task HandleEndpointRightClicked((ApiEndpoint endpoint, MouseEventArgs mea) p)
     {
         contexedEndpoint = p.endpoint;
-        contextMenuStyle = $"display: flex; left: {p.mea.ClientX}px; top: {p.mea.ClientY}px;";
+        endpointContextMenuStyle = $"display: flex; left: {p.mea.ClientX}px; top: {p.mea.ClientY}px;";
     }
     private async Task HandleEditContexedEndpoint()
     {
@@ -223,28 +242,81 @@
         await endpointDeleted.InvokeAsync(contexedEndpoint);
     }
 
+
+
+
+
+
     private async Task HandleFolderSelected(ProjectFolder folder)
     {
 
     }
     private async Task HandleFolderOpened(ProjectFolder folder)
     {
-        
+
     }
     private async Task HandleFolderRightClicked((ProjectFolder folder, MouseEventArgs mea) p)
     {
-        
+        contexedFolder = p.folder;
+        folderContextMenuStyle = $"display: flex; left: {p.mea.ClientX}px; top: {p.mea.ClientY}px;";
+        showFolderContextMenuSortingOptions = false;
+        folderContextMenuSortingOptionsClass = "";
+        folderContextMenuSortingOptionButtonClass = "";
     }
+
+
+
+    private async Task HandleContexedFolderOpened()
+    {
+
+    }
+    private async Task HandleContexedFolderDeleted()
+    {
+
+    }
+    private async Task HandleContexedFolderRenamed()
+    {
+
+    }
+    private async Task HandleFolderContextMenuSortingOptionsToggled()
+    {
+        clickingContextMenuButtonThatShouldntCloseTheContextMenuAfterClickingLikeTheOtherButtons = true;
+        showFolderContextMenuSortingOptions = !showFolderContextMenuSortingOptions;
+        if (showFolderContextMenuSortingOptions)
+        {
+            folderContextMenuSortingOptionsClass = expandedClass;
+            folderContextMenuSortingOptionButtonClass = expandedClass;
+        } else
+        {
+            folderContextMenuSortingOptionsClass = "";
+            folderContextMenuSortingOptionButtonClass = "";
+        }
+        StateHasChanged();
+        await Task.Yield();
+        clickingContextMenuButtonThatShouldntCloseTheContextMenuAfterClickingLikeTheOtherButtons = false;
+    }
+
+
+
+
 
 
 
     [JSInvokable]
     public void KillContextMenu()
     {
-        contexedEndpoint = null;
-        contextMenuStyle = "display: none;";
-        Console.WriteLine("KillContextMenu");
-        StateHasChanged();
+        if (!clickingContextMenuButtonThatShouldntCloseTheContextMenuAfterClickingLikeTheOtherButtons)
+        {
+            contexedEndpoint = null;
+            endpointContextMenuStyle = "display: none;";
+
+            folderContextMenuStyle = "display: none;";
+            showFolderContextMenuSortingOptions = false;
+            folderContextMenuSortingOptionsClass = "";
+            folderContextMenuSortingOptionButtonClass = "";
+            Console.WriteLine("KillContextMenu");
+            StateHasChanged();
+        }
     }
 
     public void Dispose() => objRef?.Dispose();
