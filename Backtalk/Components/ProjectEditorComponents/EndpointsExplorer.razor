@@ -17,7 +17,7 @@
                 foreach (var folder in project.folders)
                 {
                     // explorer folder item here
-                    <ExplorerFolderItem @key="folder" folder="folder" projectEndpoints="project.api_endpoints" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" folderSelected="HandleFolderSelected" folderOpened="HandleFolderOpened" folderContexed="HandleFolderRightClicked" />
+                    <ExplorerFolderItem @key="folder" folder="folder" projectEndpoints="project.api_endpoints" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" folderSelected="HandleFolderSelected" folderOpened="HandleFolderOpened" folderContexed="HandleFolderRightClicked" folderRenamed="HandleFolderNameChanged" />
                 }
             }
             else
@@ -54,7 +54,7 @@
                 for (int j = 0; j < sortedList.Count; j++)
                 {
                     // explorer folder item goes here
-                    <ExplorerFolderItem @key="sortedList[j]" folder="sortedList[j]" projectEndpoints="project.api_endpoints" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" folderSelected="HandleFolderSelected" folderOpened="HandleFolderOpened" folderContexed="HandleFolderRightClicked" />
+                    <ExplorerFolderItem @key="sortedList[j]" folder="sortedList[j]" projectEndpoints="project.api_endpoints" endpointSelected="HandleEndpointSelected" endpointOpened="HandleEndpointOpened" endpointContexed="HandleEndpointRightClicked" folderSelected="HandleFolderSelected" folderOpened="HandleFolderOpened" folderContexed="HandleFolderRightClicked" folderRenamed="HandleFolderNameChanged" />
                 }
             }
         }
@@ -131,14 +131,14 @@
     </button>
     <div class="folder-item-context-menu-sorting-options-container @folderContextMenuSortingOptionsClass">
         <p class="sorting-options-container-header">Sort By:</p>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-name">Name</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-namereversed">Name (D)</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-type">Type</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-typereversed">Type (D)</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-creationdate">Creation Date</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-creationdatereversed">Creation Date (D)</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-lastmodified">Last Modified</button>
-        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-lastmodifiedreversed">Last Modified (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-name" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_NAME)" @onclick:stopPropagation="true">Name</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-namereversed" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_NAME_REVERSED)" @onclick:stopPropagation="true">Name (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-type" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_TYPE)" @onclick:stopPropagation="true">Type</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-typereversed" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_TYPE_REVERSED)" @onclick:stopPropagation="true">Type (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-creationdate" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_CREATION_DATE)" @onclick:stopPropagation="true">Creation Date</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-creationdatereversed" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_CREATION_DATE_REVERSED)" @onclick:stopPropagation="true">Creation Date (D)</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-lastmodified" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_LAST_MODIFIED)" @onclick:stopPropagation="true">Last Modified</button>
+        <button type="button" class="folder-item-context-menu-sorting-option" id="folder-item-context-menu-sorting-option-lastmodifiedreversed" @onclick="() => ChangeContexedFolderSortingOption(ExplorerDisplayOption.SORT_BY_LAST_MODIFIED_REVERSED)" @onclick:stopPropagation="true">Last Modified (D)</button>
     </div>
 </div>
 
@@ -166,6 +166,8 @@
     public EventCallback<ProjectFolder> folderDeleted { get; set; }
     [Parameter]
     public EventCallback<ProjectFolder> folderCreated { get; set; }
+    [Parameter]
+    public EventCallback<(ProjectFolder changedFolder, string newName)> folderRenamed { get; set; }
 
 
     private string explorerClass = "";
@@ -191,6 +193,8 @@
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("Initialized!");
+        objRef = DotNetObjectReference.Create(this);
+        await js.InvokeVoidAsync("setupClickEventListener", objRef, "KillContextMenu");
         foreach (var e in project.api_endpoints)
         {
             Console.WriteLine($"ENDPOINT: {e.name}, {e.key}, {e.endpoint}");
@@ -208,8 +212,6 @@
     {
         if (firstRender)
         {
-            objRef = DotNetObjectReference.Create(this);
-            await js.InvokeVoidAsync("setupClickEventListener", objRef, "KillContextMenu");
             await js.InvokeVoidAsync("gsapInterop.makeDraggable", "#project-endpoints-explorer");
         }
     }
@@ -276,7 +278,14 @@
     }
     private async Task HandleContexedFolderRenamed()
     {
-
+        if (contexedFolder == null) return;
+        contexedFolder.changingName = true;
+        StateHasChanged();
+        await Task.Yield();
+    }
+    private async Task HandleFolderNameChanged((ProjectFolder changedFolder, string newName) p)
+    {
+        await folderRenamed.InvokeAsync(p);
     }
     private async Task HandleFolderContextMenuSortingOptionsToggled()
     {
@@ -295,7 +304,13 @@
         await Task.Yield();
         clickingContextMenuButtonThatShouldntCloseTheContextMenuAfterClickingLikeTheOtherButtons = false;
     }
-
+    private async Task ChangeContexedFolderSortingOption(ExplorerDisplayOption option)
+    {
+        if (contexedFolder == null) return;
+        contexedFolder.endpoints_display_option = option;
+        StateHasChanged();
+        await Task.Yield();
+    }
 
 
 

@@ -1,11 +1,20 @@
-﻿<div class="explorer-folder-item">
+﻿@inject IJSRuntime js
+
+<div class="explorer-folder-item">
     <div class="explorer-folder-header-container">
         <button type="button" class="expand-collapse-button" @onclick="HandleExpandCollapseToggle" @onclick:stopPropagation="true">
             <img class="collapse-expand-arrow-icon @(folderExpanded ? "expanded" : "")" src="@Assets["icons/collapse-expand-arrow-black.png"]" alt="collapse expand arrow" />
         </button>
-        <div class="folder-container @(focused ? "focused" : "")" data-clickable="true" @onclick="HandleFolderSelected" @onclick:stopPropagation="true" @ondblclick="HandleFolderOpened" @ondblclick:stopPropagation="true" @oncontextmenu="HandleFolderContexed" @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true"">
+        <div class="folder-container @(focused ? "focused" : "")" data-clickable="true" @onclick="HandleFolderSelected" @onclick:stopPropagation="true" @ondblclick="HandleFolderOpened" @ondblclick:stopPropagation="true" @oncontextmenu="HandleFolderContexed" @oncontextmenu:stopPropagation="true" @oncontextmenu:preventDefault="true">
             <img class="folder-icon" src="@Assets["icons/folder-black.png"]" alt="folder" />
-            <p class="folder-name">@folder.name</p>
+            @if (!folder.changingName)
+            {
+                <p class="folder-name">@folder.name</p>
+            } else
+            {
+                <input @ref="renameInput" type="text" @bind="newName" @bind:after="HandleFinishChangingName" @onblur="HandleInputBlurred" data-clickable="true" />
+            }
+            
         </div>
     </div>
     <div class="folder-endpoints-container @(folderExpanded ? "endpoints-expanded" : "")">
@@ -73,6 +82,8 @@
     public EventCallback<ProjectFolder> folderOpened { get; set; }
     [Parameter]
     public EventCallback<(ProjectFolder folder, MouseEventArgs mea)> folderContexed { get; set; }
+    [Parameter]
+    public EventCallback<(ProjectFolder changedFolder, string newName)> folderRenamed { get; set; }
 
     [Parameter]
     public EventCallback<ApiEndpoint> endpointSelected { get; set; }
@@ -83,6 +94,12 @@
 
     private bool folderExpanded = false;
     private List<ApiEndpoint> endpoints = new();
+
+    private string newName = "";
+
+    private ElementReference renameInput;
+
+    private DotNetObjectReference<ExplorerFolderItem>? _objRef = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,7 +113,39 @@
                 }
             }
         }
+
+        newName = folder.name;
+
+        _objRef = DotNetObjectReference.Create(this);
+        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "UnfocusNameInput");
+
     }
+
+    [JSInvokable]
+    public async void UnfocusNameInput()
+    {
+        await HandleInputBlurred();   
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        StateHasChanged();
+        await Task.Yield();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (folder.changingName)
+        {
+            if (renameInput.Context != null)
+            {
+                await renameInput.FocusAsync();
+                Console.WriteLine("Focused the rename input");
+            }
+        }
+    }
+
+
 
     private async Task HandleExpandCollapseToggle()
     {
@@ -135,5 +184,18 @@
     private async Task HandleEndpointContexed((ApiEndpoint endpoint, MouseEventArgs mea) p)
     {
         await endpointContexed.InvokeAsync(p);
+    }
+
+
+    private async Task HandleInputBlurred()
+    {
+        folder.changingName = false;
+        StateHasChanged();
+        await Task.Yield();
+    }
+    private async Task HandleFinishChangingName()
+    {
+        folder.changingName = false;
+        await folderRenamed.InvokeAsync((folder, newName));
     }
 }

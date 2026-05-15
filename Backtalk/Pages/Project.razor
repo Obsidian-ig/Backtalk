@@ -15,7 +15,7 @@
         {
             <PropertiesExplorer />
             <EndpointsEditor project="project" focused="false" />
-            <EndpointsExplorer project="project" focused="false" />
+            <EndpointsExplorer project="project" focused="false" folderRenamed="HandleFolderNameChanged" />
         }
     </div>
 </div>
@@ -33,8 +33,6 @@
     private bool keyGiven = true;
     private ProjectData project = new ProjectData();
     private string activeClass = "active";
-
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,4 +64,29 @@
             });
         }
     }
+
+
+    private async Task HandleFolderNameChanged((ProjectFolder changedFolder, string newName) p)
+    {
+        var folder = project.folders.Find(f => f.name == p.changedFolder.name);
+        if (folder == null)
+        {
+            Console.WriteLine("Unable to find the changedFolder inside the projectData!");
+            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
+            return;
+        }
+        folder.name = p.newName;
+        try {
+            await db.Projects.PutAsync(project);
+            Console.WriteLine("Successfully updated the database!");
+        } catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex);
+            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
+        }
+
+        StateHasChanged();
+        await Task.Yield();
+    }
+
 }

@@ -230,7 +230,8 @@
     transition: ease-in-out 0.3s;
 }
 .folder-item-context-menu-sorting-options-container.expanded {
-    height: fit-content;
+    min-height: fit-content;
+    height: 233px;
 }
 .sorting-options-container-header {
     margin: 0;
@@ -250,15 +251,10 @@
 
 
 #folder-item-context-menu-sorting-option-lastmodifiedreversed {
-    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 0px;
 }
-
 
 .context-menu-start-button {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-}
-.context-menu-end-button {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
 }

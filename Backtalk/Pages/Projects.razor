@@ -8,6 +8,7 @@
 @inject AppDb db
 @inject INotificationService notificationService
 @inject IFileSystemAccessService fileService
+@inject IJSRuntime js
 @page "/projects"
 <PageTitle>Projects | BackTalk</PageTitle>
 
@@ -123,6 +124,9 @@
         config = new()
     };
 
+    private DotNetObjectReference<Projects>? _objRef = null;
+    private bool preventClosingContextMenu = false;
+
     protected override async Task OnInitializedAsync()
     {
         //When the page is first initialized, check the localstorage for any existing projects.
@@ -132,15 +136,21 @@
             hasProjects = false;
         }
         loadingProjects = false;
+
+        _objRef = DotNetObjectReference.Create(this);
+        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "KillContextMenu");
+
         StateHasChanged();
         await Task.Yield();
     }
 
     private async Task NewProjectButtonClicked()
     {
+        preventClosingContextMenu = true;
         showCreateImportProjectMenu = !showCreateImportProjectMenu;
         StateHasChanged();
         await Task.Yield();
+        preventClosingContextMenu = false;
     }
     private async Task CreateNewProjectButtonClicked()
     {
@@ -200,104 +210,6 @@
             Console.Error.WriteLine(ex);
             await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
         }
-    }
-
-
-
-
-
-
-
-
-    private async Task ImportNewProjectButtonClicked()
-    {
-        showCreateImportProjectMenu = false;
-        showPcModal = false;
-        FileSystemFileHandle? fileHandle = null;
-        try
-        {
-            OpenFilePickerOptionsStartInWellKnownDirectory options = new()
-            {
-                Multiple = false,
-                StartIn = WellKnownDirectory.Downloads,
-                Types = new FilePickerAcceptType[]
-                {
-                    new()
-                    {
-                        Description = "Project Data Files",
-                        Accept = new Dictionary<string, string[]>
-                        {
-                            {"application/json", new[] { ".btp" } }
-                        }
-                    }
-                }
-            };
-            var fileHandles = await fileService.ShowOpenFilePickerAsync(options);
-            fileHandle = fileHandles.Single();
-            if (fileHandle == null)
-            {
-                await notificationService.CreatePopupNotificationAsync(new Notification()
-                {
-                    type = NotificationType.POPUP_WARNING,
-                    symbol = NotificationSymbol.WARNING,
-                    message = "fileHandle was null",
-                    expire_at_utc = DateTime.UtcNow.AddSeconds(3)
-                });
-                return;
-            }
-        } catch (Exception ex)
-        {
-            if (ex is ThreadAbortException || ex is JSException) return;
-            Console.Error.WriteLine(ex);
-            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
-        } finally
-        {
-            if (fileHandle != null)
-            {
-                try
-                {
-                    var file = await fileHandle.GetFileAsync();
-                    var json = await file.TextAsync();
-                    var projectData = JsonSerializer.Deserialize<ProjectData>(json);
-                    if (projectData != null && projects != null)
-                    {
-                        var projectAlreadyExists = false;
-                        foreach (var p in projects)
-                        {
-                            if (projectData.name.Trim().ToLower() == p.name.Trim().ToLower())
-                            {
-                                Console.WriteLine("Project already exists!");
-                                projectAlreadyExists = true;
-                                break;
-                                //ask user if they want to overwrite the existing project
-                            }
-                        }
-                        if (!projectAlreadyExists)
-                        {
-                            projectData.name = projectData.name.Trim();
-                            projects.Add(projectData);
-                            await db.Projects.AddAsync<ProjectData>(projectData);
-                            await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationSuccess());
-                        } else
-                        {
-                            await notificationService.CreatePopupNotificationAsync(new Notification()
-                            {
-                                type = NotificationType.POPUP_ERROR,
-                                symbol = NotificationSymbol.ERROR,
-                                message = "A project with that name already exists!",
-                                expire_at_utc = DateTime.UtcNow.AddSeconds(4)
-                            });
-                        }
-                    }
-                } catch (Exception ex)
-                {
-                    Console.Error.WriteLine(ex);
-                    await notificationService.CreatePopupNotificationAsync(notificationService.PopupNotificationError());
-                }
-            }
-        }
-        StateHasChanged();
-        await Task.Yield();
     }
 
     /// PROJECT CREATION MODAL RELATED FUNCTIONS ///
@@ -423,4 +335,15 @@
         StateHasChanged();
     }
     /// END OF PROJECT CREATION MODAL FUNCTIONS ///
+
+
+    [JSInvokable]
+    public void KillContextMenu()
+    {
+        if (!preventClosingContextMenu)
+        {
+            showCreateImportProjectMenu = false;
+            StateHasChanged();
+        }
+    }
 }

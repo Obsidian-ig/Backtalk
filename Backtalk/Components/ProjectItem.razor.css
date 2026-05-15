@@ -82,7 +82,7 @@
     border-width: 1px;
     border-style: solid;
     border-color: lightgrey;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-left: 96%;
     margin-top: 10px;
     z-index: 2;
@@ -100,6 +100,12 @@
 }
 .project-item-kebab-menu-container button:hover {
     background-color: lightgrey;
+}
+
+#project-item-kebab-menu-edit-button {
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: lightgrey;
 }
 
 
@@ -145,7 +151,7 @@
     flex-direction: row;
     padding: 5px;
     padding-left: 0;
-    z-index: 2;
+    z-index: 0;
 }
 .epm-item {
     height: 5px;
