@@ -18,16 +18,13 @@
             <p class="main-content-header-info-text">Your Projects</p>
             <div class="create-project-container">
                 <button type="button" class="create-project-button" title="Create a new project!" @onclick="NewProjectButtonClicked">+</button>
-                @if (showCreateImportProjectMenu)
-                {
-                    <div class="create-import-project-menu">
-                        <button class="create-import-project-create-button" @onclick="CreateNewProjectButtonClicked">Create Project</button>
-                        <label class="create-import-project-import-button">
-                            <InputFile OnChange="HandleFileUploaded" accept=".json,.btp" hidden></InputFile>
-                            <span>Import Project</span>
-                        </label>
-                    </div>
-                }
+                <div class="create-import-project-menu" style="@createImportProjectMenuStyle">
+                    <button class="create-import-project-create-button" @onclick="CreateNewProjectButtonClicked">Create Project</button>
+                    <label class="create-import-project-import-button">
+                        <InputFile OnChange="HandleFileUploaded" accept=".json,.btp" hidden></InputFile>
+                        <span>Import Project</span>
+                    </label>
+                </div>
             </div>
             
         </div>
@@ -105,6 +102,7 @@
     private bool hasProjects = true;
 
     private bool showCreateImportProjectMenu = false;
+    private string createImportProjectMenuStyle = "display: none;";
     private bool showPcModal = false;
 
     private List<ProjectData>? projects = new List<ProjectData>();
@@ -138,7 +136,7 @@
         loadingProjects = false;
 
         _objRef = DotNetObjectReference.Create(this);
-        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "KillContextMenu");
+        await js.InvokeVoidAsync("ClickLibrary.apply", "KillContextMenu", _objRef);
 
         StateHasChanged();
         await Task.Yield();
@@ -148,6 +146,7 @@
     {
         preventClosingContextMenu = true;
         showCreateImportProjectMenu = !showCreateImportProjectMenu;
+        if (showCreateImportProjectMenu) createImportProjectMenuStyle = "display: flex;"; else createImportProjectMenuStyle = "display: none;";
         StateHasChanged();
         await Task.Yield();
         preventClosingContextMenu = false;
@@ -155,6 +154,7 @@
     private async Task CreateNewProjectButtonClicked()
     {
         showCreateImportProjectMenu = false;
+        createImportProjectMenuStyle = "display: none;";
         showPcModal = true;
         StateHasChanged();
         await Task.Yield();
@@ -343,7 +343,27 @@
         if (!preventClosingContextMenu)
         {
             showCreateImportProjectMenu = false;
+            createImportProjectMenuStyle = "display: none;";
             StateHasChanged();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_objRef != null)
+        {
+            try
+            {
+                await js.InvokeVoidAsync("ClickLibrary.cleanup", "KillContextMenu", _objRef);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                _objRef.Dispose();
+            }
         }
     }
 }

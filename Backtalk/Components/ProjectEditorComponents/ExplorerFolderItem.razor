@@ -117,15 +117,11 @@
         newName = folder.name;
 
         _objRef = DotNetObjectReference.Create(this);
-        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "UnfocusNameInput");
+        await js.InvokeVoidAsync("ClickLibrary.apply", "UnfocusNameInput", _objRef);
 
     }
 
-    [JSInvokable]
-    public async void UnfocusNameInput()
-    {
-        await HandleInputBlurred();   
-    }
+    
 
     protected override async Task OnParametersSetAsync()
     {
@@ -197,5 +193,31 @@
     {
         folder.changingName = false;
         await folderRenamed.InvokeAsync((folder, newName));
+    }
+
+
+    [JSInvokable]
+    public async void UnfocusNameInput()
+    {
+        await HandleInputBlurred();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_objRef != null)
+        {
+            try
+            {
+                await js.InvokeVoidAsync("ClickLibrary.cleanup", "UnfocusNameInput", _objRef);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                _objRef.Dispose();
+            }
+        }
     }
 }

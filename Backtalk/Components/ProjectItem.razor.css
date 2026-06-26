@@ -151,7 +151,7 @@
     flex-direction: row;
     padding: 5px;
     padding-left: 0;
-    z-index: 0;
+    z-index: 1;
 }
 .epm-item {
     height: 5px;
@@ -161,6 +161,7 @@
     align-items: center;
     font-size: 0cqw;
     transition: ease-in-out 0.2s, font-size ease-in-out 0.2s;
+    cursor: default;
 }
 .project-item-epm-get {
     background-color: #61affe;

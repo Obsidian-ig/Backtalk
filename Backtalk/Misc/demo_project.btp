@@ -53,9 +53,9 @@
     "endpoints_expanded": []
   },
   "endpoints_count": 18,
-  "get_count": 9,
-  "post_count": 6,
-  "put_count": 2,
+  "get_count": 7,
+  "post_count": 7,
+  "put_count": 1,
   "patch_count": 1,
   "delete_count": 2,
   "status_endpoint": "https://api.shopstream.io/v2/status",

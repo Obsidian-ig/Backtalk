@@ -185,7 +185,7 @@
     private string expandedClass = "expanded";
     private bool clickingContextMenuButtonThatShouldntCloseTheContextMenuAfterClickingLikeTheOtherButtons = false;
 
-    private DotNetObjectReference<EndpointsExplorer>? objRef;
+    private DotNetObjectReference<EndpointsExplorer>? _objRef;
 
     private ExplorerDisplayOption? foldersDisplayOption = null;
     private ExplorerDisplayOption? allDisplayOption = null;
@@ -193,8 +193,8 @@
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("Initialized!");
-        objRef = DotNetObjectReference.Create(this);
-        await js.InvokeVoidAsync("setupClickEventListener", objRef, "KillContextMenu");
+        _objRef = DotNetObjectReference.Create(this);
+        await js.InvokeVoidAsync("ClickLibrary.apply", "KillContextMenu", _objRef);
         foreach (var e in project.api_endpoints)
         {
             Console.WriteLine($"ENDPOINT: {e.name}, {e.key}, {e.endpoint}");
@@ -334,5 +334,20 @@
         }
     }
 
-    public void Dispose() => objRef?.Dispose();
+    public async ValueTask DisposeAsync()
+    {
+        if (_objRef != null)
+        {
+            try
+            {
+                await js.InvokeVoidAsync("ClickLibrary.cleanup", "KillContextMenu", _objRef);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            } finally
+            {
+                _objRef.Dispose();
+            }
+        }
+    }
 }

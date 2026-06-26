@@ -57,7 +57,7 @@
         UpdateNavMenu(null, null);
         nav.LocationChanged += UpdateNavMenu;
         _objRef = DotNetObjectReference.Create(this);
-        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "CloseDropDownMenu");
+        await js.InvokeVoidAsync("ClickLibrary.apply", "CloseDropDownMenu", _objRef);
     }
 
     private async void UpdateNavMenu(object? sender, LocationChangedEventArgs? args)
@@ -182,6 +182,25 @@
             Console.WriteLine("CloseDropDownMenu");
             StateHasChanged();
             await Task.Yield();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_objRef != null)
+        {
+            try
+            {
+                await js.InvokeVoidAsync("ClickLibrary.cleanup", "CloseDropDownMenu", _objRef);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                _objRef.Dispose();
+            }
         }
     }
 

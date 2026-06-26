@@ -96,7 +96,7 @@
         }
 
         _objRef = DotNetObjectReference.Create(this);
-        await js.InvokeVoidAsync("setupClickEventListener", _objRef, "KillContextMenu");
+        await js.InvokeVoidAsync("ClickLibrary.apply", "KillContextMenu", _objRef);
 
         last_updated_time_formatted = projectData.last_updated_utc.ToLocalTime().ToString("hh:mm:ss tt MM/dd/yyyy");
         if (projectData.endpoints_count > 0)
@@ -208,48 +208,48 @@
         {
             case "get":
                 tempPercentage = epmGETPercentage;
-                if (float.Parse(epmGETPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmGETPercentage.Replace("%", "")) < 8)
                 {
                     epmGETPercentage = "8%";
                 }
                 epmGETStyle = $"width: {epmGETPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmGETText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% GET";
+                epmGETText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")), 0, MidpointRounding.AwayFromZero)}% GET";
                 break;
             case "post":
                 tempPercentage = epmPOSTPercentage;
-                if (float.Parse(epmPOSTPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmPOSTPercentage.Replace("%", "")) < 8)
                 {
                     epmPOSTPercentage = "8%";
                 }
                 epmPOSTStyle = $"width: {epmPOSTPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmPOSTText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% POST";
+                epmPOSTText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")), 0, MidpointRounding.AwayFromZero)}% POST";
                 break;
             case "put":
                 tempPercentage = epmPUTPercentage;
-                if (float.Parse(epmPUTPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmPUTPercentage.Replace("%", "")) < 8)
                 {
                     epmPUTPercentage = "8%";
                 }
                 epmPUTStyle = $"width: {epmPUTPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmPUTText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% PUT";
+                epmPUTText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")), 0, MidpointRounding.AwayFromZero)}% PUT";
                 break;
             case "patch":
                 tempPercentage = epmPATCHPercentage;
-                if (float.Parse(epmPATCHPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmPATCHPercentage.Replace("%", "")) < 8)
                 {
                     epmPATCHPercentage = "8%";
                 }
                 epmPATCHStyle = $"width: {epmPATCHPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmPATCHText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% PATCH";
+                epmPATCHText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")), 0, MidpointRounding.AwayFromZero)}% PATCH";
                 break;
             case "delete":
                 tempPercentage = epmDELETEPercentage;
-                if (float.Parse(epmDELETEPercentage.Replace("%", " ")) < 8)
+                if (float.Parse(epmDELETEPercentage.Replace("%", "")) < 8)
                 {
                     epmDELETEPercentage = "8%";
                 }
                 epmDELETEStyle = $"width: {epmDELETEPercentage}; height: 25px; font-size: 0.75cqw; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;";
-                epmDELETEText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")))}% DELETE";
+                epmDELETEText = $"~{float.Round(float.Parse(tempPercentage.Replace("%", "")), 0, MidpointRounding.AwayFromZero)}% DELETE";
                 break;
             default:
                 break;
@@ -318,6 +318,24 @@
         {
             kebabMenuStyle = "display: none;";
             StateHasChanged();
+        }
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_objRef != null)
+        {
+            try
+            {
+                await js.InvokeVoidAsync("ClickLibrary.cleanup", "KillContextMenu", _objRef);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                _objRef.Dispose();
+            }
         }
     }
 }

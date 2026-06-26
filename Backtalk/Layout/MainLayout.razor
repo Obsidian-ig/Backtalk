@@ -1,5 +1,7 @@
 ﻿@using Backtalk.Components
 @inherits LayoutComponentBase
+@inject IJSRuntime js
+
 <div class="page oswald">
     <CascadingValue Value="@theme">
         <div class="navmenu-container">
@@ -18,4 +20,12 @@
 
 @code {
     public string theme = "light";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("ClickLibrary.init");
+        }
+    }
 }
